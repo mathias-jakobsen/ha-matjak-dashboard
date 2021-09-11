@@ -1,0 +1,10 @@
+{
+    "config_flow": true,
+    "domain": "matjak_dashboard",
+    "name": "Matjak Dashboard",
+    "documentation": "",
+    "dependencies": ["lovelace"],
+    "codeowners": [],
+    "requirements": ["jinja2"],
+    "version": "1"
+}

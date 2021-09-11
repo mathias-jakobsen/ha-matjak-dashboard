@@ -1,0 +1,35 @@
+
+{
+    "title": "Matjak Dashboard",
+    "config": {
+        "abort": {
+            "already_configured": "Integrationen er allerede installeret."
+        },
+        "step": {
+            "user": {
+                "title": "Matjak Dashboard",
+                "description": "Når integrationen er installeret, kan den konfigureres via 'Konfigure' knappen.",
+                "data": {
+                    "sidepanel_title": "Sidepanel Titel",
+                    "sidepanel_icon": "Sidepanel Ikon",
+                    "language": "Sprog",
+                    "config_path": "Sti til Konfigurationsmappe"
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Matjak Dashboard",
+                "description": "Her kan du konfigurere integrationen.",
+                "data": {
+                    "sidepanel_title": "Sidepanel Titel",
+                    "sidepanel_icon": "Sidepanel Ikon",
+                    "language": "Sprog",
+                    "config_path": "Sti til Konfigurationsmappe"
+                }
+            }
+        }
+    }
+}

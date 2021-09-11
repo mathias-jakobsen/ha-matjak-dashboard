@@ -1,0 +1,5 @@
+# matjak_dashboard
+- title: Home
+  path: home
+  icon: mdi:home
+  cards: []
