@@ -1,4 +1,0 @@
-sensor.speedtest_download:
-  device_class: humidity
-sensor.speedtest_upload:
-  device_class: illuminance
