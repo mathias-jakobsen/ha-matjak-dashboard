@@ -1,0 +1,4 @@
+.: |
+  ha-card {
+    --ha-card-background: red;
+  }

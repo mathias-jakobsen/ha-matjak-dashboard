@@ -1,6 +1,6 @@
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 #       Imports
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 
 from .const import (
     RESOURCES_PATH,
@@ -13,35 +13,40 @@ from homeassistant.util.yaml import loader
 from logging import getLogger
 
 
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 #       Constants
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 
 LOGGER = getLogger(__name__)
 
 
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 #       Functions
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 
 async def async_create_resources(hass: HomeAssistant) -> None:
     """ Creates the resources found in the resources directory. """
     plugin_path = hass.config.path(RESOURCES_PATH)
-    resources: ResourceStorageCollection = hass.data['lovelace']['resources']
+    resources: ResourceStorageCollection = hass.data["lovelace"]["resources"]
 
     hass.http.register_static_path(RESOURCES_STATIC_PATH, plugin_path, True)
 
     for filename in loader._find_files(plugin_path, "*.js"):
         resource_url = filename.replace(plugin_path, RESOURCES_STATIC_PATH)
+        skip = False
 
         for item in resources.async_items():
             if item["url"].startswith(resource_url):
+                skip = True
                 break
 
-            if isinstance(resources, ResourceStorageCollection):
-                await resources.async_create_item({"res_type": "module", "url": resource_url})
-            else:
-                add_extra_js_url(hass, resource_url)
+        if skip:
+            continue
+
+        if isinstance(resources, ResourceStorageCollection):
+            await resources.async_create_item({"res_type": "module", "url": resource_url})
+        else:
+            add_extra_js_url(hass, resource_url)
 
 async def async_remove_resources(hass: HomeAssistant) -> None:
     """ Removes the resources. """

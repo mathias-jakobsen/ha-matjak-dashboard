@@ -1,35 +1,18 @@
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 #       Imports
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 
-from homeassistant.core import Event, HomeAssistant
+from homeassistant.core import HomeAssistant
+from homeassistant.util.yaml import loader
 from logging import getLogger
 from typing import Any, Dict
+import os
 import voluptuous as vol
 
-LOGGER = getLogger(__package__)
 
-
-# -----------------------------------------------------------#
-#       Defaults
-# -----------------------------------------------------------#
-
-DEFAULT_AREA_ICON = "mdi:texture-box"
-DEFAULT_AREA_ICONS = {
-    "mdi:baby": ["Child's Room", "Børneværelse"],
-    "mdi:bed-king": ["Bedroom", "Soveværelse"],
-    "mdi:bike": ["Bike Room", "Cykelrum"],
-    "mdi:toilet": ["Bathroom", "Badeværelse"],
-    "mdi:garage": ["Garage"],
-    "mdi:coat-rack": ["Entrance", "Hallway", "Gang", "Entré", "Entre"],
-    "mdi:silverware-fork-knife": ["Dining Room", "Spisestue"],
-    "mdi:pot-steam": ["Kitchen", "Køkken"],
-    "mdi:sofa": ["Living Room", "Stue"],
-    "mdi:chair-rolling": ["Office", "Kontor"],
-    "mdi:bed": ["Guest Room", "Gæsteværelse"],
-    "mdi:washing-machine": ["Utility Room", "Bryggers"],
-    "mdi:wardrobe": ["Walk In", "Wardrobe", "Garderobe"]
-}
+#-----------------------------------------------------------#
+#       Constants
+#-----------------------------------------------------------#
 
 DEFAULT_WEATHER_ICONS = {
     "fog": "mdi:weather-fog",
@@ -37,9 +20,9 @@ DEFAULT_WEATHER_ICONS = {
 }
 
 
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 #       Validation Functions
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 
 def validate_weather_icons(value: Dict[str, str]):
     """ Validates the weather icons. """
@@ -47,9 +30,9 @@ def validate_weather_icons(value: Dict[str, str]):
     return {**DEFAULT_WEATHER_ICONS, **value}
 
 
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 #       Schemas
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
 
 USER_CONFIG_SCHEMA = vol.Schema({
     vol.Required("areas", default={}): {str: {
@@ -57,39 +40,42 @@ USER_CONFIG_SCHEMA = vol.Schema({
         vol.Optional("location"): str,
         vol.Required("priority", default=1): int
     }},
-    vol.Required("area_locations", default=[]): [str],
+    vol.Required("area_locations", default={}): {
+        vol.Optional("icon"): str,
+        vol.Required("priority", default=1): int
+    },
+    vol.Required("exclude", default={}): {
+        vol.Required("areas", default=[]): [str],
+        vol.Required("devices", default=[]): [str],
+        vol.Required("entities", default=[]): [str],
+    },
     vol.Required("weather", default={}): {
         vol.Required("icons", default=DEFAULT_WEATHER_ICONS): validate_weather_icons
     }
-})
+}, extra=True)
 
 
-# -----------------------------------------------------------#
-#       UserConfig
-# -----------------------------------------------------------#
+#-----------------------------------------------------------#
+#       Public Functions
+#-----------------------------------------------------------#
 
-_config = {}
-_reload_config = True
+def load_config(hass: HomeAssistant, config_path: str) -> Dict[str, Any]:
+    """ Loads the user configuration from the configuration directory. """
+    if config_path is None:
+        return USER_CONFIG_SCHEMA({})
 
-def get_config(hass: HomeAssistant) -> Dict[str, Any]:
-    if _reload_config:
-        _config = _load_config(hass)
+    result = {}
+    path = hass.config.path(config_path)
 
-    return _config
+    if os.path.exists(path):
+        dashboard_config = {}
 
-class UserConfig:
-    def __init__(self, hass: HomeAssistant):
-        self.hass = hass
-        self.listeners = []
-        self.setup_listeners()
+        for filename in loader._find_files(path, "*.yaml"):
+            config = loader.load_yaml(filename)
 
-    def remove_listeners(self) -> None:
-        while self.listeners:
-            self.listeners.pop()()
+            if isinstance(config, dict):
+                dashboard_config.update(config)
 
-    def setup_listeners(self) -> None:
-        self.remove_listeners()
-        self.listeners.append(self.hass.bus.async_listen("lovelace_updated", self._async_on_lovelace_updated))
+        result.update(dashboard_config)
 
-    async def _async_on_lovelace_updated(self, e: Event) -> None:
-        LOGGER.error("lovelace updated")
+    return USER_CONFIG_SCHEMA(result)

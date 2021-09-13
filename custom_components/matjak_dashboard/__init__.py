@@ -2,6 +2,7 @@
 #       Imports
 # -----------------------------------------------------------#
 
+from .utils import registry
 from .utils.const import (
     DOMAIN,
     PLATFORMS,
@@ -39,6 +40,8 @@ async def async_setup(hass: HomeAssistant, config: Dict[Any, str]) -> bool:
         raise IntegrationError(f"{DOMAIN} can only be loaded from the UI. Remove {DOMAIN} from your YAML configuration.")
 
     await async_create_resources(hass)
+    registry.setup_listeners(hass)
+
     return True
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
@@ -46,7 +49,6 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
 
     data[config_entry.entry_id] = { UNDO_LISTENERS: [] }
     data[config_entry.entry_id][UNDO_LISTENERS].append(config_entry.add_update_listener(async_update_options))
-    data[config_entry.entry_id][UNDO_LISTENERS].append(hass.bus.async_listen("lovelace_updated"))
 
     for platform in PLATFORMS:
         hass.async_create_task(hass.config_entries.async_forward_entry_setup(config_entry, platform))
@@ -80,4 +82,5 @@ async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> 
 
 async def async_remove_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> None:
     await async_remove_resources(hass)
+    registry.remove_listeners()
     hass.async_create_task(hass.services.async_call("browser_mod", "toast", { "duration": 3000, "message": f"Restart Homeassistant to finalize uninstallation of {DOMAIN}." }))

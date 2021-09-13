@@ -1,0 +1,3 @@
+test:
+  card-mod-theme: test
+  #card-mod-card-yaml: !include_dir_merge_named_string ../custom_components/matjak_dashboard/themefiles/

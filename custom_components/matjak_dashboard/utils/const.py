@@ -47,6 +47,8 @@ DEFAULT_SIDEPANEL_TITLE = "Matjak"
 
 AVAILABLE_LANGUAGES = ["dk", "en"]
 DEFAULT_LANGUAGE = "en"
+BUTTON_CARD_TEMPLATE_PATH = "custom_components/matjak_dashboard/lovelace/templates/button_card/"
+TRANSLATIONS_PATH = "custom_components/matjak_dashboard/lovelace/translations/"
 
 
 #-----------------------------------------------------------#
@@ -61,8 +63,4 @@ DEFAULT_CONFIG_PATH = "matjak_dashboard/"
 #-----------------------------------------------------------#
 
 PARSER_KEYWORD = "# matjak_dashboard"
-PARSER_KEY_BUTTON_CARD_TEMPLATE_LIST = "button_card_template_list"
-PARSER_KEY_CONFIG = "config"
 PARSER_KEY_GLOBAL = "_global"
-PARSER_KEY_REGISTRY = "registry"
-PARSER_KEY_TRANSLATIONS = "translations"
