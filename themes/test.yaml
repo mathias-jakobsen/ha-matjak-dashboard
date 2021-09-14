@@ -1,3 +1,16 @@
-test:
-  card-mod-theme: test
+matjak:
+  card-mod-theme: matjak
+  card-mod-card-yaml: !include ../custom_components/matjak_dashboard/themefiles/card_mod_card.yaml
+  card-mod-root-yaml: !include ../custom_components/matjak_dashboard/themefiles/card_mod_root.yaml
+  card-mod-view-yaml: !include ../custom_components/matjak_dashboard/themefiles/card_mod_view.yaml
   #card-mod-card-yaml: !include_dir_merge_named_string ../custom_components/matjak_dashboard/themefiles/
+
+  ha-card-border-radius: 12px
+
+
+  primary-background-color: hsla(217, 27%, 35%, 1)
+  primary-text-color: rgba(255, 255, 255, 1)
+  secondary-text-color: rgba(200, 200, 200, 1)
+  sidebar-background: hsla(217, 34%, 35%, 1)
+  sidebar-box-shadow-bottom: 0 2px 2px 1px rgba(0, 0, 0, 0.5)
+  sidebar-box-shadow-right: 2px 0 2px 1px rgba(0, 0, 0, 0.5)

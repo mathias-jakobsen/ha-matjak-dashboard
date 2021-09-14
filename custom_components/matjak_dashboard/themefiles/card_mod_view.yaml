@@ -1,0 +1,32 @@
+|
+  hui-sidebar-view$:
+    .: |
+      :host {
+        padding-top: 0 !important;
+      }
+
+      .container {
+        --masonry-view-card-margin: 0;
+        flex-direction: row-reverse;
+        height: 100%;
+        margin: 0 !important;
+      }
+
+      #sidebar {
+        background: var(--sidebar-background);
+        box-shadow: var(--sidebar-box-shadow-right);
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        padding: 30px 15px;
+      }
+
+      #main {
+        --vertical-stack-card-margin: 15px;
+      }
+
+      @media (min-width: 760px) {
+        #main {
+          padding-top: 15px;
+        }
+      }

@@ -1,0 +1,9 @@
+|
+  .: |
+    app-header {
+      display: none;
+    }
+
+    #view {
+      min-height: 100vh !important;
+    }

@@ -1,0 +1,188 @@
+|
+  .: |
+    ha-card {
+      transition: none;
+    }
+
+
+    /*-----------------------------------------------------------*/
+    /*       Sidebar Title
+    /*-----------------------------------------------------------*/
+
+    .sidebar-title,
+    .sidebar-subtitle {
+      background: none;
+      box-shadow: none;
+      color: var(--primary-text-color);
+      text-align: center;
+    }
+
+    .sidebar-title {
+      font-size: 4em;
+    }
+
+    .sidebar-subtitle {
+      font-size: 2em;
+    }
+
+    @media (max-width: 759px) {
+      .sidebar-title,
+      .sidebar-subtitle {
+        display: none;
+      }
+    }
+
+
+    /*-----------------------------------------------------------*/
+    /*       Sidebar Navigation Button
+    /*-----------------------------------------------------------*/
+
+    ha-card[class*=sidebar-navigation-button] {
+      background: none;
+      border-radius: var(--ha-card-border-radius);
+      box-shadow: none;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      padding: 8px 17px !important;
+    }
+
+    ha-card.sidebar-navigation-button__active {
+      background: rgba(0,0,0,0.2);
+    }
+
+    ha-card[class*=sidebar-navigation-button]:not(.sidebar-navigation-button-active):hover {
+      background: rgba(0,0,0,0.1);
+    }
+
+    ha-card[class*=sidebar-navigation-button] #container {
+      grid-gap: 0 19px;
+      grid-template-areas:
+        "i n" !important;
+      grid-template-columns: auto 1fr !important;
+    }
+
+    ha-card[class*=sidebar-navigation-button] #name {
+      font-size: 20px;
+      place-self: center start;
+    }
+
+    ha-card[class*=sidebar-navigation-button] ha-icon {
+      width: 2em !important;
+    }
+
+    @media (max-width: 759px) {
+      ha-card[class*=sidebar-navigation-button] #container {
+        grid-gap: 0;
+        grid-template-areas:
+          "i" !important;
+        grid-template-columns: 1fr !important;
+      }
+
+      ha-card[class*=sidebar-navigation-button] #name {
+        display: none;
+      }
+    }
+
+
+    /*-----------------------------------------------------------*/
+    /*       Layouts
+    /*-----------------------------------------------------------*/
+
+    [class*=layout-] {
+      background: none;
+      box-shadow: none;
+      overflow: visible;
+      transition: none;
+    }
+
+    [class*=layout-] .card-header {
+      font-size: 1.2em;
+      font-weight: normal;
+      padding: 0 0 0 10px;
+    }
+
+    [class*=layout-] .card-header hui-entities-toggle {
+      display: none;
+    }
+
+    [class*=layout-] #states {
+      padding: 0;
+    }
+
+    [class*=layout-] #states > div {
+      margin: 0;
+    }
+
+    [class*=layout-] #states > div > * {
+      overflow: visible;
+    }
+
+
+    [class*=layout-flex] #states {
+      display: flex;
+    }
+
+    .layout-flex-center #states {
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    [class*=layout-grid] #states {
+      display: grid;
+      grid-auto-rows: 1fr;
+      grid-gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    }
+
+    .layout-grid-square #states::before {
+      content: "";
+      grid-area: 1 / 1 / 1 / 1;
+      padding-bottom: 100%;
+      width: 0px;
+    }
+
+    .layout-grid-square #states > div:first-child {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+
+
+    .layout-sidebar-navigation #states {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 30px 0;
+    }
+
+    .layout-sidebar-footer #states {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+
+    @media (max-width: 759px) {
+      .layout-sidebar-navigation {
+        --ha-card-border-radius: 0;
+        margin: 0 0 15px 0;
+      }
+
+      .layout-sidebar-navigation #states {
+        background: var(--sidebar-background);
+        box-shadow: var(--sidebar-box-shadow-bottom);
+        flex-direction: row;
+        gap: 0;
+        justify-content: stretch;
+        padding: 0;
+      }
+
+      .layout-sidebar-navigation #states > * {
+        flex: 1;
+      }
+
+      .layout-sidebar-footer {
+        display: none;
+      }
+    }

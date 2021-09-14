@@ -1,8 +1,5 @@
 # matjak_dashboard
 
-- title: View
-  path: view
-  icon: mdi:texture-box
-  cards:
-    - type: markdown
-      content: {{ _global.config.test|string }}
+- title: test
+  type: sidebar
+  cards: []

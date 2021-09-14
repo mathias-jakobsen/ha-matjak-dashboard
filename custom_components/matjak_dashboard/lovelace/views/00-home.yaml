@@ -1,16 +1,14 @@
 # matjak_dashboard
 
-- title: Home
-  path: home
-  icon: mdi:home
-  cards:
-    {% for location, areas in _global.registry.areas.group_by_location() %}
-    - type: markdown
-      content: {{ areas | map(attribute="name") | list | join(",") }}
-      title: {{ location }}
-    {% endfor %}
-
-    {% for entity in _global.registry.entities.get_by_device_class("illuminance") %}
-    - type: custom:button-card
-      entity: {{ entity.entity_id }}
-    {% endfor %}
+- !include
+    - ../templates/yaml/grid.yaml
+    - title: Home
+      icon: mdi:home
+      path: home
+      active_menu_button: home
+      cards:
+        - type: entities
+          entities:
+            {% for entity in _global.registry.entities %}
+            - {{ entity.entity_id }}
+            {% endfor %}

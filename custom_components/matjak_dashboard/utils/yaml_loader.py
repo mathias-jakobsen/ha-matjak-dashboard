@@ -15,6 +15,7 @@ from logging import getLogger
 from typing import Callable, Dict
 import io
 import jinja2
+import json
 import os
 
 
@@ -52,7 +53,7 @@ def _get_yaml_constructors(load_yaml: Callable) -> Dict[str, Callable]:
         filename = os.path.abspath(os.path.join(os.path.dirname(ldr.name), fn))
         try:
             return loader._add_reference(
-                load_yaml(filename, ldr.secrets, args=args), ldr, node
+                load_yaml(filename, ldr.secrets, args=json.loads(json.dumps(args))), ldr, node
             )
         except FileNotFoundError as exc:
             LOGGER.error("Unable to include file %s: %s", filename, exc)

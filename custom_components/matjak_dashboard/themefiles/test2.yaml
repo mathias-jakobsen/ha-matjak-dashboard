@@ -1,4 +1,0 @@
-.: |
-  ha-card {
-    --ha-card-border-radius: 35px;
-  }
