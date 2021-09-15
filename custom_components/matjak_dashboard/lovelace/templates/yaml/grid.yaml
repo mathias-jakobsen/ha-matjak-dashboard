@@ -6,88 +6,97 @@ path: {{ path }}
 theme: matjak
 type: sidebar
 cards:
+  - type: vertical-stack
+    view_layout:
+      position: sidebar
+    cards:
   # -----------------------------------------------------------#
   #       Sidebar Title
   # -----------------------------------------------------------#
 
-  - type: markdown
-    view_layout:
-      position: sidebar
-    card_mod:
-      class: sidebar-title
-    content: {% raw %}"{{ now() | as_timestamp | timestamp_custom('%H:%M') }}"{% endraw %}
+      - type: markdown
+        view_layout:
+          position: sidebar
+        card_mod:
+          class: sidebar-title
+        content: {% raw %}"{{ now() | as_timestamp | timestamp_custom('%H:%M') }}"{% endraw %}
 
 
   # -----------------------------------------------------------#
   #       Sidebar Subtitle
   # -----------------------------------------------------------#
 
-  - type: markdown
-    view_layout:
-      position: sidebar
-    card_mod:
-      class: sidebar-subtitle
-    content: {% raw %}"{{ now() | as_timestamp | timestamp_custom('%A %d, %b %y') }}"{% endraw %}
+      - type: markdown
+        view_layout:
+          position: sidebar
+        card_mod:
+          class: sidebar-subtitle
+        content: {% raw %}"{{ now() | as_timestamp | timestamp_custom('%A %d, %b %y') }}"{% endraw %}
 
 
   # -----------------------------------------------------------#
   #       Sidebar Navigation
   # -----------------------------------------------------------#
 
-  - type: entities
-    view_layout:
-      position: sidebar
-    card_mod:
-      class: layout-sidebar-navigation
-    entities:
-      - type: custom:button-card
+      - type: entities
+        view_layout:
+          position: sidebar
         card_mod:
-          class: sidebar-navigation-button{{ active_menu_button == "home" and "__active" or "" }}
-        name: Home
-        icon: mdi:home
+          class: layout-sidebar-navigation
+        entities:
+          - type: custom:button-card
+            template: sidebar_navigation_button
+            name: Home
+            icon: mdi:home
+            variables:
+              path: home
 
-      - type: custom:button-card
-        card_mod:
-          class: sidebar-navigation-button{{ active_menu_button == "areas" and "__active" or "" }}
-        name: Areas
-        icon: mdi:texture-box
+          - type: custom:button-card
+            template: sidebar_navigation_button
+            name: Areas
+            icon: mdi:texture-box
+            variables:
+              path: areas
 
-      - type: custom:button-card
-        card_mod:
-          class: sidebar-navigation-button{{ active_menu_button == "entities" and "__active" or "" }}
-        name: Entities
-        icon: mdi:shape
+          - type: custom:button-card
+            template: sidebar_navigation_button
+            name: Entities
+            icon: mdi:shape
+            variables:
+              path: entities
 
-      - type: custom:button-card
-        card_mod:
-          class: sidebar-navigation-button{{ active_menu_button == "media" and "__active" or "" }}
-        name: Media
-        icon: mdi:play-box
+          - type: custom:button-card
+            template: sidebar_navigation_button
+            name: Media
+            icon: mdi:play-box
+            variables:
+              path: media
 
-      - type: custom:button-card
-        card_mod:
-          class: sidebar-navigation-button{{ active_menu_button == "security" and "__active" or "" }}
-        name: Security
-        icon: mdi:cctv
+          - type: custom:button-card
+            template: sidebar_navigation_button
+            name: Security
+            icon: mdi:cctv
+            variables:
+              path: security
 
 
   # -----------------------------------------------------------#
   #       Sidebar Footer
   # -----------------------------------------------------------#
 
-  - type: entities
-    view_layout:
-      position: sidebar
-    card_mod:
-      class: layout-sidebar-footer
-    entities:
-      - type: custom:button-card
-        template: sidebar_footer_button
-        icon: mdi:refresh
-        tap_action:
-          action: call-service
-          service: frontend.reload_themes
-          service_data: {}
+      - type: entities
+        view_layout:
+          position: sidebar
+        card_mod:
+          class: layout-sidebar-footer
+        entities:
+          - type: custom:button-card
+            template: sidebar_footer_button
+            icon: mdi:refresh
+            tap_action:
+              action: call-service
+              service: frontend.reload_themes
+              service_data: {}
 
 
   # -----------------------------------------------------------#

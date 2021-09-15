@@ -1,0 +1,16 @@
+view_title_home: My Home
+view_title_areas: Areas
+view_title_entities: Entities
+
+favorite_entities: Favorite Entities
+favorite_scenes: Favorite Scenes
+
+areas_other: Others
+
+domain_title_binary_sensor: Binary Sensors
+domain_title_cover: Covers
+domain_title_light: Lights
+domain_title_other: Others
+
+entity: entity
+entities: entities

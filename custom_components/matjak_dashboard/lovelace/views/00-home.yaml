@@ -5,7 +5,6 @@
     - title: Home
       icon: mdi:home
       path: home
-      active_menu_button: home
       cards:
         - type: entities
           entities:

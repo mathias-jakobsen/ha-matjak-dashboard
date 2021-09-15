@@ -69,6 +69,7 @@ def _get_registry(hass: HomeAssistant, config_entry: ConfigEntry) -> Dict[str, A
         PARSER_KEY_GLOBAL: {
             "button_card_template_list": button_card_template_list,
             "config": user_config,
+            "dashboard_url": DASHBOARD_URL,
             "registry": {
                 "areas": areas,
                 "devices": devices,

@@ -1,0 +1,16 @@
+view_title_home: Mit Hjem
+view_title_areas: Områder
+view_title_entities: Enheder
+
+favorite_entities: Favorit Enheder
+favorite_scenes: Favorit Scener
+
+areas_other: Andet
+
+domain_title_binary_sensor: Binære Sensorer
+domain_title_cover: Gardiner
+domain_title_light: Lys
+domain_title_other: Andet
+
+entity: entitet
+entities: entiteter

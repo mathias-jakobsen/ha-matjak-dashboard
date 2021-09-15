@@ -101,4 +101,4 @@ class Areas(BaseRegistry[area_registry.AreaEntry]):
 
             result[location].append(area)
 
-        return sorted(result.items(), key=lambda x: (location_config.get(x[0], {}).get("priority", 1), x[0]))
+        return sorted(result.items(), key=lambda x: (-location_config.get(x[0], {}).get("priority", 1), x[0]), reverse=False)

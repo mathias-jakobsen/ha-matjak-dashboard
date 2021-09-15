@@ -1,0 +1,34 @@
+show_state: false
+
+
+card_mod:
+  class: sidebar-navigation-button
+
+styles:
+  card:
+    - background: >
+        [[[
+          const is_selected = window.location.pathname.split("/")[2] == variables.path;
+          return is_selected ? "var(--sidebar-button-background__selected)" : "var(--sidebar-button-background)";
+        ]]]
+    - box-shadow: none
+    - padding: 12px
+  grid:
+    - grid-gap: 25px
+    - grid-template-areas: var(--sidebar-navigation-button__grid-template-areas)
+    - grid-template-columns: var(--sidebar-navigation-button__grid-template-columns)
+    - grid-template-rows: var(--sidebar-navigation-button__grid-template-rows)
+  icon:
+    - color: var(--sidebar-text-color)
+    - width: 35px
+
+  name:
+    - color: var(--sidebar-text-color)
+
+    - display: var(--sidebar-navigation-button__display__name)
+    - font-size: 20px
+    - place-self: center start
+
+tap_action:
+  action: navigate
+  navigation_path: "[[[ return `/{{ _global.dashboard_url }}/${variables.path}`; ]]]"

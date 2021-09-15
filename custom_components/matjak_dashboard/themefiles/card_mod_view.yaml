@@ -10,6 +10,7 @@
         flex-direction: row-reverse;
         height: 100%;
         margin: 0 !important;
+        position: relative;
       }
 
       #sidebar {
@@ -18,11 +19,20 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto 1fr auto;
+        max-width: 320px !important;
         padding: 30px 15px;
       }
 
       #main {
-        --vertical-stack-card-margin: 15px;
+        --vertical-stack-card-margin: 5px 15px;
+      }
+
+      @media (max-width: 759px) {
+        #main {
+          display: flex;
+          flex-direction: column-reverse;
+          justify-content: start;
+        }
       }
 
       @media (min-width: 760px) {
