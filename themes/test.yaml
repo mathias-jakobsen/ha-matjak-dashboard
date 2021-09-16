@@ -34,6 +34,6 @@ matjak:
   #primary-text-color: rgba(255, 255, 255, 1)
 
   sidebar-background: hsla(217, 34%, 35%, 1)
-  sidebar-box-shadow-top: 0 -2px 2px 1px rgba(0, 0, 0, 0.5)
-  sidebar-box-shadow-right: 2px 0 2px 1px rgba(0, 0, 0, 0.5)
+  sidebar-box-shadow-top: 0 -2px 2px 1px rgba(0, 0, 0, 1)
+  sidebar-box-shadow-right: 2px 0 2px 1px rgba(0, 0, 0, 1)
   sidebar-text-color: rgba(255, 255, 255, 1)

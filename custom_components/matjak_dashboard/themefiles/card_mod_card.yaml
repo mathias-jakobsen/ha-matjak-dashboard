@@ -155,6 +155,7 @@
       .layout-sidebar-navigation {
         --ha-card-border-radius: 0;
         margin: 0 0 0 0;
+        height: 100%;
       }
 
       :host-context(.layout-sidebar-navigation) {

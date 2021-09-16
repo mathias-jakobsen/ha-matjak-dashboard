@@ -21,7 +21,7 @@ custom_fields:
       const lights_text = `${lights_on_entities.length}`;
       const lights_background = "hsla(var(--button-color-hue-light), var(--button-color-background__saturation), var(--button-color-background__lightness), var(--button-color-background__alpha))";
       const lights_color = "hsla(var(--button-color-hue-light), var(--button-color-text__saturation), var(--button-color-text__lightness), var(--button-color-text__alpha))";
-      const lights_display = lights_on_entities.length > 0 ? "flex" : "none";
+      const lights_display = lights_on_entities.length > 0 ? "flex" : "flex";
 
       const media_entities = variables.entities.filter(entity_id => entity_id.split(".")[0] == "media_player");
       const media_on_entities = media_entities.filter(entity_id => states[entity_id]?.state == "playing");
