@@ -9,7 +9,7 @@
       cards:
         - type: entities
           card_mod:
-            class: view-header
+            class: glances
           entities:
             - type: custom:button-card
               template: glance_button_entities

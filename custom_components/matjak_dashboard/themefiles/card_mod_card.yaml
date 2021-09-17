@@ -5,10 +5,15 @@
     }
 
     .type-custom-button-card {
+      --navigation-button-background: none;
       box-sizing: border-box;
       padding: 0;
       height: 100%;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    .type-custom-button-card:hover {
+      --navigation-button-background: rgba(0, 0, 0, 0.1);
     }
 
 
@@ -44,8 +49,12 @@
     /*       Sidebar Buttons
     /*-----------------------------------------------------------*/
 
+    ha-card[class*=sidebar-footer-button],
     ha-card[class*=sidebar-navigation-button] {
-      --sidebar-button-background: none;
+      --sidebar-button-background: var(--navigation-button-background);
+    }
+
+    ha-card[class*=sidebar-navigation-button] {
       --sidebar-button-background__selected: rgba(0, 0, 0, 0.3);
       --sidebar-navigation-button__display__name: block;
       --sidebar-navigation-button__grid-template-areas: "i n";
@@ -92,6 +101,7 @@
 
     [class*=layout-] #states {
       padding: 0;
+      transition: none;
     }
 
     [class*=layout-] #states > div {
@@ -199,7 +209,7 @@
     /*       View Header
     /*-----------------------------------------------------------*/
 
-    .view-header {
+    .glances {
       background: none;
       border-radius: 0;
       box-shadow: none;
@@ -207,11 +217,11 @@
       transition: none;
     }
 
-    .view-header .card-header {
+    .glances .card-header {
       display: none;
     }
 
-    .view-header #states {
+    .glances #states {
       display: flex;
       flex-flow: row;
       gap: 10px;
@@ -219,27 +229,19 @@
       padding: 0;
     }
 
-    .view-header #states > div {
+    .glances #states > div {
       margin: 0;
     }
 
-    .view-header #states > div > * {
+    .glances #states > div > * {
       overflow: visible;
     }
 
-    .view-header #states > div:first-child {
-      flex: 1;
-    }
-
     @media (max-width: 759px) {
-      .view-header #states {
+      .glances #states {
         flex-flow: row wrap;
         gap: 20px 10px;
         justify-content: center;
-      }
-
-      .view-header #states > div:first-child {
-        flex: 1 0 100%;
       }
     }
 

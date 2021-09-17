@@ -10,7 +10,7 @@ custom_fields:
       icon: mdi:arrow-left
       styles:
         card:
-          - background: none
+          - background: var(--navigation-button-background)
           - border-radius: 50%
           - box-shadow: none
           - padding: 10px
@@ -32,7 +32,7 @@ styles:
   custom_fields:
     back_button:
       - display: "[[[ return variables.back_url ? 'block' : 'none'; ]]]"
-      - margin-right: 15px
+
   grid:
     - grid-template-areas: "'back_button n'"
     - grid-template-columns: auto 1fr
@@ -41,9 +41,8 @@ styles:
   name:
     - color: var(--header-text-color-primary)
     - font-size: 2em
-    - padding: 10px 0 10px 5px
+    - padding: 10px 0 10px 15px
     - place-self: center start
-
 
 tap_action:
   action: none

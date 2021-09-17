@@ -16,3 +16,13 @@
               icon: mdi:shape
               variables:
                 path: more_entities
+
+        - type: entities
+          card_mod:
+            class: layout-grid-square__areas
+          title: {{ _global.translations.more_navigation_external }}
+          entities:
+            - type: custom:button-card
+              template: more_button_profile
+              variables:
+                path: /profile

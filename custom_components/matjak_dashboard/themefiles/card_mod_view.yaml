@@ -24,7 +24,7 @@
         border-right: 1px solid var(--divider-color);
         display: flex;
         flex-direction: column;
-        flex-grow: 0;
+        flex-grow: 0 !important;
         height: 100%;
         max-width: unset !important;
         padding: 30px 15px;

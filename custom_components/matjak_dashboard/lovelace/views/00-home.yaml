@@ -8,15 +8,9 @@
       cards:
         - type: entities
           card_mod:
-            class: view-header
+            class: glances
           entities:
             {% if _global.config.weather.entities.weather %}
-            - type: custom:button-card
-              template: glance_button_weather
-
-            - type: custom:button-card
-              template: glance_button_weather
-
             - type: custom:button-card
               template: glance_button_weather
             {% endif %}

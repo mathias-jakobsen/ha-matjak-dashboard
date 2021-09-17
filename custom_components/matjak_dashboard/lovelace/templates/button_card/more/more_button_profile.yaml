@@ -1,0 +1,11 @@
+# matjak_dashboard
+
+template: more_button
+
+icon: mdi:account
+name: {{ _global.translations.profile }}
+
+state_display: >
+  [[[
+    return user.name;
+  ]]]
