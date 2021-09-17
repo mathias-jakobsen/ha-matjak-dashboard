@@ -46,35 +46,35 @@ cards:
         entities:
           - type: custom:button-card
             template: sidebar_navigation_button
-            name: Home
+            name: {{ _global.translations.sidebar_navigation_home }}
             icon: mdi:home
             variables:
               path: home
 
           - type: custom:button-card
             template: sidebar_navigation_button
-            name: Areas
+            name: {{ _global.translations.sidebar_navigation_areas }}
             icon: mdi:texture-box
             variables:
               path: areas
 
           - type: custom:button-card
             template: sidebar_navigation_button
-            name: Entities
+            name: {{ _global.translations.sidebar_navigation_entities }}
             icon: mdi:shape
             variables:
               path: entities
 
           - type: custom:button-card
             template: sidebar_navigation_button
-            name: Media
+            name: {{ _global.translations.sidebar_navigation_media }}
             icon: mdi:play-box
             variables:
               path: media
 
           - type: custom:button-card
             template: sidebar_navigation_button
-            name: Security
+            name: {{ _global.translations.sidebar_navigation_security }}
             icon: mdi:cctv
             variables:
               path: security

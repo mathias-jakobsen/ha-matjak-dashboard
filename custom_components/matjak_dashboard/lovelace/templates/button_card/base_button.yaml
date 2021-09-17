@@ -9,7 +9,7 @@ state:
     operator: template
     value: >
       [[[
-        return ["on", "playing"].includes(entity?.state || "on");
+        return ["off", "paused", "idle"].includes(entity?.state || "on") == false;
       ]]]
     styles:
       card:
@@ -29,7 +29,7 @@ extra_styles: |
 
 styles:
   card:
-    - background: var(--ha-card-background-secondary)
+    - background: var(--button-card-background-secondary)
     - padding: 9px 11px 11px 11px
     - position: relative
   custom_fields:
@@ -63,3 +63,5 @@ styles:
     - font-size: 13px
     - place-self: center start
 
+tap_action:
+  action: more-info

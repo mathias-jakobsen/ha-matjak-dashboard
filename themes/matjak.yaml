@@ -1,0 +1,130 @@
+matjak:
+  #-----------------------------------------------------------#
+  #       Card Mod
+  #-----------------------------------------------------------#
+
+  card-mod-theme: matjak
+  card-mod-card-yaml: !include ../custom_components/matjak_dashboard/themefiles/card_mod_card.yaml
+  card-mod-root-yaml: !include ../custom_components/matjak_dashboard/themefiles/card_mod_root.yaml
+  card-mod-view-yaml: !include ../custom_components/matjak_dashboard/themefiles/card_mod_view.yaml
+
+
+  #-----------------------------------------------------------#
+  #       Generic Colors
+  #-----------------------------------------------------------#
+
+  primary-color: hsla(217, 100%, 100%, 1)
+  primary-background-color: hsla(217, 27%, 35%, 1)
+  primary-text-color: white
+  secondary-background-color: hsla(217, 34%, 35%, 1)
+  secondary-text-color: rgba(235, 235, 235, 1)
+
+
+  #-----------------------------------------------------------#
+  #       Button Card
+  #-----------------------------------------------------------#
+
+  #--- Color Hues ---#
+  button-color-hue-battery-charging: 130
+  button-color-hue-battery-critical: 4
+  button-color-hue-entities: 130
+  button-color-hue-light: 30
+  button-color-hue-media: 130
+  button-color-hue-person: 200
+  button-color-hue-weather: 270
+
+  #--- Color Saturation & Lightness (Dark) ---#
+  button-color-background-dark__alpha: 0.3
+  button-color-background-dark__lightness: 30%
+  button-color-background-dark__saturation: 100%
+  button-color-text-dark__alpha: 1
+  button-color-text-dark__lightness: 70%
+  button-color-text-dark__saturation: 100%
+
+  #--- Color Saturation & Lightness (Light) ---#
+  button-color-background-light__alpha: 0.3
+  button-color-background-light__lightness: 50%
+  button-color-background-light__saturation: 100%
+  button-color-text-light__alpha: 1
+  button-color-text-light__lightness: 30%
+  button-color-text-light__saturation: 100%
+
+  #--- Other ---#
+  button-card-background-primary: white
+  button-card-background-secondary: rgba(240, 240, 240, 0.7)
+  button-card-box-shadow: 0 0 1px rgba(80, 80, 80, 1)
+  button-card-text-color-primary: black
+  button-card-text-color-secondary: rgba(80, 80, 80, 1)
+
+
+  #-----------------------------------------------------------#
+  #       Sidebar
+  #-----------------------------------------------------------#
+
+  #--- Custom ---#
+  sidebar-background: var(--secondary-background-color)
+  sidebar-box-shadow-top: 0 -2px 2px 1px rgba(0, 0, 0, 1)
+
+  #--- Built In ---#
+  sidebar-background-color: hsla(217, 40%, 35%, 1)
+  sidebar-icon-color: var(--sidebar-text-color)
+  sidebar-menu-button-text-color: var(--sidebar-text-color)
+  sidebar-text-color: rgba(255, 255, 255, 1)
+
+
+  #-----------------------------------------------------------#
+  #       App Header
+  #-----------------------------------------------------------#
+
+  app-header-background-color: var(--sidebar-background)
+
+
+  #-----------------------------------------------------------#
+  #       Headers
+  #-----------------------------------------------------------#
+
+  ha-card-header-font-size: 1.5em
+  header-text-color-primary: rgba(255, 255, 255, 1)
+  header-text-color-secondary: rgba(235, 235, 235, 1)
+
+
+  #-----------------------------------------------------------#
+  #       HA Card
+  #-----------------------------------------------------------#
+
+  card-background-color: var(--primary-background-color)
+  ha-card-background: var(--sidebar-background)
+  ha-card-background-secondary: rgba(240, 240, 240, 0.7)
+  ha-card-border-radius: 16px
+  ha-card-box-shadow: 0 0 1px white
+
+
+  #-----------------------------------------------------------#
+  #       Checkbox
+  #-----------------------------------------------------------#
+
+  mdc-checkbox-unchecked-color: white
+  mdc-checkbox-ink-color: black
+  paper-checkbox-checked-color: var(--primary-color)
+  paper-checkbox-checkmark-color: black
+  paper-checkbox-label-checked-color: white
+
+
+  #-----------------------------------------------------------#
+  #       Radio
+  #-----------------------------------------------------------#
+
+  mdc-radio-unchecked-color: white
+
+
+  #-----------------------------------------------------------#
+  #       Other
+  #-----------------------------------------------------------#
+
+  code-editor-background-color: white
+  mdc-shape-medium: var(--ha-card-border-radius)
+  mdc-theme-on-primary: black
+  paper-input-container-color: white
+  paper-input-container-input-color: white
+  table-row-alternative-background-color: var(--sidebar-background)
+  #switch-unchecked-color: rgba(80, 80, 80, 1)

@@ -1,0 +1,46 @@
+# matjak_dashboard
+
+- !include
+    - ../templates/yaml/grid.yaml
+    - title: Entities
+      icon: mdi:shape
+      path: entities
+      cards:
+        - type: entities
+          card_mod:
+            class: view-header
+          title: {{ _global.translations.view_title_entities }}
+          entities:
+            - type: custom:button-card
+              template: glance_button_entities
+
+        {% for area in _global.registry.areas | sort %}
+        {% set entities = _global.registry.entities.get_by_area(area) %}
+        {% if entities | count > 0 %}
+        - type: entities
+          card_mod:
+            class: layout-grid-square
+          title: {{ area.name }}
+          entities:
+            {% for entity in entities | sort(attribute="domain") %}
+            - type: custom:button-card
+              template: {{ _global.get_button_card_template(entity) }}
+              entity: {{ entity.entity_id }}
+              name: {{ _global.registry.entities.get_entity_name(entity, area.name) }}
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+
+        - type: entities
+          card_mod:
+            class: layout-grid-square
+          title: {{ _global.translations.areas_other }}
+          entities:
+            {% for entity in _global.registry.entities | rejectattr("domain", "eq", "automation") %}
+            {% set device = _global.registry.devices.get_by_id(entity.device_id) %}
+            {% if entity.area_id == None and (True if device == None else device.area_id == None) %}
+            - type: custom:button-card
+              template: {{ _global.get_button_card_template(entity) }}
+              entity: {{ entity.entity_id }}
+            {% endif %}
+            {% endfor %}

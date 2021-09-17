@@ -7,7 +7,25 @@
       path: home
       cards:
         - type: entities
+          card_mod:
+            class: view-header
+          title: {{ _global.translations.view_title_home }}
           entities:
-            {% for entity in _global.registry.entities %}
-            - {{ entity.entity_id }}
+            {% if _global.config.weather.entities.weather %}
+            - type: custom:button-card
+              template: glance_button_weather
+            {% endif %}
+
+        {% if _global.config.favorite_entities | count > 0 %}
+        - type: entities
+          card_mod:
+            class: layout-grid-square
+          title: {{ _global.translations.favorite_entities }}
+          entities:
+            {% for entity_id in _global.config.favorite_entities %}
+            {% set entity = _global.registry.entities.get_by_id(entity_id) %}
+            - type: custom:button-card
+              template: {{ _global.get_button_card_template(entity) }}
+              entity: {{ entity_id }}
             {% endfor %}
+        {% endif %}

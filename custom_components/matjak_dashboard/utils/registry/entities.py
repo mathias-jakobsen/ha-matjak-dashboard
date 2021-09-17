@@ -82,6 +82,11 @@ class Entities(BaseRegistry[entity_registry.RegistryEntry]):
         """ Gets a list of entities within one or several domains. """
         return self._get_by_domain(self.registry.values(), *domains)
 
+    def get_entity_name(self, entity: entity_registry.RegistryEntry, prefix_to_remove: str = "") -> str:
+        """ Gets the name of an entity. """
+        name = entity.name or entity.original_name
+        return name.replace(prefix_to_remove, "", 1)
+
     def get_by_state_attribute(self, attribute: str, value: Any) -> List[entity_registry.RegistryEntry]:
         """ Gets a list of entities which have an attribute with a specific value. """
         result = []

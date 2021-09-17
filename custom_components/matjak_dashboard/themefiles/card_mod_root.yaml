@@ -1,9 +1,17 @@
 |
   .: |
+    ha-app-layout {
+      --header-height: 0px;
+    }
+
     app-header {
       display: none;
     }
 
     #view {
-      min-height: 100vh !important;
+      height: 100vh !important;
+    }
+
+    app-drawer {
+      box-shadow: var(--sidebar-box-shadow-right);
     }

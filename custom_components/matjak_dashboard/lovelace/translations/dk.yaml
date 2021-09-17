@@ -14,3 +14,9 @@ domain_title_other: Andet
 
 entity: entitet
 entities: entiteter
+
+sidebar_navigation_home: Hjem
+sidebar_navigation_areas: Områder
+sidebar_navigation_entities: Entiteter
+sidebar_navigation_media: Medier
+sidebar_navigation_security: Sikkerhed

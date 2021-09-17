@@ -19,16 +19,16 @@ custom_fields:
       const lights_on_entities = lights_entities.filter(entity_id => states[entity_id]?.state == "on");
       const lights_icon = `<ha-icon icon="mdi:lightbulb" style="display: flex; height: 13px"></ha-icon>`;
       const lights_text = `${lights_on_entities.length}`;
-      const lights_background = "hsla(var(--button-color-hue-light), var(--button-color-background__saturation), var(--button-color-background__lightness), var(--button-color-background__alpha))";
-      const lights_color = "hsla(var(--button-color-hue-light), var(--button-color-text__saturation), var(--button-color-text__lightness), var(--button-color-text__alpha))";
-      const lights_display = lights_on_entities.length > 0 ? "flex" : "flex";
+      const lights_background = "hsla(var(--button-color-hue-light), var(--button-color-background-light__saturation), var(--button-color-background-light__lightness), var(--button-color-background-light__alpha))";
+      const lights_color = "hsla(var(--button-color-hue-light), var(--button-color-text-light__saturation), var(--button-color-text-light__lightness), var(--button-color-text-light__alpha))";
+      const lights_display = lights_on_entities.length > 0 ? "flex" : "none";
 
       const media_entities = variables.entities.filter(entity_id => entity_id.split(".")[0] == "media_player");
       const media_on_entities = media_entities.filter(entity_id => states[entity_id]?.state == "playing");
       const media_icon = `<ha-icon icon="mdi:play-box" style="display: flex; height: 13px"></ha-icon>`;
       const media_text = `${media_on_entities.length}`;
-      const media_background = "hsla(var(--button-color-hue-media), var(--button-color-background__saturation), var(--button-color-background__lightness), var(--button-color-background__alpha))";
-      const media_color = "hsla(var(--button-color-hue-media), var(--button-color-text__saturation), var(--button-color-text__lightness), var(--button-color-text__alpha))";
+      const media_background = "hsla(var(--button-color-hue-media), var(--button-color-background-light__saturation), var(--button-color-background-light__lightness), var(--button-color-background-light__alpha))";
+      const media_color = "hsla(var(--button-color-hue-media), var(--button-color-text-light__saturation), var(--button-color-text-light__lightness), var(--button-color-text-light__alpha))";
       const media_display = media_on_entities.length > 0 ? "flex" : "none";
 
       return `
@@ -36,6 +36,10 @@ custom_fields:
         <div class="info" style="background: ${media_background}; color: ${media_color}; display: ${media_display}">${media_icon}${media_text}</div>
       `;
     ]]]
+
+styles:
+  name:
+    - margin-top: 8px
 
 tap_action:
   action: navigate

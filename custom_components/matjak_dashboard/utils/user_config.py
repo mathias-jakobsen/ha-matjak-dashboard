@@ -15,7 +15,11 @@ import voluptuous as vol
 #-----------------------------------------------------------#
 
 DEFAULT_WEATHER_ICONS = {
+    "cloudy": "mdi:weather-cloudy",
     "fog": "mdi:weather-fog",
+    "partlycloudy": "mdi:weather-partly-cloudy",
+    "pouring": "mdi:weather-pouring",
+    "rainy": "mdi:weather-rainy",
     "sunny": "mdi:weather-sunny"
 }
 
@@ -49,7 +53,10 @@ USER_CONFIG_SCHEMA = vol.Schema({
         vol.Required("devices", default=[]): [str],
         vol.Required("entities", default=[]): [str],
     },
+    vol.Required("favorite_entities", default=[]): [str],
+    vol.Required("favorite_scenes", default=[]): [str],
     vol.Required("weather", default={}): {
+        vol.Required("entities", default={}): {str: str},
         vol.Required("icons", default=DEFAULT_WEATHER_ICONS): validate_weather_icons
     }
 }, extra=True)

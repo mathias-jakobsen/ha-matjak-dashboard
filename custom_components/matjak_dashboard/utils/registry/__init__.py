@@ -8,7 +8,7 @@ from ..const import (
     DASHBOARD_URL,
     PARSER_KEY_GLOBAL
 )
-from ..helpers import get_button_card_template_list, get_translations
+from ..helpers import get_button_card_template, get_button_card_template_list, get_translations
 from ..user_config import load_config
 from .areas import Areas
 from .devices import Devices
@@ -68,6 +68,7 @@ def _get_registry(hass: HomeAssistant, config_entry: ConfigEntry) -> Dict[str, A
     return {
         PARSER_KEY_GLOBAL: {
             "button_card_template_list": button_card_template_list,
+            "get_button_card_template": get_button_card_template(hass, button_card_template_list),
             "config": user_config,
             "dashboard_url": DASHBOARD_URL,
             "registry": {

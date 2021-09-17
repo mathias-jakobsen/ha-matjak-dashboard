@@ -14,3 +14,9 @@ domain_title_other: Others
 
 entity: entity
 entities: entities
+
+sidebar_navigation_home: Home
+sidebar_navigation_areas: Areas
+sidebar_navigation_entities: Entities
+sidebar_navigation_media: Media
+sidebar_navigation_security: Security
