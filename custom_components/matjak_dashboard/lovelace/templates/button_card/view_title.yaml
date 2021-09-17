@@ -1,0 +1,48 @@
+
+variables:
+  back_url: ""
+
+custom_fields:
+  back_button:
+    card:
+      type: custom:button-card
+      icon: mdi:arrow-left
+      styles:
+        card:
+          - background: none
+          - border-radius: 50%
+          - box-shadow: none
+          - padding: 10px
+          - pointer-events: auto
+        icon:
+          - color: var(--header-text-color-primary)
+          - width: 35px
+      tap_action:
+        action: navigate
+        navigation_path: "[[[ return variables.back_url; ]]]"
+
+styles:
+  card:
+    - background: none
+    - box-shadow: none
+    - padding: 15px 20px 0 20px
+    - transition: none
+
+  custom_fields:
+    back_button:
+      - display: "[[[ return variables.back_url ? 'block' : 'none'; ]]]"
+      - margin-right: 15px
+  grid:
+    - grid-template-areas: "'back_button n'"
+    - grid-template-columns: auto 1fr
+    - grid-template-rows: 1fr
+
+  name:
+    - color: var(--header-text-color-primary)
+    - font-size: 2em
+    - padding-left: 5px
+    - place-self: center start
+
+
+tap_action:
+  action: none

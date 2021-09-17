@@ -2,14 +2,13 @@
 
 - !include
     - ../templates/yaml/grid.yaml
-    - title: Entities
+    - title: {{ _global.translations.view_title_entities }}
       icon: mdi:shape
       path: entities
       cards:
         - type: entities
           card_mod:
             class: view-header
-          title: {{ _global.translations.view_title_entities }}
           entities:
             - type: custom:button-card
               template: glance_button_entities

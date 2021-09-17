@@ -124,6 +124,7 @@ matjak:
   code-editor-background-color: white
   mdc-shape-medium: var(--ha-card-border-radius)
   mdc-theme-on-primary: black
+  mdc-theme-on-secondary: black
   paper-input-container-color: white
   paper-input-container-input-color: white
   table-row-alternative-background-color: var(--sidebar-background)

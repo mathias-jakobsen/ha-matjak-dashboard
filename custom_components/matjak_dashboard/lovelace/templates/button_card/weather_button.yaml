@@ -1,2 +1,11 @@
+# matjak_dashboard
+
 template: base_button
-icon: mdi:weather-cloudy
+variables:
+  type: weather
+entity: {{ _global.config.weather.entities.weather }}
+icon: >
+  [[[
+    const icons = {{ _global.config.weather.icons | tojson }};
+    return icons[entity.state] || "mdi:weather-cloudy";
+  ]]]

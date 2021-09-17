@@ -2,16 +2,10 @@
 
 - !include
     - ../templates/yaml/grid.yaml
-    - title: Areas
+    - title: {{ _global.translations.view_title_areas }}
       icon: mdi:texture-box
       path: areas
       cards:
-        - type: entities
-          card_mod:
-            class: view-header
-          title: {{ _global.translations.view_title_areas }}
-          entities: []
-
         {% for location, areas in _global.registry.areas.group_by_location() %}
         {% if areas | count > 0 %}
         - type: entities
@@ -28,7 +22,7 @@
               name: {{ area.name }}
               variables:
                 entities: {{ entities }}
-                url: /{{ _global.dashboard_url }}/areas/{{ area.id }}
+                url: /{{ _global.dashboard_url }}/areas_{{ area.id }}
             {% endfor %}
         {% endif %}
         {% endfor %}

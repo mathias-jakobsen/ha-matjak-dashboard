@@ -34,6 +34,8 @@
       }
 
       #main {
+        display: grid;
+        grid-template-rows: auto 1fr;
         height: 100%;
       }
 
@@ -43,7 +45,7 @@
       }
 
       #main > *:last-child {
-        grid-row: 1;
+        grid-row: 2;
         max-height: 100%;
         overflow: auto;
       }
@@ -51,7 +53,11 @@
       @media (max-width: 759px) {
         #main {
           display: grid;
-          grid-template-rows: 1fr auto;
+          grid-template-rows: auto 1fr auto;
+        }
+
+        #main > *:first-child {
+          grid-row: 3;
         }
       }
 
@@ -67,8 +73,12 @@
       }
 
     "#main hui-vertical-stack-card:last-child$": |
+      #root {
+        height: unset !important;
+      }
       hui-vertical-stack-card {
         --vertical-stack-card-margin: 5px 0;
+        overflow: auto;
         padding: 20px 25px 25px 25px;
       }
 

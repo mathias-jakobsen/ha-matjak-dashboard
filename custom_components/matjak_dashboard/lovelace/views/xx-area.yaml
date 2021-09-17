@@ -1,0 +1,12 @@
+# matjak_dashboard
+
+{% for area in _global.registry.areas %}
+- !include
+    - ../templates/yaml/grid.yaml
+    - title: {{ area.name }}
+      icon: {{ _global.registry.areas.get_area_icon(area) }}
+      path: areas_{{ area.id }}
+      back_url: /{{ _global.dashboard_url }}/areas
+      cards: []
+
+{% endfor %}

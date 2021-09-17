@@ -10,7 +10,7 @@ styles:
   card:
     - background: >
         [[[
-          const is_selected = window.location.pathname.split("/")[2] == variables.path;
+          const is_selected = window.location.pathname.split("/")[2].startsWith(variables.path);
           return is_selected ? "var(--sidebar-button-background__selected)" : "var(--sidebar-button-background)";
         ]]]
     - box-shadow: none

@@ -2,16 +2,21 @@
 
 - !include
     - ../templates/yaml/grid.yaml
-    - title: Home
+    - title: {{ _global.translations.view_title_home }}
       icon: mdi:home
       path: home
       cards:
         - type: entities
           card_mod:
             class: view-header
-          title: {{ _global.translations.view_title_home }}
           entities:
             {% if _global.config.weather.entities.weather %}
+            - type: custom:button-card
+              template: glance_button_weather
+
+            - type: custom:button-card
+              template: glance_button_weather
+
             - type: custom:button-card
               template: glance_button_weather
             {% endif %}

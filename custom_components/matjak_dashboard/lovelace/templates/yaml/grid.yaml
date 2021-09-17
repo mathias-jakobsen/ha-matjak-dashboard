@@ -92,16 +92,31 @@ cards:
         entities:
           - type: custom:button-card
             template: sidebar_footer_button
-            icon: mdi:refresh
+            icon: mdi:theme-light-dark
             tap_action:
               action: call-service
               service: frontend.reload_themes
+              service_data: {}
+          - type: custom:button-card
+            template: sidebar_footer_button
+            icon: mdi:refresh
+            tap_action:
+              action: call-service
+              service: browser_mod.lovelace_reload
               service_data: {}
 
 
   # -----------------------------------------------------------#
   #       Main Content
   # -----------------------------------------------------------#
+
+  - type: custom:button-card
+    view_layout:
+      position: main
+    template: view_title
+    name: {{ title }}
+    variables:
+      back_url: {{ back_url | default("") }}
 
   - type: vertical-stack
     view_layout:
