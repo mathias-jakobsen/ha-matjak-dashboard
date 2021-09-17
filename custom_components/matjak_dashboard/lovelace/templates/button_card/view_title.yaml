@@ -1,3 +1,4 @@
+# matjak_dashboard
 
 variables:
   back_url: ""
@@ -19,7 +20,7 @@ custom_fields:
           - width: 35px
       tap_action:
         action: navigate
-        navigation_path: "[[[ return variables.back_url; ]]]"
+        navigation_path: "[[[ return `/{{ _global.dashboard_url }}/${variables.back_url}`; ]]]"
 
 styles:
   card:
@@ -40,7 +41,7 @@ styles:
   name:
     - color: var(--header-text-color-primary)
     - font-size: 2em
-    - padding-left: 5px
+    - padding: 10px 0 10px 5px
     - place-self: center start
 
 

@@ -1,6 +1,7 @@
 view_title_home: My Home
 view_title_areas: Areas
 view_title_entities: Entities
+view_title_more: More
 
 favorite_entities: Favorite Entities
 favorite_scenes: Favorite Scenes
@@ -20,3 +21,4 @@ sidebar_navigation_areas: Areas
 sidebar_navigation_entities: Entities
 sidebar_navigation_media: Media
 sidebar_navigation_security: Security
+sidebar_navigation_more: More

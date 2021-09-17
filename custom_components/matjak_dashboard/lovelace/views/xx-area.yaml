@@ -6,7 +6,7 @@
     - title: {{ area.name }}
       icon: {{ _global.registry.areas.get_area_icon(area) }}
       path: areas_{{ area.id }}
-      back_url: /{{ _global.dashboard_url }}/areas
+      back_url: areas
       cards: []
 
 {% endfor %}

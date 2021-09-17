@@ -1,11 +1,10 @@
 # matjak_dashboard
 
-variables:
-  type: entities
-
-template: glance_button
+template: more_button
 
 icon: mdi:shape
+name: {{ _global.translations.entities }}
+
 state_display: >
   [[[
     const entities = {{ _global.registry.entities | map(attribute="entity_id") | list }}

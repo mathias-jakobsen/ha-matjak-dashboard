@@ -24,9 +24,11 @@
         border-right: 1px solid var(--divider-color);
         display: flex;
         flex-direction: column;
+        flex-grow: 0;
         height: 100%;
-        max-width: 320px !important;
+        max-width: unset !important;
         padding: 30px 15px;
+        width: 20rem;
       }
 
       #sidebar > * {
@@ -76,10 +78,11 @@
       #root {
         height: unset !important;
       }
+
       hui-vertical-stack-card {
         --vertical-stack-card-margin: 5px 0;
         overflow: auto;
-        padding: 20px 25px 25px 25px;
+        padding: 10px 25px 25px 25px;
       }
 
       @media (max-width: 759px) {

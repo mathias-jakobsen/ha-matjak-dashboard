@@ -4,7 +4,7 @@ template: base_button
 
 variables:
   entities: []
-  url: ""
+  path: ""
 
 state_display: >
   [[[
@@ -43,7 +43,7 @@ styles:
 
 tap_action:
   action: navigate
-  navigation_path: "[[[ return variables.url; ]]]"
+  navigation_path: "[[[ return variables.path; ]]]"
 
 hold_action:
   action: call-service

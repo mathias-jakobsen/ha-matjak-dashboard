@@ -60,13 +60,6 @@ cards:
 
           - type: custom:button-card
             template: sidebar_navigation_button
-            name: {{ _global.translations.sidebar_navigation_entities }}
-            icon: mdi:shape
-            variables:
-              path: entities
-
-          - type: custom:button-card
-            template: sidebar_navigation_button
             name: {{ _global.translations.sidebar_navigation_media }}
             icon: mdi:play-box
             variables:
@@ -78,6 +71,13 @@ cards:
             icon: mdi:cctv
             variables:
               path: security
+
+          - type: custom:button-card
+            template: sidebar_navigation_button
+            name: {{ _global.translations.sidebar_navigation_more }}
+            icon: mdi:menu
+            variables:
+              path: more
 
 
       # -----------------------------------------------------------#

@@ -22,7 +22,7 @@
               name: {{ area.name }}
               variables:
                 entities: {{ entities }}
-                url: /{{ _global.dashboard_url }}/areas_{{ area.id }}
+                path: /{{ _global.dashboard_url }}/areas_{{ area.id }}
             {% endfor %}
         {% endif %}
         {% endfor %}

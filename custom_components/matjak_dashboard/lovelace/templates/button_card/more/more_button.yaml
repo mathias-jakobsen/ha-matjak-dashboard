@@ -1,0 +1,8 @@
+template: base_button
+
+variables:
+  path: "home"
+
+tap_action:
+  action: navigate
+  navigation_path: "[[[ return variables.path; ]]]"

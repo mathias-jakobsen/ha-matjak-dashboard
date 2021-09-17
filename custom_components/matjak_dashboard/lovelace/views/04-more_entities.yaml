@@ -4,7 +4,8 @@
     - ../templates/yaml/grid.yaml
     - title: {{ _global.translations.view_title_entities }}
       icon: mdi:shape
-      path: entities
+      path: more_entities
+      back_url: more
       cards:
         - type: entities
           card_mod:

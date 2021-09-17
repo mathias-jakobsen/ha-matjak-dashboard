@@ -160,7 +160,7 @@
 
       .layout-sidebar-navigation #states {
         background: var(--sidebar-background);
-        box-shadow: var(--sidebar-box-shadow-top);
+        border-top: 1px solid var(--divider-color);
         flex-direction: row;
         gap: 0;
         justify-content: stretch;
