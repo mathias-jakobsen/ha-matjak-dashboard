@@ -31,7 +31,7 @@ matjak:
   button-color-hue-light: 30
   button-color-hue-media: 130
   button-color-hue-person: 200
-  button-color-hue-weather: 270
+  button-color-hue-weather: 210
 
   #--- Color Saturation & Lightness (Dark) ---#
   button-color-background-dark__alpha: 0.3
