@@ -1,6 +1,7 @@
 view_title_home: Mit Hjem
 view_title_areas: Områder
 view_title_entities: Enheder
+view_title_security: Sikkerhed
 view_title_more: Andet
 
 favorite_entities: Favorit Enheder
@@ -11,10 +12,17 @@ areas_other: Andet
 domain_title_binary_sensor: Binære Sensorer
 domain_title_cover: Gardiner
 domain_title_light: Lys
+domain_title_media_player: Medier
 domain_title_other: Andet
 
 entity: entitet
 entities: entiteter
+
+light_on: Lys tændt
+lights_on: Lys tændt
+
+home: Hjemme
+away: Ude
 
 sidebar_navigation_home: Hjem
 sidebar_navigation_areas: Områder
@@ -23,6 +31,10 @@ sidebar_navigation_media: Medier
 sidebar_navigation_security: Sikkerhed
 sidebar_navigation_more: Andet
 
+more_navigation_developer: Udvikler
 more_navigation_external: Eksterne Links
+
+reload_lovelace: Genindlæs lovelace
+reload_themes: Genindlæs temaer
 
 profile: Profil

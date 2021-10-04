@@ -111,6 +111,7 @@ styles:
           return `hsl(0, 0%, calc((${perceived_lightness} - ${threshold}) * -10000000%)`;
         ]]]
     - --popup-text-transition: none
+    - --mdc-ripple-color: var(--popup-text-color)
     - background-color: var(--popup-background-color)
     - border-radius: var(--mdc-shape-medium)
     - box-shadow: var(--mdc-dialog-box-shadow)
@@ -129,6 +130,7 @@ styles:
       - display: flex
       - height: 100%
       - justify-content: center
+      - overflow: hidden
       - pointer-events: auto
 
   grid:
@@ -179,16 +181,15 @@ custom_fields:
 
           const buttons = [];
           for (const view of variables.views) {
-            if (view.filter != undefined && view.filter == false) {
-              continue;
-            }
-
             const button = {
               type: "custom:button-card",
               template: "popup_button",
               icon: view.icon || `mdi:numeric-${buttons.length}-circle`,
               styles: {
-                card: [{ opacity: variables.__current_view == buttons.length ? 1 : 0.5 }]
+                card: [
+                  { display: view.filter != undefined && view.filter == false ? "none" : "flex" },
+                  { opacity: variables.__current_view == buttons.length ? 1 : 0.5 }
+                ]
               },
               tap_action: {
                 action: variables.__current_view == buttons.length ? "none" : "fire-dom-event",

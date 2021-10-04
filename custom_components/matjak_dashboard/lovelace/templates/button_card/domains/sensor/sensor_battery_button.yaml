@@ -1,0 +1,11 @@
+template: base_button
+
+state:
+  - id: battery_critical
+    value: 20
+    operator: <
+    styles:
+      icon:
+        - color: hsla(var(--button-color-hue-battery-critical), 100%, var(--button-color-text-light__lightness), var(--button-color-text-light__alpha))
+
+

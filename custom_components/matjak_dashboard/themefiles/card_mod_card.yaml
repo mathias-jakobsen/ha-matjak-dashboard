@@ -1,7 +1,7 @@
 |
   .: |
     ha-card {
-      transition: none;
+      transition: none !important;
     }
 
     .type-custom-button-card {
@@ -14,6 +14,22 @@
 
     .type-custom-button-card:hover {
       --navigation-button-background: rgba(0, 0, 0, 0.1);
+    }
+
+    .type-history-graph.popup,
+    .type-logbook.popup {
+      background: none;
+      box-shadow: none;
+      pointer-events: auto;
+    }
+    
+    .type-history-graph.popup .content {
+      padding: 0 16px;
+    }
+
+    .type-logbook.popup .content,
+    .type-logbook.popup .content ha-logbook {
+      height: 100%;
     }
 
 
@@ -169,7 +185,7 @@
       }
 
       .layout-sidebar-navigation #states {
-        background: var(--sidebar-background);
+        background: var(--sidebar-background-color);
         border-top: 1px solid var(--divider-color);
         flex-direction: row;
         gap: 0;
@@ -204,6 +220,22 @@
     }
 
 
+    /*-----------------------------------------------------------*/
+    /*       Developer Layouts
+    /*-----------------------------------------------------------*/
+
+    .layout-grid__developer #states {
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    }
+
+    .layout-grid__developer #states > div:first-child {
+      grid-column: 1 / span 2 !important;
+    }
+
+    .layout-grid__developer #states > div {
+      grid-column: span 2;
+    }
+
 
     /*-----------------------------------------------------------*/
     /*       View Header
@@ -214,6 +246,7 @@
       border-radius: 0;
       box-shadow: none;
       box-sizing: border-box;
+      overflow: visible;
       transition: none;
     }
 
@@ -245,3 +278,4 @@
       }
     }
 
+ 

@@ -1,0 +1,28 @@
+template: base_button
+
+state_display: "[[[ return entity.entity_id.split('.')[0]; ]]]"
+
+state:
+  - id: state_off
+    styles:
+      card:
+        - background: var(--button-card-background-primary)
+
+styles:
+  card:
+    - background: var(--button-card-background-primary)
+  state:
+    - text-transform: capitalize
+
+tap_action:
+  action: call-service
+  service: >
+    [[[
+      const domain = entity.entity_id.split(".")[0];
+      return domain == "script" ? entity.entity_id : "scene.turn_on";
+    ]]]
+  service_data: >
+    [[[
+      const domain = entity.entity_id.split(".")[0];
+      return domain == "script" ? {} : { "entity_id": entity.entity_id };
+    ]]]

@@ -5,15 +5,15 @@ show_name: true
 show_state: true
 
 state:
-  - id: state_on
+  - id: state_off
     operator: template
     value: >
       [[[
-        return ["off", "paused", "idle"].includes(entity?.state || "on") == false;
+        return ["off", "paused", "idle"].includes(entity?.state || "on");
       ]]]
     styles:
       card:
-        - background: var(--ha-card-background)
+        - background: var(--button-card-background-secondary)
 
 extra_styles: |
   .info {
@@ -29,7 +29,7 @@ extra_styles: |
 
 styles:
   card:
-    - background: var(--button-card-background-secondary)
+    - background: var(--button-card-background-primary)
     - padding: 9px 11px 11px 11px
     - position: relative
   custom_fields:
@@ -37,6 +37,7 @@ styles:
       - display: flex
       - flex-direction: column
       - gap: 4px
+      - overflow: visible
       - position: absolute
       - right: 11px
       - top: 11px

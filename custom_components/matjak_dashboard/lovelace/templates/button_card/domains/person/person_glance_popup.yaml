@@ -1,0 +1,26 @@
+# matjak_dashboard
+
+template: popup
+
+variables:
+  title: Persons
+  
+  background_color: rgba(30, 30, 30, 1)
+
+  header_buttons:
+    - type: custom:button-card
+      template: popup_button
+      icon: mdi:account-multiple
+      tap_action:
+        action: none
+
+  views:
+    - icon: mdi:account-multiple
+      card:
+        type: custom:decluttering-card
+        template: popup_entities
+        variables:
+          - entities: 
+              {% for entity_id in _global.registry.entities.get_by_domain("person") | map(attribute="entity_id") | list %}
+              - {{ entity_id }}
+              {% endfor %}

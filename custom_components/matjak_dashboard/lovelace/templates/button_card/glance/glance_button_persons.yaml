@@ -1,0 +1,32 @@
+# matjak_dashboard
+
+{% set person_entities = _global.registry.entities.get_by_domain("person") | map(attribute="entity_id") | list %}
+
+template: glance_button
+
+triggers_update: {{ person_entities }}
+
+variables:
+  type: person
+icon: >
+  [[[
+    const persons = {{ person_entities }}
+    const state = persons.some(entity_id => states[entity_id].state == "home");
+    return state ? "mdi:home-account" : "mdi:home-export-outline";
+  ]]]
+state_display: >
+  [[[
+    const persons = {{ person_entities }}
+    const state = persons.some(entity_id => states[entity_id].state == "home");
+    return state ? "{{ _global.translations.home }}" : "{{ _global.translations.away }}";
+  ]]]
+
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: ""
+    hide_header: true
+    card:
+      type: custom:button-card
+      template: person_glance_popup

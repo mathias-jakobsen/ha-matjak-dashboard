@@ -22,13 +22,13 @@ styles:
     - grid-template-rows: var(--sidebar-navigation-button__grid-template-rows)
   icon:
     - color: var(--sidebar-text-color)
-    - width: 35px
+    - width: 28px
 
   name:
     - color: var(--sidebar-text-color)
 
     - display: var(--sidebar-navigation-button__display__name)
-    - font-size: 20px
+    - font-size: 18px
     - place-self: center start
 
 tap_action:

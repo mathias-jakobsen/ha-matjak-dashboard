@@ -39,7 +39,8 @@ card:
 
             .date,
             .message,
-            .name {
+            .name,
+            .secondary {
               color: var(--popup-text-color, var(--primary-text-color)) !important;
             }
 

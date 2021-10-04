@@ -13,20 +13,22 @@ custom_fields:
           - background: var(--navigation-button-background)
           - border-radius: 50%
           - box-shadow: none
-          - padding: 10px
+          - padding: 8px
           - pointer-events: auto
         icon:
           - color: var(--header-text-color-primary)
-          - width: 35px
+          - width: 1.5em
       tap_action:
         action: navigate
         navigation_path: "[[[ return `/{{ _global.dashboard_url }}/${variables.back_url}`; ]]]"
 
 styles:
   card:
-    - background: none
+    - background: var(--sidebar-background)
+    - border-bottom: 1px solid var(--divider-color)
+    - border-radius: 0
     - box-shadow: none
-    - padding: 15px 20px 0 20px
+    - padding: 8px 20px 8px 20px
     - transition: none
 
   custom_fields:
@@ -40,7 +42,7 @@ styles:
 
   name:
     - color: var(--header-text-color-primary)
-    - font-size: 2em
+    - font-size: 1.5em
     - padding: 10px 0 10px 15px
     - place-self: center start
 

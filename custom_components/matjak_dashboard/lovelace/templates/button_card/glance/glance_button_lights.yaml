@@ -1,0 +1,44 @@
+# matjak_dashboard
+
+{% set light_entities = _global.registry.entities.get_by_domain("light") | map(attribute="entity_id") | list %}
+
+template: glance_button
+
+variables:
+  type: light
+
+triggers_update: {{ light_entities }}
+
+icon: mdi:lightbulb-group
+
+state_display: >
+  [[[
+    const lights = {{ light_entities }};
+    const lights_on = lights.filter(entity_id => states[entity_id].state == "on").length;
+    return `${lights_on} ${lights_on == 1 ? "{{ _global.translations.light_on }}" : "{{ _global.translations.lights_on }}"}`;
+  ]]]
+
+styles:
+  card:
+    - cursor: pointer
+
+tap_action:
+  action: >
+    [[[
+      const lights = {{ light_entities }};
+      const lights_on = lights.filter(entity_id => states[entity_id].state == "on").length;
+      return lights_on > 0 ? "fire-dom-event" : "none";
+    ]]]
+  browser_mod:
+    command: popup
+    title: ""
+    hide_header: true
+    card:
+      type: custom:button-card
+      template: light_glance_popup
+
+hold_action:
+  action: call-service
+  service: light.turn_off
+  service_data:
+    entity_id: {{ light_entities }}

@@ -10,10 +10,28 @@
           card_mod:
             class: glances
           entities:
+            - type: custom:button-card
+              template: glance_button_lights
+            - type: custom:button-card
+              template: glance_button_persons
             {% if _global.config.weather.entities.weather %}
             - type: custom:button-card
               template: glance_button_weather
             {% endif %}
+
+        {% if _global.config.favorite_scenes | count > 0 %}
+        - type: entities
+          card_mod:
+            class: layout-grid-square
+          title: {{ _global.translations.favorite_scenes }}
+          entities:
+            {% for entity_id in _global.config.favorite_scenes %}
+            {% set entity = _global.registry.entities.get_by_id(entity_id) %}
+            - type: custom:button-card
+              template: scene_button
+              entity: {{ entity_id }}
+            {% endfor %}
+        {% endif %}
 
         {% if _global.config.favorite_entities | count > 0 %}
         - type: entities

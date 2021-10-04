@@ -8,7 +8,7 @@ variables:
 
 state_display: >
   [[[
-    const count = {{ entities | count }};
+    const count = variables.entities.length;
     return `${count} ${count == 1 ? "{{ _global.translations.entity }}" : "{{ _global.translations.entities }}"}`;
   ]]]
 
@@ -42,7 +42,7 @@ styles:
     - margin-top: 8px
 
 tap_action:
-  action: navigate
+  action: "[[[ return variables.entities.length > 0 ? 'navigate' : 'none' ]]]"
   navigation_path: "[[[ return variables.path; ]]]"
 
 hold_action:

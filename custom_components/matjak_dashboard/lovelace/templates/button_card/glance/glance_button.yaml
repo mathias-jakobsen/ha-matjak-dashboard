@@ -17,6 +17,7 @@ styles:
           return `hsla(${hue}, ${saturation}, ${lightness}, ${alpha})`;
         ]]]
     - border-radius: var(--ha-card-border-radius)
+    - box-shadow: 0 0 1px black
     - color: >
         [[[
           const hue = `var(--button-color-hue-${variables.type})`;

@@ -1,0 +1,52 @@
+default:
+  - entities: []
+card:
+  type: entities
+  card_mod:
+    style:
+      .: |
+        ha-card {
+          background: none;
+          box-shadow: none;
+          transition: none;
+        }
+
+        #states {
+          --paper-item-icon-color: var(--popup-text-color);
+          color: var(--popup-text-color);
+          max-height: 100vh;
+          overflow: auto;
+          text-align: left;
+        }
+
+        @media (min-width: 450px) {
+          #states {
+            max-height: 60vh;
+          }
+        }
+      hui-cover-entity-row:
+        $:
+          hui-generic-entity-row:
+            $:
+              .: |
+                state-badge,
+                .info {
+                  pointer-events: none;
+                }
+              state-badge$: |
+                ha-icon {
+                  transition: none !important;
+                }
+      hui-text-entity-row:
+        $:
+          hui-generic-entity-row:
+            $:
+              .: |
+                * {
+                  pointer-events: none;
+                }
+              state-badge$: |
+                ha-icon {
+                  transition: none !important;
+                }
+  entities: "[[entities]]"
