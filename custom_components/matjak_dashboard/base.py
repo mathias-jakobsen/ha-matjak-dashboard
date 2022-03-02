@@ -3,8 +3,8 @@
 #-----------------------------------------------------------#
 
 from .utils.config import MatjakConfig
-from .utils.logger import LOGGER
 from .utils.frontend import MatjakFrontend
+from .utils.logger import LOGGER
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
