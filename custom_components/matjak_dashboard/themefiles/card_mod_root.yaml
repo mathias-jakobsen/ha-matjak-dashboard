@@ -1,17 +1,95 @@
 |
   .: |
-    ha-app-layout {
-      --header-height: 0px;
-    }
-
-    app-header {
-      display: none;
-    }
-
     #view {
-      height: 100vh !important;
+      padding: 0 10px 20px 10px;
     }
 
-    app-drawer {
-      box-shadow: var(--sidebar-box-shadow-right);
+    ha-tabs {
+      margin-left: 0 !important;
+      position: relative;
     }
+
+    ha-tabs:after {
+      content: "";
+      background: linear-gradient(90deg, var(--app-header-background-color) 0, transparent 20px, transparent calc(100% - 20px), var(--app-header-background-color) 100%);
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      pointer-events: none;
+      right: 0;
+      top: 0;
+    }
+
+    @media (min-width: 871px) {
+      app-toolbar {
+        --app-header-background-color: var(--primary-background-color);
+      }
+    }
+
+  ha-tabs:
+    .: |
+      paper-tab {
+        border-radius: 12px;
+        flex: 0 0 auto;
+        height: 40px;
+      }
+
+      paper-tab.iron-selected {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
+
+      paper-tab:not(.iron-selected):hover {
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      paper-tab:first-of-type {
+        margin-left: 20px;
+      }
+
+      paper-tab:last-of-type {
+        margin-right: 20px;
+      }
+
+      ha-icon {
+        align-items: center;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      ha-icon::after {
+        content: attr(title);
+        padding-right: 2px;
+      }
+
+      @media (max-width: 870px) {
+        paper-tab {
+          --app-header-background-color: var(--primary-background-color);
+        }
+
+
+    $: |
+      #tabsContent {
+        align-items: center;
+        display: flex;
+        gap: 8px;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #tabsContent.scrollable {
+        position: relative;
+      }
+
+      #tabsContent::-webkit-scrollbar {
+        display: none;
+      }
+
+      #selectionBar {
+        display: none;
+      }
+
+      paper-icon-button {
+        display: none;
+      }

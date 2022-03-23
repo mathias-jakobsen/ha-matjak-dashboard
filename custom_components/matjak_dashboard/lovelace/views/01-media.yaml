@@ -1,0 +1,6 @@
+# matjak_dashboard
+
+- title: Media
+  icon: mdi:play-box
+  path: media
+  cards: []

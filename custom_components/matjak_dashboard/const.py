@@ -21,3 +21,11 @@ DASHBOARD_URL = "matjak-dashboard"
 
 RESOURCES_PATH = "custom_components/matjak_dashboard/resources"
 RESOURCES_STATIC_PATH = "/matjak_dashboard/resources"
+
+
+#-----------------------------------------------------------#
+#       YAML Parser
+#-----------------------------------------------------------#
+
+PARSER_KEYWORD = "# matjak_dashboard"
+PARSER_KEY_GLOBAL = "global"

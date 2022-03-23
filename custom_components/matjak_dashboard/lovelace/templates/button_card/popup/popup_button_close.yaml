@@ -1,8 +1,0 @@
-template: popup_button
-
-icon: mdi:close
-
-tap_action:
-  action: fire-dom-event
-  browser_mod:
-    command: close_popup
