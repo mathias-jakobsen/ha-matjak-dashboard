@@ -1,0 +1,134 @@
+generic_card:
+  show_icon: true
+  show_name: true
+  show_state: true
+
+  variables:
+    mj_is_nested: false
+    mj_rows: []
+    mj_swap_name_state: false
+
+  styles:
+    card:
+      - --masonry-view-card-margin: 0
+      - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
+      - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
+      - padding: var(--ha-card-padding)
+      - position: relative
+    grid:
+      - grid-gap: 12px
+      - grid-template: >
+          [[[
+            const result = variables.mj_swap_name_state ? ["'i s'", "'i n'"] : ["'i n'", "'i s'"];
+
+            if (variables.mj_rows.length > 0) {
+              result.push("'extra_rows extra_rows'");
+            }
+
+            return result.join(" ");
+          ]]]
+      - grid-template-columns: min-content auto
+      - grid-template-rows: min-content min-content
+    icon:
+      - color: rgba(var(--button-card-background-color-off), 1)
+      - width: 50%
+    img_cell:
+      - background: rgba(var(--button-card-background-color-off), 0.2)
+      - border-radius: 50%
+      - height: 2.8em
+      - width: 2.8em
+    name:
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
+      - font-size: "[[[ return variables.mj_swap_name_state ? '13px' : '15px'; ]]]"
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
+      - margin: "[[[ return variables.mj_swap_name_state ? '-6px 0 0 0' : '0 0 -6px 0'; ]]]"
+      - place-self: "[[[ return variables.mj_swap_name_state ? 'start' : 'end start'; ]]]"
+      - text-transform: capitalize
+    state:
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(100%)' : 'opacity(60%)'; ]]]"
+      - font-size: "[[[ return variables.mj_swap_name_state ? '15px' : '13px'; ]]]"
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'bold' : 'normal'; ]]]"
+      - margin: "[[[ return variables.mj_swap_name_state ? '0 0 -6px 0' : '-6px 0 0 0'; ]]]"
+      - place-self: "[[[ return variables.mj_swap_name_state ? 'end start' : 'start'; ]]]"
+      - text-transform: capitalize
+    custom_fields:
+      extra_rows:
+        - display: "[[[ return variables.mj_rows.length > 0 ? 'block' : 'none'; ]]]"
+      overlay:
+        - background: transparent
+        - bottom: 0
+        - left: 0
+        - position: absolute
+        - right: 0
+        - top: 0
+        - z-index: 1
+
+  custom_fields:
+    overlay: ""
+    extra_rows:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-auto-rows: min-content
+          grid-gap: 12px 0
+          grid-template-columns: 1fr
+          margin: 0
+          padding: 0
+        cards: >
+          [[[
+            const result = [];
+
+            for (const row of variables.mj_rows) {
+              result.push({
+                type: "custom:layout-card",
+                layout_type: "grid",
+                layout: {
+                  "grid-gap": "0 8px",
+                  "grid-template-columns": row.columns,
+                  margin: 0,
+                  padding: 0
+                },
+                cards: row.cards
+              });
+            }
+
+            return result;
+          ]]]
+
+    notification_unavailable: >
+      [[[
+        if (entity.state == "unavailable") {
+          return `<ha-icon icon="mdi:exclamation-thick" style="height: 12px; width: 12px;"></ha-icon>`
+        }
+      ]]]
+
+  state:
+    - id: state_unavailable
+      value: "unavailable"
+      styles:
+        custom_fields:
+          notification_unavailable:
+            - background: rgba(var(--color-red), 1)
+            - border: 2px solid rgba(var(--button-card-background-color-off), 1)
+            - border-radius: 50%
+            - color: white
+            - height: 16px
+            - line-height: 14px
+            - left: 41px
+            - position: absolute
+            - top: 8px
+            - width: 16px
+
+    - id: state_on
+      operator: template
+      value: >
+        [[[
+          const on_states = ["on", "heat", "auto", "home"];
+          return on_states.includes(entity?.state);
+        ]]]
+      styles:
+        icon:
+          - color: rgba(var(--button-card-background-color-on), 1)
+        img_cell:
+          - background: rgba(var(--button-card-background-color-on), 0.2)

@@ -1,0 +1,18 @@
+generic_card_text:
+  show_icon: false
+  show_label: true
+  show_name: false
+  show_state: false
+
+  styles:
+    card:
+      - background: none
+      - box-shadow: none
+      - padding: var(--ha-card-padding)
+      - z-index: 0
+    grid:
+      - grid-template: >
+          "l" 1fr / 1fr
+    label:
+      - color: var(--primary-text-color)
+      - font-size: 18px

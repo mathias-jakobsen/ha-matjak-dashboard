@@ -1,6 +1,7 @@
 |
   .: |
     #view {
+      box-sizing: border-box;
       padding: 0 10px 20px 10px;
     }
 
@@ -74,17 +75,24 @@
         align-items: center;
         display: flex;
         gap: 8px;
-        overflow-x: scroll;
-        -webkit-overflow-scrolling: touch;
+        overflow: auto;
       }
 
       #tabsContent.scrollable {
         position: relative;
       }
 
-      #tabsContent::-webkit-scrollbar {
-        display: none;
+      @media (hover: none) and (pointer: coarse) {
+        #tabsContent {
+          overflow-x: scroll;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        #tabsContent::-webkit-scrollbar {
+          display: none;
+        }
       }
+
 
       #selectionBar {
         display: none;

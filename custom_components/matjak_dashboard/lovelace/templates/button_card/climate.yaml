@@ -1,0 +1,19 @@
+climate:
+  template: generic_card
+
+  variables:
+    mj_rows:
+      - columns: 1fr 1fr 1fr
+        cards:
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:minus
+
+          - type: custom:button-card
+            template: generic_card_text
+            entity: "[[[ return entity.entity_id; ]]]"
+            label: "[[[ return `${entity.attributes.temperature} ${hass.config.unit_system.temperature}`; ]]]"
+
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:plus

@@ -3,4 +3,62 @@
 - title: Home
   icon: mdi:home
   path: home
-  cards: []
+  type: custom:grid-layout
+  layout:
+    card_margin: 0
+    grid-template-columns: 1fr 0.3fr
+    grid-template-rows: 1fr
+    margin: 0
+    padding: 0
+  cards:
+    - type: custom:layout-card
+      layout_type: custom:vertical-layout
+      layout:
+        card_margin: 0px
+        column_widths: 1fr
+        margin: -4px 0 0 0
+        max_width: 100%
+        padding: 0
+      cards:
+        - type: button
+          entity_id: light.bathroom_spotlight_1
+
+    - type: custom:layout-card
+      layout_type: custom:vertical-layout
+      layout:
+        card_margin: 0px 0px 10px 0px
+        column_widths: 1fr
+        margin: 0
+        max_width: 100%
+        padding: 0
+      cards:
+        - type: custom:button-card
+          template: climate
+          entity: climate.test_thermostat
+          variables:
+            mj_swap_name_state: false
+
+        - type: custom:button-card
+          template: light
+          entity: light.kitchen_ceiling_light_1
+          variables:
+            mj_swap_name_state: false
+
+        - type: custom:button-card
+          template: entities_list
+          variables:
+            entities:
+              - light.kitchen_ceiling_light_1
+              - sensor.bathroom_mirror_light_temperature
+              - sensor.bathroom_motion_illuminance_lux
+              - sensor.bathroom_motion_battery
+              - input_text.test_battery_charging_state
+              - input_text.test_battery_charging_type
+              - input_number.test_battery_level
+
+        - type: custom:button-card
+          template: battery
+          entity: input_number.test_battery_level
+          variables:
+            mj_battery_charging_state_entity: input_text.test_battery_charging_state
+            mj_battery_charging_type_entity: input_text.test_battery_charging_type
