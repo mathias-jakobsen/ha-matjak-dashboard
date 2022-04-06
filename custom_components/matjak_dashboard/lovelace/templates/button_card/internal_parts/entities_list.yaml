@@ -9,18 +9,30 @@ entities_list:
 
   styles:
     card:
+      - --masonry-view-card-margin: 0
       - padding: 0
     grid:
       - grid-template: >
-          "container" 1fr / 1fr
+          "entities" 1fr / 1fr
 
   custom_fields:
-    container:
+    entities:
       card:
         type: custom:layout-card
-        layout_type: "[[[ return variables.orientation; ]]]"
+        layout_type: grid
         layout:
-          card_margin: 0
+          grid-template-columns: >
+            [[[
+              if (variables.orientation == "vertical") {
+                return "1fr";
+              }
+
+              if (variables.orientation == "horizontal") {
+                return `repeat(${variables.entities.length}, 1fr)`;
+              }
+
+              return "none";
+            ]]]
           margin: 0
           padding: 0
         cards: >

@@ -126,7 +126,7 @@ modes:
 
     # ---- Custom ------
     button-card-background-color: 250, 250, 250
-    button-card-background-color-off: 220, 220, 220
+    button-card-background-color-off: 180, 180, 180
     button-card-background-color-on: var(--color-yellow)
     button-card-item-selected: 180, 180, 180
 

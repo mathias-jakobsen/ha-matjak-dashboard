@@ -1,16 +1,20 @@
 generic_card:
   show_icon: true
+  show_label: true
   show_name: true
   show_state: true
 
   variables:
+    mj_center_items: false
     mj_is_nested: false
+    mj_replace_name_with_label: false
     mj_rows: []
     mj_swap_name_state: false
 
   styles:
     card:
       - --masonry-view-card-margin: 0
+      - --icon-color: var(--button-card-background-color-off)
       - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
       - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
       - padding: var(--ha-card-padding)
@@ -19,25 +23,41 @@ generic_card:
       - grid-gap: 12px
       - grid-template: >
           [[[
-            const result = variables.mj_swap_name_state ? ["'i s'", "'i n'"] : ["'i n'", "'i s'"];
+            let result = variables.mj_swap_name_state ? ["'i s'", "'i n'"] : ["'i n'", "'i s'"];
 
             if (variables.mj_rows.length > 0) {
               result.push("'extra_rows extra_rows'");
             }
 
-            return result.join(" ");
+            return variables.mj_replace_name_with_label ? result.join(" ").replace("n", "l") : result.join(" ");
           ]]]
-      - grid-template-columns: min-content auto
+      - grid-template-columns: >
+          [[[
+            if (variables.mj_center_items) {
+              return "1fr 1fr";
+            }
+
+            return "min-content auto";
+          ]]]
       - grid-template-rows: min-content min-content
     icon:
-      - color: rgba(var(--button-card-background-color-off), 1)
+      - color: rgba(var(--icon-color), 1)
       - width: 50%
     img_cell:
-      - background: rgba(var(--button-card-background-color-off), 0.2)
+      - background: rgba(var(--icon-color), 0.2)
       - border-radius: 50%
       - height: 2.8em
+      - place-self: "[[[ return variables.mj_center_items ? 'center end' : 'center'; ]]]"
       - width: 2.8em
+    label:
+      - display: "[[[ return variables.mj_replace_name_with_label ? 'block' : 'none'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
+      - font-size: "[[[ return variables.mj_swap_name_state ? '13px' : '15px'; ]]]"
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
+      - margin: "[[[ return variables.mj_swap_name_state ? '-6px 0 0 0' : '0 0 -6px 0'; ]]]"
+      - place-self: "[[[ return variables.mj_swap_name_state ? 'start' : 'end start'; ]]]"
     name:
+      - display: "[[[ return variables.mj_replace_name_with_label ? 'none' : 'block'; ]]]"
       - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
       - font-size: "[[[ return variables.mj_swap_name_state ? '13px' : '15px'; ]]]"
       - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
@@ -110,7 +130,7 @@ generic_card:
         custom_fields:
           notification_unavailable:
             - background: rgba(var(--color-red), 1)
-            - border: 2px solid rgba(var(--button-card-background-color-off), 1)
+            - border: 2px solid rgba(var(--icon-color), 1)
             - border-radius: 50%
             - color: white
             - height: 16px
@@ -128,7 +148,5 @@ generic_card:
           return on_states.includes(entity?.state);
         ]]]
       styles:
-        icon:
-          - color: rgba(var(--button-card-background-color-on), 1)
-        img_cell:
-          - background: rgba(var(--button-card-background-color-on), 0.2)
+        card:
+          - --icon-color: var(--button-card-background-color-on)

@@ -1,0 +1,72 @@
+tesla_car_map:
+  show_icon: false
+  show_name: false
+  show_state: false
+
+  variables:
+    mj_parking_brake_entity: null
+    mj_range_left_entity: null
+
+  styles:
+    card:
+      - padding: 0
+    grid:
+      - grid-template: >
+          "driving_status range_left current_zone"
+          "map map map" / 1fr 1fr 1fr
+  custom_fields:
+    driving_status:
+      card:
+        type: custom:button-card
+        template: tesla_driving_status
+        entity: "[[[ return variables.mj_parking_brake_entity; ]]]"
+        styles:
+          card:
+            - border-bottom-left-radius: 0
+            - border-bottom-right-radius: 0
+            - border-top-right-radius: 0
+        variables:
+          mj_center_items: true
+
+
+    range_left:
+      card:
+        type: custom:button-card
+        template: tesla_range_left
+        entity: "[[[ return variables.mj_range_left_entity; ]]]"
+        variables:
+          mj_center_items: true
+        styles:
+          card:
+            - border-radius: 0
+
+    current_zone:
+      card:
+        type: custom:button-card
+        template: generic_card
+        entity: input_text.zone
+        variables:
+          mj_is_nested: true
+          mj_center_items: true
+        styles:
+          card:
+            - border-bottom-left-radius: 0
+            - border-bottom-right-radius: 0
+            - border-top-left-radius: 0
+    map:
+      card:
+        type: map
+        aspect_ratio: 16x8
+        entities:
+          - "[[[ return entity.entity_id; ]]]"
+        card_mod:
+          style:
+            .: |
+              ha-card {
+                border-radius: 0;
+                box-shadow: none;
+              }
+            ha-map$: |
+              .leaflet-bottom.leaflet-right {
+                display: none;
+              }

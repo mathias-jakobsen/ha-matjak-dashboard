@@ -1,0 +1,7 @@
+tesla_range_left:
+  template: generic_card
+  variables:
+    mj_is_nested: true
+  styles:
+    card:
+      - --button-card-background-color-off: var(--button-card-background-color-on)

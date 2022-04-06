@@ -40,8 +40,6 @@ battery:
         return icon;
       }
 
-      console.log(`${icon}-${Math.floor(battery_level / 10) * 10}`);
-
       return `${icon}-${Math.floor(battery_level / 10) * 10}`;
     ]]]
 
