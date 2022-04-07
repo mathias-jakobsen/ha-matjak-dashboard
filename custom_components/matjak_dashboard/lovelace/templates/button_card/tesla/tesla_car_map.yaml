@@ -6,13 +6,14 @@ tesla_car_map:
   variables:
     mj_parking_brake_entity: null
     mj_range_left_entity: null
+    mj_mileage_entity: null
 
   styles:
     card:
       - padding: 0
     grid:
       - grid-template: >
-          "driving_status range_left current_zone"
+          "driving_status range_left mileage"
           "map map map" / 1fr 1fr 1fr
   custom_fields:
     driving_status:
@@ -20,14 +21,21 @@ tesla_car_map:
         type: custom:button-card
         template: tesla_driving_status
         entity: "[[[ return variables.mj_parking_brake_entity; ]]]"
+        variables:
+          mj_center_items: true
+          mj_is_nested: true
+          mj_replace_name_with_label: true
+          mj_swap_name_state: true
+        show_last_changed: true
+        state_display: "[[[ return entity.state == 'on' ? 'Parked' : 'Driving'; ]]]"
+        icon: "[[[ return entity.state == 'on' ? 'mdi:car-brake-parking' : 'mdi:car'; ]]]"
         styles:
           card:
+            - --button-card-background-color-off: var(--color-red)
+            - --button-card-background-color-on: var(--color-green)
             - border-bottom-left-radius: 0
             - border-bottom-right-radius: 0
             - border-top-right-radius: 0
-        variables:
-          mj_center_items: true
-
 
     range_left:
       card:
@@ -36,27 +44,43 @@ tesla_car_map:
         entity: "[[[ return variables.mj_range_left_entity; ]]]"
         variables:
           mj_center_items: true
+          mj_is_nested: true
+          mj_swap_name_state: true
         styles:
           card:
+            - --icon-color: var(--color-red)
             - border-radius: 0
+        state:
+          - operator: ">="
+            value: 300
+            styles:
+              card:
+                - --icon-color: var(--color-green)
+          - operator: ">="
+            value: 150
+            styles:
+              card:
+                - --icon-color: var(--color-yellow)
 
-    current_zone:
+    mileage:
       card:
         type: custom:button-card
         template: generic_card
-        entity: input_text.zone
+        entity: "[[[ return variables.mj_mileage_entity; ]]]"
         variables:
           mj_is_nested: true
           mj_center_items: true
+          mj_swap_name_state: true
         styles:
           card:
+            - --button-card-background-color-off: var(--button-card-background-color-on)
             - border-bottom-left-radius: 0
             - border-bottom-right-radius: 0
             - border-top-left-radius: 0
     map:
       card:
         type: map
-        aspect_ratio: 16x8
+        aspect_ratio: 16x9
         entities:
           - "[[[ return entity.entity_id; ]]]"
         card_mod:

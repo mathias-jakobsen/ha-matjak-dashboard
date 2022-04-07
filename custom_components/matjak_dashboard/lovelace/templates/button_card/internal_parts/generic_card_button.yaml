@@ -5,8 +5,8 @@ generic_card_button:
 
   styles:
     card:
-      - background: none
-      - box-shadow: 0 1px 5px 0 var(--ha-card-box-shadow-color)
+      - background: rgba(var(--button-card-background-color-off), 0.2)
+      - box-shadow: none
       - padding: var(--ha-card-padding)
       - z-index: 1
     grid:

@@ -118,7 +118,7 @@ generic_card:
 
     notification_unavailable: >
       [[[
-        if (entity.state == "unavailable") {
+        if (entity?.state == "unavailable") {
           return `<ha-icon icon="mdi:exclamation-thick" style="height: 12px; width: 12px;"></ha-icon>`
         }
       ]]]

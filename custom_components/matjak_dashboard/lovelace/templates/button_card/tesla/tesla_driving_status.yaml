@@ -1,7 +1,6 @@
 tesla_driving_status:
   template: generic_card
   variables:
-    mj_is_nested: true
     mj_replace_name_with_label: true
     mj_swap_name_state: true
   show_last_changed: true

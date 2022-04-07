@@ -35,6 +35,7 @@
           variables:
             mj_parking_brake_entity: input_boolean.parked
             mj_range_left_entity: input_number.range_left
+            mj_mileage_entity: input_number.mileage
 
     - type: custom:layout-card
       view_layout:
@@ -63,7 +64,7 @@
         - type: custom:button-card
           template: entities_list
           variables:
-            orientation: horizontal
+            orientation: vertical
             entities:
               - input_button.flash_lights
               - input_button.horn
