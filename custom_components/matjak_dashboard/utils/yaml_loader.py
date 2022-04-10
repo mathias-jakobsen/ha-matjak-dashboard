@@ -11,6 +11,8 @@ from homeassistant.util.yaml import loader
 from typing import Callable
 import io
 import jinja2
+import json
+import os
 
 
 #-----------------------------------------------------------#

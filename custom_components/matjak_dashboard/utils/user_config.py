@@ -137,9 +137,11 @@ class MatjakUserConfig:
     #--------------------------------------------#
 
     def __init__(self, config: dict):
-        self.areas = { key: AreasUserConfig(**value) for key, value in config.get("areas", {}).items() }
-        self.area_locations = { key: AreaLocationsConfig(**value) for key, value in config.get("area_locations", {}).items() }
-        self.exclude = ExcludeConfig(**config.get("exclude", {}))
+        self.areas = { key: AreasUserConfig(**value) for key, value in config.pop("areas", {}).items() }
+        self.area_locations = { key: AreaLocationsConfig(**value) for key, value in config.pop("area_locations", {}).items() }
+        self.exclude = ExcludeConfig(**config.pop("exclude", {}))
 
+        for key, value in config.items():
+            setattr(self, key, value)
 
 

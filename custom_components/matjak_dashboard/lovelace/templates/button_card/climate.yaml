@@ -5,13 +5,24 @@ climate:
     [[[
       const temperature = `${entity.attributes.current_temperature} ${hass.config.unit_system.temperature}`;
       const hvac_action = `${entity.attributes.hvac_action}`;
-      return `${temperature} • ${hvac_action}`;
+      return hvac_action != "undefined" ? `${temperature} • ${hvac_action}` : `${temperature}`;
     ]]]
 
   variables:
-    test: 2
     mj_rows:
-      - columns: 1fr 1fr 1fr
+      - temperature
+      - hvac_modes
+
+  custom_fields:
+    temperature:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: 1fr 1fr 1fr
+          margin: 0
+          padding: 0
         cards:
           - type: custom:button-card
             template: generic_card_button
@@ -21,7 +32,7 @@ climate:
               service: climate.set_temperature
               service_data:
                 entity_id: "[[[ return entity.entity_id; ]]]"
-                temperature: "[[[ return entity.attributes.temperature - entity.attributes.target_temp_step;s ]]]"
+                temperature: "[[[ return parseFloat(entity.attributes.temperature) - (entity.attributes.target_temp_step || 0.5); ]]]"
 
           - type: custom:button-card
             template: generic_card_text
@@ -36,9 +47,17 @@ climate:
               service: climate.set_temperature
               service_data:
                 entity_id: "[[[ return entity.entity_id; ]]]"
-                temperature: "[[[ return entity.attributes.temperature + entity.attributes.target_temp_step; ]]]"
+                temperature: "[[[ return parseFloat(entity.attributes.temperature) + (entity.attributes.target_temp_step || 0.5); ]]]"
 
-      - columns: "[[[ return `repeat(${entity.attributes.hvac_modes.length}, 1fr)`; ]]]"
+    hvac_modes:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: "[[[ return `repeat(${entity.attributes.hvac_modes.length}, 1fr)`; ]]]"
+          margin: 0
+          padding: 0
         cards: >
           [[[
             const result = [];

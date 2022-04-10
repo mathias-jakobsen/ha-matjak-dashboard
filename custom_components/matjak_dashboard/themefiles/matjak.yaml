@@ -38,7 +38,11 @@ light-primary-color: rgb(var(--main-color))
 #       Lovelace
 #-----------------------------------------------------------#
 
+grid-column-gap: 10px
+grid-row-gap: 10px
+grid-gap: var(--grid-row-gap) var(--grid-column-gap)
 lovelace-background: var(--primary-background-color)
+masonry-view-card-margin: 0
 
 
 #-----------------------------------------------------------#

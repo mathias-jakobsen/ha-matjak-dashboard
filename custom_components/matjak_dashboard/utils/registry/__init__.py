@@ -11,6 +11,7 @@ from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.event import async_call_later
 from homeassistant.util.yaml import loader
 from typing import Callable
+import json
 import os
 
 
@@ -70,20 +71,19 @@ class MatjakRegistry:
 
     def _get_dict(self) -> dict:
         """ Gets the registry as a dictionary. """
-        user_config = self._load_user_config()
+        user_config = self._load_user_config(self._hass.config.path(f"{self._config.config_path}config/"))
 
         return {
+            "_": {
+                "custom_templates_path": self._hass.config.path(f"{self._config.config_path}custom_templates/"),
+                "custom_views_path": self._hass.config.path(f"{self._config.config_path}custom_views/")
+            },
             "user_config": user_config
         }
 
-    def _load_user_config(self) -> MatjakUserConfig:
+    def _load_user_config(self, path) -> MatjakUserConfig:
         """ Loads the user configuration from the configuration directory. """
-        if self._config.config_path is None:
-            LOGGER.warning("User configuration dictionary path has not been configured.")
-            return MatjakUserConfig.get_schema()({})
-
         result = {}
-        path = self._hass.config.path(self._config.config_path)
 
         if os.path.exists(path):
             for filename in loader._find_files(path, "*.yaml"):
@@ -93,8 +93,8 @@ class MatjakRegistry:
                     result.update(config)
 
             result = MatjakUserConfig.get_schema()(result)
-            LOGGER.debug(f"User configuration loaded from {self._config.config_path}")
+            LOGGER.debug(f"User configuration loaded from {path}config/")
         else:
-            LOGGER.warning(f"Unable to load user configuration: Path {self._config.config_path} does not exist.")
+            LOGGER.warning(f"Unable to load user configuration: Path {path}config/ does not exist.")
 
         return MatjakUserConfig(result)

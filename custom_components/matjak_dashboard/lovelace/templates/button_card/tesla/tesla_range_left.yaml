@@ -1,4 +1,0 @@
-tesla_range_left:
-  template: generic_card
-  variables:
-    mj_swap_name_state: true

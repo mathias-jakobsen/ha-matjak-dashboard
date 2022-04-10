@@ -15,7 +15,7 @@ battery:
     [[[
       const battery_level = entity.state;
       const charging_state = states[variables.mj_battery_charging_state_entity]?.state.toLowerCase();
-      const is_charging = charging_state == "charging";
+      const is_charging = ["charging", "on"].includes(charging_state);
       const charging_type = states[variables.mj_battery_charging_type_entity]?.state.toLowerCase();
 
       if (battery_level == undefined) {

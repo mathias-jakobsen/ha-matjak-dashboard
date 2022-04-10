@@ -1,5 +1,6 @@
 generic_card_button:
   show_icon: true
+  show_label: true
   show_name: false
   show_state: false
 
@@ -9,8 +10,8 @@ generic_card_button:
       - box-shadow: none
       - padding: var(--ha-card-padding)
       - z-index: 1
-    grid:
-      - grid-template: >
-          "i" 1fr / 1fr
+
     icon:
       - width: 1.4em
+    label:
+      - font-size: 14px
