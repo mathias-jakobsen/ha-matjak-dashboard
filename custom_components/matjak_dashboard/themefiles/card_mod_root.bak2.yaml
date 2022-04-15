@@ -1,0 +1,62 @@
+|
+  .: |
+    #view {
+      box-sizing: border-box;
+      padding: 0 10px 20px 10px;
+    }
+
+    ha-tabs {
+      margin-left: 0 !important;
+      position: relative;
+    }
+
+    @media (min-width: 871px) {
+      app-toolbar {
+        --app-header-background-color: var(--primary-background-color);
+      }
+    }
+
+  ha-tabs:
+    .: |
+      paper-tab {
+        border-radius: 12px;
+        flex: 0 0 auto;
+        height: 40px;
+      }
+
+      paper-tab.iron-selected {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
+
+      paper-tab:not(.iron-selected):hover {
+        background: rgba(var(--main-color), 0.1);
+      }
+
+      ha-icon {
+        align-items: center;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      ha-icon::after {
+        content: attr(title);
+        padding-right: 2px;
+      }
+
+
+    $: |
+      #tabsContent {
+        align-items: center;
+        display: flex;
+        gap: 8px;
+      }
+
+      #selectionBar {
+        display: none;
+      }
+
+      paper-icon-button {
+        display: none;
+      }

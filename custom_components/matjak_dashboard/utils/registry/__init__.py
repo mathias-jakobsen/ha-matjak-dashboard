@@ -2,13 +2,11 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from ...const import DASHBOARD_URL
-from ..config import MatjakConfig
+from ...const import DASHBOARD_URL, VIEWS_PATH
+from ..config import MatjakConfig, ViewConfig
 from ..logger import LOGGER
 from ..user_config import MatjakUserConfig
-from datetime import datetime, timedelta
 from homeassistant.core import Event, HomeAssistant
-from homeassistant.helpers.event import async_call_later
 from homeassistant.util.yaml import loader
 from typing import Callable
 import json
@@ -72,14 +70,32 @@ class MatjakRegistry:
     def _get_dict(self) -> dict:
         """ Gets the registry as a dictionary. """
         user_config = self._load_user_config(self._hass.config.path(f"{self._config.config_path}config/"))
+        view_configs = self._load_views_config([self._hass.config.path(VIEWS_PATH), self._hass.config.path(f"{self._config.config_path}custom_views/")])
 
         return {
             "_": {
                 "custom_templates_path": self._hass.config.path(f"{self._config.config_path}custom_templates/"),
-                "custom_views_path": self._hass.config.path(f"{self._config.config_path}custom_views/")
+                "custom_views_path": self._hass.config.path(f"{self._config.config_path}custom_views/"),
+                "view_configs": view_configs
             },
             "user_config": user_config
         }
+
+    def _load_views_config(self, paths: list[str]) -> list[ViewConfig]:
+        """ Loads the view configurations. """
+        result = []
+
+        for path in paths:
+            for filename in loader._find_files(path, "*.yaml"):
+                if filename.endswith("xx-custom.yaml"):
+                    continue
+
+                views = json.loads(json.dumps(loader.load_yaml(filename)))
+
+                for view in views:
+                    result.append(ViewConfig(view))
+
+        return result
 
     def _load_user_config(self, path) -> MatjakUserConfig:
         """ Loads the user configuration from the configuration directory. """

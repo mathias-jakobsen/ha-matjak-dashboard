@@ -4,12 +4,11 @@ entities_list:
   show_state: false
 
   variables:
-    entities: []
-    orientation: vertical
+    mj_entities: []
+    mj_layout: vertical
 
   styles:
     card:
-      - --masonry-view-card-margin: 0
       - padding: 0
     grid:
       - grid-template: >
@@ -23,12 +22,12 @@ entities_list:
         layout:
           grid-template-columns: >
             [[[
-              if (variables.orientation == "vertical") {
+              if (variables.mj_layout == "vertical") {
                 return "1fr";
               }
 
-              if (variables.orientation == "horizontal") {
-                return `repeat(${variables.entities.length}, 1fr)`;
+              if (variables.mj_layout == "horizontal") {
+                return `repeat(${variables.mj_entities.length}, 1fr)`;
               }
 
               return "none";
@@ -39,10 +38,11 @@ entities_list:
           [[[
             const device_classes = ["battery"];
             const domains = ["sensor"];
+            const swap_name_state_domains = ["sensor"];
             const result = [];
 
-            for (let i = 0; i < variables.entities.length; i++) {
-              const entity_id = variables.entities[i];
+            for (let i = 0; i < variables.mj_entities.length; i++) {
+              const entity_id = variables.mj_entities[i];
               const domain = entity_id.split(".")[0];
               const device_class = domain == "sensor" ? states[entity_id].attributes.device_class : null;
               const item = {
@@ -55,7 +55,9 @@ entities_list:
                   ]
                 },
                 variables: {
-                  mj_is_nested: true
+                  mj_is_nested: true,
+                  mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal",
+                  mj_swap_name_state: swap_name_state_domains.includes(domain) ? true : false
                 }
               };
 

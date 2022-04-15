@@ -27,8 +27,30 @@
         grid-template-columns: 1fr
         margin: 0
         padding: 0
-      cards: []
-
+      cards:
+        - type: entities
+          entities:
+            - light.bathroom_spotlight_1
+        - type: entities
+          entities:
+            - light.bathroom_spotlight_1
+        - type: entities
+          entities:
+            - light.bathroom_spotlight_1
+        - type: entities
+          entities:
+            - light.bathroom_spotlight_1
+        - type: entities
+          entities:
+            - light.bathroom_spotlight_1
+        - type: entities
+          entities:
+            - light.bathroom_spotlight_1
+            - light.bathroom_spotlight_1
+            - light.bathroom_spotlight_1
+            - light.bathroom_spotlight_1
+            - light.bathroom_spotlight_1
+            - light.bathroom_spotlight_1
     - type: custom:layout-card
       view_layout:
         grid-area: sidebar

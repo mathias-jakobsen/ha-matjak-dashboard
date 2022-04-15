@@ -50,7 +50,6 @@ masonry-view-card-margin: 0
 #-----------------------------------------------------------#
 
 app-header-text-color: var(--primary-text-color)
-header-height: 70px
 
 
 #-----------------------------------------------------------#
@@ -131,7 +130,7 @@ modes:
     # ---- Custom ------
     button-card-background-color: 250, 250, 250
     button-card-background-color-off: 180, 180, 180
-    button-card-background-color-on: var(--color-yellow)
+    button-card-background-color-on: var(--main-color)
     button-card-item-selected: 180, 180, 180
 
 
@@ -157,5 +156,5 @@ modes:
     # ---- Custom ------
     button-card-background-color: 30, 30, 30
     button-card-background-color-off: 140, 140, 140
-    button-card-background-color-on: var(--color-yellow)
+    button-card-background-color-on: var(--main-color)
     button-card-item-selected: var(--color-grey-light)

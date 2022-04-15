@@ -13,6 +13,7 @@ PLATFORMS = []
 
 DASHBOARD_FILENAME = "custom_components/matjak_dashboard/lovelace/ui-lovelace.yaml"
 DASHBOARD_URL = "matjak-dashboard"
+VIEWS_PATH = "custom_components/matjak_dashboard/lovelace/views/"
 
 
 #-----------------------------------------------------------#
