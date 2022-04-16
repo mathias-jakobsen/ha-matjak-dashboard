@@ -45,31 +45,3 @@ class MatjakConfig:
             vol.Required("language", default=self.language): vol.In(self.LANGUAGES),
             vol.Required("config_path", default=self.config_path): str
         })
-
-
-#-----------------------------------------------------------#
-#       ViewConfig
-#-----------------------------------------------------------#
-
-class ViewConfig:
-    """ A class representing a view configuration. """
-
-    #--------------------------------------------#
-    #       Fields
-    #--------------------------------------------#
-
-    icon: str
-    path: str
-    title: str
-    visible: bool
-
-
-    #--------------------------------------------#
-    #       Constructor
-    #--------------------------------------------#
-
-    def __init__(self, view_config: dict):
-        self.icon = view_config.get("icon", "")
-        self.path = view_config.get("path", "")
-        self.title = view_config.get("title", "")
-        self.visible = view_config.get("visible", True)

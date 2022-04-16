@@ -1,5 +1,5 @@
 battery:
-  template: sensor
+  template: generic_card
   triggers_update: all
 
   variables:
@@ -44,8 +44,8 @@ battery:
     ]]]
 
   styles:
-    img_cell:
-      - --color: >
+    card:
+      - --icon-color: >
           [[[
             if (entity.state <= variables.mj_battery_level_danger) {
               return variables.mj_battery_color_danger;

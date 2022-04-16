@@ -17,39 +17,24 @@
           "sidebar" auto
           "main" 1fr / 1fr
   cards:
-    - type: custom:button-card
-      template: entities_list
-      variables:
-        mj_layout: horizontal
-        mj_entities:
-          - input_boolean.is_charging
-          - light.bathroom_spotlight_1
-          - light.bathroom_spotlight_2
-          - light.bathroom_spotlight_3
-
     - type: custom:layout-card
+      view_layout:
+        grid-area: main
       layout_type: grid
       layout:
-        grid-gap: 10px
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
         margin: 0
         padding: 0
-      cards:
-        - type: custom:button-card
-          template: sensor
-          entity: sensor.kitchen_motion_temperature
-          variables:
-            mj_layout: vertical
-          custom_fields:
-            notification: "[[[ return `<ha-icon icon='mdi:home' style='height: 12px; width: 12px;'></ha-icon>` ]]]"
+      cards: []
 
-        - type: custom:button-card
-          template: generic_card
-          entity: light.bathroom_spotlight_1
-          variables:
-            mj_layout: vertical
-        - type: custom:button-card
-          template: generic_card
-          entity: light.bathroom_spotlight_1
-          variables:
-            mj_layout: vertical
+    - type: custom:layout-card
+      view_layout:
+        grid-area: sidebar
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+        padding: 0
+      cards: []

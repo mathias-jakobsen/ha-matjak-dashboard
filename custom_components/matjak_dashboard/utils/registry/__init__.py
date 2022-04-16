@@ -2,11 +2,11 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from ...const import DASHBOARD_URL, VIEWS_PATH
-from ..config import MatjakConfig, ViewConfig
+from ..config import MatjakConfig
 from ..logger import LOGGER
 from ..user_config import MatjakUserConfig
 from homeassistant.core import Event, HomeAssistant
+from homeassistant.helpers.event import async_call_later
 from homeassistant.util.yaml import loader
 from typing import Callable
 import json
@@ -17,7 +17,7 @@ import os
 #       Constants
 #-----------------------------------------------------------#
 
-UPDATE_INTERVAL = 2
+UPDATE_INTERVAL = 3
 
 
 #-----------------------------------------------------------#
@@ -33,9 +33,9 @@ class MatjakRegistry:
 
     def __init__(self, hass: HomeAssistant, config: MatjakConfig):
         self._config: MatjakConfig = config
+        self._dict: dict = None
         self._hass: HomeAssistant = hass
-        self._dict: dict = self._get_dict()
-        self._remove_listener: Callable = hass.bus.async_listen("lovelace_updated", self._async_on_lovelace_updated)
+        self._last_update_listener: Callable = None
 
 
     #--------------------------------------------#
@@ -44,23 +44,26 @@ class MatjakRegistry:
 
     def as_dict(self) -> dict:
         """ Gets the registry as a dictionary. """
+        if self._dict is None or self._last_update_listener is None:
+            self._last_update_listener = async_call_later(self._hass, UPDATE_INTERVAL, self._async_on_update_timer_ended)
+            self._dict = self._get_dict()
+
         return self._dict
 
     def remove_listeners(self) -> None:
         """ Removes the listeners. """
-        if self._remove_listener:
-            self._remove_listener()
-            self._remove_listener = None
+        if self._last_update_listener:
+            self._last_update_listener()
+            self._last_update_listener = None
 
 
     #--------------------------------------------#
     #       Event Handlers
     #--------------------------------------------#
 
-    async def _async_on_lovelace_updated(self, e: Event) -> None:
-        """ Event handler that is called when lovelace is updated. """
-        if e.data.get("url_path", None) == DASHBOARD_URL:
-            self._dict = self._get_dict()
+    async def _async_on_update_timer_ended(self, e: Event) -> None:
+        """ Triggered when the update delay timer has expired. """
+        self._last_update_listener = None
 
 
     #--------------------------------------------#
@@ -70,32 +73,14 @@ class MatjakRegistry:
     def _get_dict(self) -> dict:
         """ Gets the registry as a dictionary. """
         user_config = self._load_user_config(self._hass.config.path(f"{self._config.config_path}config/"))
-        view_configs = self._load_views_config([self._hass.config.path(VIEWS_PATH), self._hass.config.path(f"{self._config.config_path}custom_views/")])
 
         return {
             "_": {
                 "custom_templates_path": self._hass.config.path(f"{self._config.config_path}custom_templates/"),
                 "custom_views_path": self._hass.config.path(f"{self._config.config_path}custom_views/"),
-                "view_configs": view_configs
             },
             "user_config": user_config
         }
-
-    def _load_views_config(self, paths: list[str]) -> list[ViewConfig]:
-        """ Loads the view configurations. """
-        result = []
-
-        for path in paths:
-            for filename in loader._find_files(path, "*.yaml"):
-                if filename.endswith("xx-custom.yaml"):
-                    continue
-
-                views = json.loads(json.dumps(loader.load_yaml(filename)))
-
-                for view in views:
-                    result.append(ViewConfig(view))
-
-        return result
 
     def _load_user_config(self, path) -> MatjakUserConfig:
         """ Loads the user configuration from the configuration directory. """
