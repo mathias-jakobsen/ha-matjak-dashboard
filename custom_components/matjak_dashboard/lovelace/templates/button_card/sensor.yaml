@@ -9,12 +9,9 @@ sensor:
     mj_swap_name_state: true
 
   styles:
-    icon:
-      - color: rgba(var(--color), 1)
-    img_cell:
-      - --color: >
+    card:
+      - --icon-color: >
           [[[
             const colors = variables.mj_device_class_colors || {};
             return colors[entity?.attributes?.device_class] || "var(--button-card-background-color-off)";
           ]]]
-      - background: rgba(var(--color), 0.2)

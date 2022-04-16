@@ -36,10 +36,13 @@
         padding: 0
       cards:
         - type: custom:button-card
-          template: generic_card
-          entity: light.bathroom_spotlight_1
+          template: sensor
+          entity: sensor.kitchen_motion_temperature
           variables:
             mj_layout: vertical
+          custom_fields:
+            notification: "[[[ return `<ha-icon icon='mdi:home' style='height: 12px; width: 12px;'></ha-icon>` ]]]"
+
         - type: custom:button-card
           template: generic_card
           entity: light.bathroom_spotlight_1

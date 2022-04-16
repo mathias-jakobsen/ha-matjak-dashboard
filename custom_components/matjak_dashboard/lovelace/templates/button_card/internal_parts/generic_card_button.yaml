@@ -10,7 +10,6 @@ generic_card_button:
       - box-shadow: none
       - padding: var(--ha-card-padding)
       - z-index: 1
-
     icon:
       - width: 1.4em
     label:
