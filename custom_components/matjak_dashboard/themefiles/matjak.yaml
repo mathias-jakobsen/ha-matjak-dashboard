@@ -41,6 +41,7 @@ light-primary-color: rgb(var(--main-color))
 grid-column-gap: 10px
 grid-row-gap: 10px
 grid-gap: var(--grid-row-gap) var(--grid-column-gap)
+grid-layout-sidebar-width: 0.4fr
 lovelace-background: var(--primary-background-color)
 masonry-view-card-margin: 0
 

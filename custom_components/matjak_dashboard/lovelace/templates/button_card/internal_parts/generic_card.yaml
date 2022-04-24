@@ -5,6 +5,7 @@ generic_card:
   show_state: true
 
   variables:
+    mj_hide_state: false
     mj_is_nested: false
     mj_layout: horizontal
     mj_replace_name_with_label: false
@@ -14,7 +15,7 @@ generic_card:
   styles:
     card:
       - --icon-color: var(--button-card-background-color-off)
-      - --margin-row: calc(var(--grid-row-gap) / 2 * -1)
+      - --margin-row: calc((var(--grid-row-gap) - 2px) / 2 * -1)
       - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
       - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
       - padding: var(--ha-card-padding)
@@ -25,6 +26,7 @@ generic_card:
           [[[
             if (variables.mj_layout == "vertical") {
               let result = variables.mj_swap_name_state ? "'i' 's' 'n'" : "'i' 'n' 's'";
+              result = variables.mj_hide_state ? result.replace("s", "n") : result;
               result = variables.mj_replace_name_with_label ? [result.replace("n", "l")] : [result];
 
               if (variables.mj_rows.length > 0) {
@@ -37,6 +39,7 @@ generic_card:
             }
 
             let result = variables.mj_swap_name_state ? "'i s' 'i n'" : "'i n' 'i s'";
+            result = variables.mj_hide_state ? result.replace("s", "n") : result;
             result = variables.mj_replace_name_with_label ? [result.replace("n", "l")] : [result];
 
             if (variables.mj_rows.length > 0) {
@@ -57,7 +60,7 @@ generic_card:
           ]]]
       - grid-template-rows: >
           [[[
-            if (variables.mj_layout == "vertical") {
+            if (variables.mj_layout == "vertical" && variables.hide_state) {
               return "min-content min-content min-content";
             }
 
@@ -75,13 +78,33 @@ generic_card:
     label:
       - display: "[[[ return variables.mj_replace_name_with_label ? 'block' : 'none'; ]]]"
       - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
-      - font-size: "[[[ return variables.mj_swap_name_state ? '14px' : '15px'; ]]]"
+      - font-size: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "17px";
+            }
+            return variables.mj_swap_name_state ? "14px" : "15px";
+          ]]]
       - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
-      - margin: "[[[ return variables.mj_swap_name_state ? 'var(--margin-row) 0 0 0' : '0 0 var(--margin-row) 0' ]]]"
+      - margin: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "0";
+            }
+            return variables.mj_swap_name_state ? "var(--margin-row) 0 0 0" : "0 0 var(--margin-row) 0";
+          ]]]
       - place-self: >
           [[[
             if (variables.mj_layout == "vertical") {
+              if (variables.mj_hide_state) {
+                return "start center";
+              }
+
               return "center";
+            }
+
+            if (variables.mj_hide_state) {
+              return "center start";
             }
 
             return variables.mj_swap_name_state ? "start" : "end start";
@@ -89,19 +112,40 @@ generic_card:
     name:
       - display: "[[[ return variables.mj_replace_name_with_label ? 'none' : 'block'; ]]]"
       - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
-      - font-size: "[[[ return variables.mj_swap_name_state ? '14px' : '15px'; ]]]"
+      - font-size: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "17px";
+            }
+            return variables.mj_swap_name_state ? "14px" : "15px";
+          ]]]
       - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
-      - margin: "[[[ return variables.mj_swap_name_state ? 'var(--margin-row) 0 0 0' : '0 0 var(--margin-row) 0' ]]]"
+      - margin: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "0";
+            }
+            return variables.mj_swap_name_state ? "var(--margin-row) 0 0 0" : "0 0 var(--margin-row) 0";
+          ]]]
       - place-self: >
           [[[
             if (variables.mj_layout == "vertical") {
+              if (variables.mj_hide_state) {
+                return "start center";
+              }
+
               return "center";
+            }
+
+            if (variables.mj_hide_state) {
+              return "center start";
             }
 
             return variables.mj_swap_name_state ? "start" : "end start";
           ]]]
       - text-transform: capitalize
     state:
+      - display: "[[[ return variables.mj_hide_state ? 'none' : 'block'; ]]]"
       - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(100%)' : 'opacity(60%)'; ]]]"
       - font-size: "[[[ return variables.mj_swap_name_state ? '15px' : '14px'; ]]]"
       - font-weight: "[[[ return variables.mj_swap_name_state ? 'bold' : 'normal'; ]]]"
@@ -178,7 +222,7 @@ generic_card:
       operator: template
       value: >
         [[[
-          const on_states = ["on", "heat", "auto", "home"];
+          const on_states = ["on", "heat", "auto", "home", "unlocked"];
           return on_states.includes(entity?.state);
         ]]]
       styles:

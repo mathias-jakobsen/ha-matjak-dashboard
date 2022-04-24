@@ -7,7 +7,7 @@
   layout:
     grid-gap: 0 var(--grid-column-gap)
     grid-template: >
-      "main sidebar" 1fr / 1fr 0.35fr
+      "main sidebar" 1fr / 1fr var(--grid-layout-sidebar-width)
     margin: 0
     padding: 0
     mediaquery:
@@ -16,7 +16,6 @@
         grid-template: >
           "sidebar" auto
           "main" 1fr / 1fr
-
   cards:
     - type: custom:layout-card
       view_layout:
@@ -27,7 +26,19 @@
         grid-template-columns: 1fr
         margin: 0
         padding: 0
-      cards: []
+      cards:
+        - type: custom:button-card
+          template: generic_card
+          triggers_update: all
+          icon: mdi:lightbulb
+          name: Toggle All Lights
+          state_display: >
+            [[[
+              const lights = Object.values(states).filter(item => item.entity_id.split(".")[0] == "light");
+              const lights_on = lights.filter(item => item.state == "on").length;
+
+              return `${lights_on} ${lights_on == 1 ? "Light" : "Lights"} on`;
+            ]]]
 
     - type: custom:layout-card
       view_layout:
@@ -38,4 +49,8 @@
         grid-template-columns: 1fr
         margin: 0
         padding: 0
-      cards: []
+      cards:
+        - type: custom:button-card
+          template: global_lights
+        - type: custom:button-card
+          template: global_covers

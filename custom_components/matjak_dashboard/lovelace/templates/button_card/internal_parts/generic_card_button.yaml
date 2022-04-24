@@ -13,4 +13,4 @@ generic_card_button:
     icon:
       - width: 1.4em
     label:
-      - font-size: 14px
+      - font-size: 0.85em

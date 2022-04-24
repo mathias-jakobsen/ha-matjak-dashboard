@@ -43,12 +43,12 @@ entities_list:
         cards: >
           [[[
             const device_classes = ["battery"];
-            const domains = ["sensor"];
-            const swap_name_state_domains = ["sensor"];
+            const domains = ["lock", "sensor"];
             const result = [];
 
             for (let i = 0; i < variables.mj_entities.length; i++) {
-              const entity_id = variables.mj_entities[i];
+              const entity = typeof variables.mj_entities[i] == "string" ? { entity: variables.mj_entities[i] } : variables.mj_entities[i];
+              const entity_id = entity["entity"];
               const domain = entity_id.split(".")[0];
               const device_class = domain == "sensor" ? states[entity_id].attributes.device_class : null;
               const item = {
@@ -62,10 +62,17 @@ entities_list:
                 },
                 variables: {
                   mj_is_nested: true,
-                  mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal",
-                  mj_swap_name_state: swap_name_state_domains.includes(domain) ? true : false
+                  mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal"
                 }
               };
+
+              if ("templates" in entity) {
+                item["template"] = entity["templates"];
+              }
+
+              if ("name" in entity) {
+                item["name"] = entity["name"];
+              }
 
               result.push(item);
             }

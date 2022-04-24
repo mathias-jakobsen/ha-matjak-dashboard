@@ -1,0 +1,52 @@
+global_covers:
+  template: generic_card
+  triggers_update: all
+
+  variables:
+    mj_rows:
+      - controls
+
+  icon: mdi:window-shutter
+  name: Covers
+  state_display: >
+    [[[
+      const covers = Object.values(states).filter(item => item.entity_id.split(".")[0] == "covers");
+      return `${covers.length} ${covers.length == 1 ? "Cover" : "Covers"}`;
+    ]]]
+
+  styles:
+    card:
+      - --icon-color: var(--color-blue)
+
+  custom_fields:
+    controls:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: 1fr 1fr
+          margin: 0
+          padding: 0
+        cards:
+          - type: custom:button-card
+            template: generic_card_button
+            variables:
+              mj_replace_name_with_label: true
+            label: Close
+            tap_action:
+              action: call-service
+              service: cover.close_cover
+              service_data:
+                entity_id: all
+
+          - type: custom:button-card
+            template: generic_card_button
+            variables:
+              mj_replace_name_with_label: true
+            label: Open
+            tap_action:
+              action: call-service
+              service: cover.open_cover
+              service_data:
+                entity_id: all
