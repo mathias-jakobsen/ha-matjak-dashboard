@@ -26,19 +26,7 @@
         grid-template-columns: 1fr
         margin: 0
         padding: 0
-      cards:
-        - type: custom:button-card
-          template: generic_card
-          triggers_update: all
-          icon: mdi:lightbulb
-          name: Toggle All Lights
-          state_display: >
-            [[[
-              const lights = Object.values(states).filter(item => item.entity_id.split(".")[0] == "light");
-              const lights_on = lights.filter(item => item.state == "on").length;
-
-              return `${lights_on} ${lights_on == 1 ? "Light" : "Lights"} on`;
-            ]]]
+      cards: []
 
     - type: custom:layout-card
       view_layout:
@@ -51,6 +39,36 @@
         padding: 0
       cards:
         - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
           template: global_lights
         - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
           template: global_covers
+
+        - type: custom:layout-card
+          view_layout:
+            show:
+              mediaquery: "(max-width: 959px)"
+          layout_type: grid
+          layout:
+            grid-column-gap: var(--grid-column-gap)
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr))
+            margin: 0
+            padding: 0
+          cards:
+            - type: custom:button-card
+              template: global_lights
+              variables:
+                mj_hide_controls_icon: false
+                mj_is_nested: false
+                mj_layout: horizontal
+            - type: custom:button-card
+              template: global_covers
+              variables:
+                mj_hide_controls_icon: false
+                mj_is_nested: false
+                mj_layout: horizontal

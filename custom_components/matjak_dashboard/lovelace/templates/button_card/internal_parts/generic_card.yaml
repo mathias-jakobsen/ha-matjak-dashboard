@@ -96,11 +96,7 @@ generic_card:
       - place-self: >
           [[[
             if (variables.mj_layout == "vertical") {
-              if (variables.mj_hide_state) {
-                return "start center";
-              }
-
-              return "center";
+              return "start center";
             }
 
             if (variables.mj_hide_state) {
@@ -130,11 +126,7 @@ generic_card:
       - place-self: >
           [[[
             if (variables.mj_layout == "vertical") {
-              if (variables.mj_hide_state) {
-                return "start center";
-              }
-
-              return "center";
+              return "start center";
             }
 
             if (variables.mj_hide_state) {
@@ -153,7 +145,7 @@ generic_card:
       - place-self: >
           [[[
             if (variables.mj_layout == "vertical") {
-              return "center";
+              return "start center";
             }
 
             return variables.mj_swap_name_state ? "end start" : "start";

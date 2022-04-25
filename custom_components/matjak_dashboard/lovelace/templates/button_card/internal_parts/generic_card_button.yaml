@@ -8,9 +8,10 @@ generic_card_button:
     card:
       - background: rgba(var(--button-card-background-color-off), 0.2)
       - box-shadow: none
-      - padding: var(--ha-card-padding)
+      - height: 40px
+      - padding: 0
       - z-index: 1
     icon:
-      - width: 1.4em
+      - width: 20px
     label:
       - font-size: 0.85em
