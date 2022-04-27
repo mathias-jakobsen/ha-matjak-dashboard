@@ -1,0 +1,84 @@
+global_media:
+  template: generic_card
+  triggers_update: all
+
+  variables:
+    mj_hide_controls_icon: true
+    mj_rows:
+      - controls
+
+  icon: mdi:play-box
+  name: Media
+  state_display: >
+    [[[
+      const media_players = Object.values(states).filter(item => item.entity_id.split(".")[0] == "media_player");
+      const media_players_playing = media_players.filter(item => item.state == "playing").length;
+      return `${media_players_playing} Playing`;
+    ]]]
+
+  styles:
+    card:
+      - --icon-color: var(--color-green)
+
+  custom_fields:
+    controls:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: 1fr 1fr 1fr
+          margin: 0
+          padding: 0
+        cards:
+          - type: custom:button-card
+            template: generic_card_button
+            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
+            label: Volume Down
+            icon: mdi:volume-minus
+            tap_action:
+              action: call-service
+              service: media_player.volume_down
+              service_data:
+                entity_id: all
+
+          - type: custom:button-card
+            template: generic_card_button
+            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
+            label: >
+              [[[
+                const media_players = Object.values(states).filter(item => item.entity_id.split(".")[0] == "media_player");
+                const media_players_playing = media_players.filter(item => item.state == "playing").length;
+                return media_players_playing > 0 ? "Pause" : "Play";
+              ]]]
+            icon: >
+              [[[
+                if (variables.mj_hide_controls_icon) {
+                  return "";
+                }
+
+                const media_players = Object.values(states).filter(item => item.entity_id.split(".")[0] == "media_player");
+                const media_players_playing = media_players.filter(item => item.state == "playing").length;
+                return media_players_playing > 0 ? "mdi:pause" : "mdi:play";
+              ]]]
+            tap_action:
+              action: call-service
+              service: >
+                [[[
+                  const media_players = Object.values(states).filter(item => item.entity_id.split(".")[0] == "media_player");
+                  const media_players_playing = media_players.filter(item => item.state == "playing").length;
+                  return media_players_playing > 0 ? "media_player.media_pause" : "media_player.media_play";
+                ]]]
+              service_data:
+                entity_id: all
+
+          - type: custom:button-card
+            template: generic_card_button
+            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
+            label: Volume Up
+            icon: mdi:volume-plus
+            tap_action:
+              action: call-service
+              service: media_player.volume_up
+              service_data:
+                entity_id: all

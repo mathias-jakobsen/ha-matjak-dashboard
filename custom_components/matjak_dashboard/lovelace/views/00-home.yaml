@@ -55,8 +55,8 @@
               mediaquery: "(max-width: 959px)"
           layout_type: grid
           layout:
-            grid-column-gap: var(--grid-column-gap)
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr))
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
             margin: 0
             padding: 0
           cards:
@@ -68,6 +68,12 @@
                 mj_layout: horizontal
             - type: custom:button-card
               template: global_covers
+              variables:
+                mj_hide_controls_icon: false
+                mj_is_nested: false
+                mj_layout: horizontal
+            - type: custom:button-card
+              template: global_media
               variables:
                 mj_hide_controls_icon: false
                 mj_is_nested: false
