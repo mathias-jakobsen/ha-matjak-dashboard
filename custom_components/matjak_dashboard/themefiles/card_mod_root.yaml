@@ -42,8 +42,8 @@
       }
 
       app-toolbar {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
       }
 
       ha-menu-button {
@@ -79,6 +79,21 @@
         background: rgba(var(--main-color), 0.1);
       }
 
+      paper-tab[aria-label^="Area"].iron-selected ~ paper-tab[aria-label="Home"] {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
+
+      paper-tab[aria-label^="Area"].hide-tab {
+        display: block;
+        flex: 0;
+        padding: 0
+      }
+
+      paper-tab[aria-label^="Area"].hide-tab ha-icon {
+        display: none;
+      }
+
       ha-icon {
         align-items: center;
         display: flex;
@@ -107,10 +122,11 @@
           color: var(--primary-text-color);
           content: attr(aria-label);
           display: flex;
-          font-size: 15px;
+          font-size: 16px;
           height: 100%;
-          justify-content: center;
+          justify-content: left;
           left: 0;
+          padding-left: calc(16px + 48px + 20px);
           pointer-events: none;
           position: fixed;
           top: 0;
