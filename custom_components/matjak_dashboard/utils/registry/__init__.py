@@ -5,6 +5,9 @@
 from ..config import MatjakConfig
 from ..logger import LOGGER
 from ..user_config import MatjakUserConfig
+from .areas import Areas
+from .devices import Devices
+from .entities import Entities
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.event import async_call_later
 from homeassistant.util.yaml import loader
@@ -74,10 +77,20 @@ class MatjakRegistry:
         """ Gets the registry as a dictionary. """
         user_config = self._load_user_config(self._hass.config.path(f"{self._config.config_path}config/"))
 
+        areas = Areas(self._hass, user_config)
+        devices = Devices(self._hass, user_config, areas)
+        entities = Entities(self._hass, user_config, areas, devices)
+
         return {
             "_": {
                 "custom_templates_path": self._hass.config.path(f"{self._config.config_path}custom_templates/"),
                 "custom_views_path": self._hass.config.path(f"{self._config.config_path}custom_views/"),
+            },
+            "registry": {
+                "areas": areas,
+                "devices": devices,
+                "domains": sorted(set(map(lambda x: x.split(".")[0], self._hass.states.async_entity_ids()))),
+                "entities": entities
             },
             "user_config": user_config
         }

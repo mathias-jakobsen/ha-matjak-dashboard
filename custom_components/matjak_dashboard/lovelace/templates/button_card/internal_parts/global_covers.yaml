@@ -3,7 +3,6 @@ global_covers:
   triggers_update: all
 
   variables:
-    mj_hide_controls_icon: true
     mj_rows:
       - controls
 
@@ -32,9 +31,7 @@ global_covers:
         cards:
           - type: custom:button-card
             template: generic_card_button
-            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
-            label: Close
-            icon: "[[[ return variables.mj_hide_controls_icon ? '' : 'mdi:arrow-down-thick'; ]]]"
+            icon: mdi:arrow-down-thick
             tap_action:
               action: call-service
               service: cover.close_cover
@@ -43,9 +40,7 @@ global_covers:
 
           - type: custom:button-card
             template: generic_card_button
-            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
-            label: Stop
-            icon: "[[[ return variables.mj_hide_controls_icon ? '' : 'mdi:stop'; ]]]"
+            icon: mdi:stop
             tap_action:
               action: call-service
               service: cover.stop_cover
@@ -54,9 +49,7 @@ global_covers:
 
           - type: custom:button-card
             template: generic_card_button
-            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
-            label: Open
-            icon: "[[[ return variables.mj_hide_controls_icon ? '' : 'mdi:arrow-up-thick'; ]]]"
+            icon: mdi:arrow-up-thick
             tap_action:
               action: call-service
               service: cover.open_cover

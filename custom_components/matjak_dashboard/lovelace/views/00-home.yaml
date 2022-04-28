@@ -9,7 +9,6 @@
     grid-template: >
       "main sidebar" 1fr / 1fr var(--grid-layout-sidebar-width)
     margin: 0
-    padding: 0
     mediaquery:
       "(max-width: 959px)":
         grid-gap: var(--grid-row-gap) 0
@@ -25,8 +24,25 @@
         grid-gap: var(--grid-row-gap) 0
         grid-template-columns: 1fr
         margin: 0
-        padding: 0
-      cards: []
+      cards:
+        - type: custom:layout-card
+          layout_type: grid
+          layout:
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
+            margin: 0
+          cards:
+            - type: custom:button-card
+              view_layout:
+                grid-column: 1/-1
+              template: title
+              label: Favorite Scenes
+            {% for area in registry.areas %}
+            - type: custom:button-card
+              template: generic_card
+              name: {{ area.name }}
+              icon: {{ registry.areas.get_area_icon(area) }}
+            {% endfor %}
 
     - type: custom:layout-card
       view_layout:
@@ -36,7 +52,6 @@
         grid-gap: var(--grid-row-gap) 0
         grid-template-columns: 1fr
         margin: 0
-        padding: 0
       cards:
         - type: custom:button-card
           view_layout:
@@ -48,6 +63,11 @@
             show:
               mediaquery: "(min-width: 960px)"
           template: global_covers
+        - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
+          template: global_media
 
         - type: custom:layout-card
           view_layout:
@@ -58,23 +78,19 @@
             grid-gap: var(--grid-gap)
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
             margin: 0
-            padding: 0
           cards:
             - type: custom:button-card
               template: global_lights
               variables:
-                mj_hide_controls_icon: false
                 mj_is_nested: false
                 mj_layout: horizontal
             - type: custom:button-card
               template: global_covers
               variables:
-                mj_hide_controls_icon: false
                 mj_is_nested: false
                 mj_layout: horizontal
             - type: custom:button-card
               template: global_media
               variables:
-                mj_hide_controls_icon: false
                 mj_is_nested: false
                 mj_layout: horizontal

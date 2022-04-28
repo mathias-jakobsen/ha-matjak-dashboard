@@ -2,6 +2,7 @@ entities_list:
   variables:
     mj_entities: []
     mj_layout: vertical
+    mj_min_width: null
 
   show_icon: false
   show_name: false
@@ -33,7 +34,11 @@ entities_list:
               }
 
               if (variables.mj_layout == "horizontal") {
-                return `repeat(${variables.mj_entities.length}, 1fr)`;
+                if (variables.mj_min_width == null) {
+                  return `repeat(${variables.mj_entities.length}, 1fr)`;
+                }
+
+                return `repeat(auto-fit, minmax(${variables.mj_min_width}, 1fr))`;
               }
 
               return "none";

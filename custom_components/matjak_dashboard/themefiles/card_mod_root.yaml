@@ -62,6 +62,15 @@
       }
     }
 
+  ha-menu-button:
+    $: |
+      @media (max-width: 600px) {
+        .dot {
+          left: 25px;
+          right: unset;
+        }
+      }
+
   ha-tabs:
     .: |
       paper-tab {

@@ -1,0 +1,22 @@
+# matjak_dashboard
+
+- title: Entities
+  icon: mdi:format-list-bulleted-type
+  path: entities
+  type: custom:grid-layout
+  layout:
+    grid-gap: var(--grid-gap)
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    margin: 0
+  cards:
+    {% for domain in registry.domains %}
+    {% set entity_count = registry.entities.get_by_domain(domain)|count %}
+    {% if entity_count > 0 %}
+    - type: custom:button-card
+      template: generic_card
+      name: {{ domain.replace("_", " ") }}
+      icon: mdi:home
+      state_display: {{ entity_count ~ (" Entity" if entity_count == 1 else " Entities") }}
+    {% endif %}
+    {% endfor %}
+

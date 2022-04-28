@@ -46,6 +46,7 @@ lovelace-background: var(--primary-background-color)
 masonry-view-card-margin: 0
 
 
+
 #-----------------------------------------------------------#
 #       App Header
 #-----------------------------------------------------------#

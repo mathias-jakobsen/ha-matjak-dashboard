@@ -3,8 +3,6 @@ global_lights:
   triggers_update: all
 
   variables:
-    mj_entities: []
-    mj_hide_controls_icon: true
     mj_rows:
       - controls
 
@@ -35,9 +33,7 @@ global_lights:
         cards:
           - type: custom:button-card
             template: generic_card_button
-            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
-            label: Turn Off
-            icon: "[[[ return variables.mj_hide_controls_icon ? '' : 'mdi:lightbulb-off'; ]]]"
+            icon: mdi:lightbulb-off
             tap_action:
               action: call-service
               service: light.turn_off
@@ -46,9 +42,7 @@ global_lights:
 
           - type: custom:button-card
             template: generic_card_button
-            show_label: "[[[ return variables.mj_hide_controls_icon; ]]]"
-            label: Turn On
-            icon: "[[[ return variables.mj_hide_controls_icon ? '' : 'mdi:lightbulb-on'; ]]]"
+            icon: mdi:lightbulb-on
             tap_action:
               action: call-service
               service: light.turn_on
