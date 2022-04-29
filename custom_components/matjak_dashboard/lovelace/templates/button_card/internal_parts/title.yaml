@@ -1,8 +1,11 @@
 title:
+  variables:
+    mj_font_size: 18px
+
   show_icon: false
   show_label: true
   show_name: false
-  show_state: false
+  show_state: true
 
   tap_action:
     action: none
@@ -12,6 +15,14 @@ title:
       - background: none
       - box-shadow: none
       - padding: 5px
+    grid:
+      - grid-template: >
+          "l"
+          "s"
     label:
-      - font-size: 22px
+      - font-size: "[[[ return variables.mj_font_size; ]]]"
+      - place-self: center start
+    state:
+      - color: var(--secondary-text-color)
+      - margin-top: 5px
       - place-self: center start

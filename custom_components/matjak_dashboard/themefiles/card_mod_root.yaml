@@ -15,7 +15,7 @@
     }
 
     ha-tabs {
-      margin-left: 0 !important;
+      margin-left: -8px !important;
       overflow: visible;
       position: relative;
     }
@@ -53,6 +53,7 @@
       ha-tabs {
         background: var(--app-header-background-color);
         left: 0;
+        margin-left: 0 !important;
         position: fixed;
         top: calc(100vh - var(--header-height));
       }
