@@ -77,6 +77,7 @@
         border-radius: 12px;
         flex: 0 0 auto;
         height: 40px;
+        margin-left: 8px;
       }
 
       paper-tab.iron-selected {
@@ -88,19 +89,24 @@
         background: rgba(var(--main-color), 0.1);
       }
 
-      paper-tab[aria-label^="Area"].iron-selected ~ paper-tab[aria-label="Home"] {
+      {% for domain in states|map(attribute="domain")|unique %}
+
+      paper-tab[aria-label^="{{ domain.replace("_", " ")|title }}"].hide-tab ha-icon {
+        display: none;
+      }
+
+      paper-tab[aria-label="{{ domain.replace("_", " ")|title }}"].iron-selected ~ paper-tab[aria-label="Entities"] {
         background: rgba(var(--main-color), 0.2);
         color: rgba(var(--main-color), 1);
       }
 
-      paper-tab[aria-label^="Area"].hide-tab {
+      {% endfor %}
+
+      paper-tab.hide-tab {
         display: block;
         flex: 0;
+        margin: 0;
         padding: 0
-      }
-
-      paper-tab[aria-label^="Area"].hide-tab ha-icon {
-        display: none;
       }
 
       ha-icon {
@@ -120,6 +126,7 @@
           border-radius: 0;
           flex: 1;
           height: unset;
+          margin: 0;
         }
 
         ha-icon::after {
@@ -147,12 +154,6 @@
       #tabsContent {
         align-items: center;
         display: flex;
-        gap: 8px;
-        overflow: auto;
-      }
-
-      #tabsContent.scrollable {
-        position: relative;
       }
 
       #selectionBar {
@@ -167,6 +168,10 @@
         #tabsContent {
           align-items: stretch;
           gap: 0;
+        }
+
+        #tabsContent.scrollable {
+          position: relative;
         }
       }
 

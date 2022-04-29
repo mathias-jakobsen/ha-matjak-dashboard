@@ -16,13 +16,37 @@ card-mod-view-yaml: !include card_mod_view.yaml
 color-blue: 61, 150, 254
 color-blue-light: 61, 170, 254
 color-green: 1, 200, 82
+color-green-dark: 0, 110, 45
 color-grey-dark: 33, 33, 33
 color-grey-light: 100, 100, 100
 color-orange: 255, 145, 1
 color-pink: 233, 30, 99
 color-purple: 102, 31, 255
 color-red: 245, 68, 54
-color-yellow: 255, 145, 0
+color-yellow: 241, 196, 71
+
+
+#-----------------------------------------------------------#
+#       Domain Colors
+#-----------------------------------------------------------#
+
+color-domain-automation: var(--color-green-dark)
+color-domain-binary_sensor: var(--color-blue)
+color-domain-button: var(--color-yellow)
+color-domain-climate: var(--color-red)
+color-domain-device_tracker: var(--color-pink)
+color-domain-input_boolean: var(--button-card-background-color-on)
+color-domain-input_button: var(--button-card-background-color-on)
+color-domain-input_number: var(--button-card-background-color-on)
+color-domain-input_select: var(--button-card-background-color-on)
+color-domain-input_text: var(--button-card-background-color-on)
+color-domain-light: var(--color-orange)
+color-domain-media_player: var(--color-green)
+color-domain-number: var(--color-green)
+color-domain-person: var(--color-purple)
+color-domain-select: var(--color-yellow)
+color-domain-sensor: var(--color-blue)
+color-domain-switch: var(--button-card-background-color-on)
 
 
 #-----------------------------------------------------------#

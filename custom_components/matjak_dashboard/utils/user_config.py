@@ -27,7 +27,7 @@ DEFAULT_WEATHER_ICONS = {
 #       Validation Functions
 #-----------------------------------------------------------#
 
-def validate_weather_icons(value: dict[str, str]):
+def validate_weather_icons(value: dict[str, str]) -> dict:
     """ Validates the weather icons. """
     vol.Schema({str: str})(value)
     return {**DEFAULT_WEATHER_ICONS, **value}
@@ -65,6 +65,23 @@ class AreaLocationsConfig:
 
     priority: int = 1
     icon: str = field(default=None)
+
+
+#-----------------------------------------------------------#
+#       MatjakConfig - Domains
+#-----------------------------------------------------------#
+
+@dataclass
+class DomainsConfig:
+    """ A class representing the area locations user configuration. """
+
+    #--------------------------------------------#
+    #       Fields
+    #--------------------------------------------#
+
+    icon: str = None
+    priority: int = 1
+
 
 
 #-----------------------------------------------------------#
@@ -119,6 +136,12 @@ class MatjakUserConfig:
             vol.Required("weather", default={}): {
                 vol.Required("entities", default={}): {str: str},
                 vol.Required("icons", default=DEFAULT_WEATHER_ICONS): validate_weather_icons
+            },
+            vol.Required("domains", default={}): {
+                str: {
+                    vol.Optional("icon"): str,
+                    vol.Required("priority", default=1): int
+                }
             }
         }, extra=True)
 
@@ -129,6 +152,7 @@ class MatjakUserConfig:
 
     areas: dict[str, AreasUserConfig]
     area_locations: dict[str, AreaLocationsConfig]
+    domains: dict[str, DomainsConfig]
     exclude: ExcludeConfig
 
 
@@ -139,6 +163,7 @@ class MatjakUserConfig:
     def __init__(self, config: dict):
         self.areas = { key: AreasUserConfig(**value) for key, value in config.pop("areas", {}).items() }
         self.area_locations = { key: AreaLocationsConfig(**value) for key, value in config.pop("area_locations", {}).items() }
+        self.domains = { key: DomainsConfig(**value) for key, value in config.pop("domains", {}).items() }
         self.exclude = ExcludeConfig(**config.pop("exclude", {}))
 
         for key, value in config.items():

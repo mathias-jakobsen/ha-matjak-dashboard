@@ -1,0 +1,34 @@
+# matjak_dashboard
+
+- title: Entities
+  icon: mdi:format-list-bulleted-type
+  path: entities
+  type: custom:grid-layout
+  layout:
+    grid-gap: var(--grid-gap)
+    grid-template-columns: 1fr
+    margin: 0
+  cards:
+    - type: custom:layout-card
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-gap)
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+        margin: 0
+      cards:
+        {% for domain in registry.domains %}
+        {% set entity_count = registry.entities.get_by_domain(domain)|count %}
+        {% if entity_count > 0 %}
+        - type: custom:button-card
+          template: generic_card
+          name: {{ domain.replace("_", " ") }}
+          icon: {{ registry.domains.get_domain_icon(domain) }}
+          state_display: {{ entity_count ~ (" Entity" if entity_count == 1 else " Entities") }}
+          styles:
+            card:
+              - --icon-color: var(--color-domain-{{ domain }}, var(--button-card-background-color-on))
+          tap_action:
+            action: navigate
+            navigation_path: /matjak-dashboard/entities_{{ domain }}
+        {% endif %}
+        {% endfor %}

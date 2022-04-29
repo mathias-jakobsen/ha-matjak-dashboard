@@ -1,0 +1,20 @@
+# matjak_dashboard
+
+{% for domain in registry.domains %}
+- title: {{ domain.replace("_", " ")|title }}
+  icon: mdi:format-list-bulleted-type
+  path: entities_{{ domain }}
+  visible: false
+  type: custom:grid-layout
+  layout:
+    grid-gap: var(--grid-gap)
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+    margin: 0
+  cards:
+    {% for entity in registry.entities.get_by_domain(domain) %}
+    - type: custom:button-card
+      template: generic_card
+      entity: {{ entity.entity_id }}
+    {% endfor %}
+{% endfor %}
+

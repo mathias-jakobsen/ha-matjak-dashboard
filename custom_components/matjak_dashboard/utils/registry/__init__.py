@@ -7,12 +7,12 @@ from ..logger import LOGGER
 from ..user_config import MatjakUserConfig
 from .areas import Areas
 from .devices import Devices
+from .domains import Domains
 from .entities import Entities
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.event import async_call_later
 from homeassistant.util.yaml import loader
 from typing import Callable
-import json
 import os
 
 
@@ -89,7 +89,7 @@ class MatjakRegistry:
             "registry": {
                 "areas": areas,
                 "devices": devices,
-                "domains": sorted(set(map(lambda x: x.split(".")[0], self._hass.states.async_entity_ids()))),
+                "domains": Domains(self._hass, user_config),
                 "entities": entities
             },
             "user_config": user_config

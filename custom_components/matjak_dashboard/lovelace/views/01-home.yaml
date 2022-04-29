@@ -31,18 +31,7 @@
             grid-gap: var(--grid-gap)
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
             margin: 0
-          cards:
-            - type: custom:button-card
-              view_layout:
-                grid-column: 1/-1
-              template: title
-              label: Favorite Scenes
-            {% for area in registry.areas %}
-            - type: custom:button-card
-              template: generic_card
-              name: {{ area.name }}
-              icon: {{ registry.areas.get_area_icon(area) }}
-            {% endfor %}
+          cards: []
 
     - type: custom:layout-card
       view_layout:
@@ -90,6 +79,8 @@
                 mj_is_nested: false
                 mj_layout: horizontal
             - type: custom:button-card
+              view_layout:
+                grid-column: 1/-1
               template: global_media
               variables:
                 mj_is_nested: false
