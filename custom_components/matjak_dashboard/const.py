@@ -11,7 +11,7 @@ PLATFORMS = []
 #       Dashboard
 #-----------------------------------------------------------#
 
-DASHBOARD_FILENAME = "custom_components/matjak_dashboard/lovelace/ui-lovelace.yaml"
+DASHBOARD_FILE_PATH = "custom_components/matjak_dashboard/lovelace/ui-lovelace.yaml"
 DASHBOARD_URL = "matjak-dashboard"
 
 
@@ -24,8 +24,16 @@ RESOURCES_STATIC_PATH = "/matjak_dashboard/resources"
 
 
 #-----------------------------------------------------------#
+#       Themes
+#-----------------------------------------------------------#
+
+THEMES_FILE_PATH_SOURCE = "custom_components/matjak_dashboard/themefiles/matjak.yaml"
+THEMES_FILE_PATH_DESTINATION = "matjak/"
+
+
+#-----------------------------------------------------------#
 #       YAML Parser
 #-----------------------------------------------------------#
 
 PARSER_KEYWORD = "# matjak_dashboard"
-PARSER_KEY_GLOBAL = "global"
+PARSER_KEY_GLOBAL = "mj"

@@ -5,7 +5,7 @@ sensor:
     mj_device_class_colors:
       humidity: var(--color-blue)
       illuminance: var(--color-purple)
-      temperature: var(--color-orange)
+      temperature: var(--color-red)
     mj_swap_name_state: true
 
   styles:

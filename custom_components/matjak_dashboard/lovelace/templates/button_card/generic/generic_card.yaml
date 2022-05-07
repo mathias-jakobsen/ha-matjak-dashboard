@@ -1,9 +1,4 @@
 generic_card:
-  show_icon: true
-  show_label: true
-  show_name: true
-  show_state: true
-
   variables:
     mj_hide_state: false
     mj_is_nested: false
@@ -11,6 +6,14 @@ generic_card:
     mj_replace_name_with_label: false
     mj_rows: []
     mj_swap_name_state: false
+
+  show_icon: true
+  show_label: true
+  show_name: true
+  show_state: true
+
+  hold_action:
+    action: more-info
 
   styles:
     card:
@@ -81,7 +84,7 @@ generic_card:
       - font-size: >
           [[[
             if (variables.mj_hide_state) {
-              return "17px";
+              return "16px";
             }
             return variables.mj_swap_name_state ? "14px" : "15px";
           ]]]
@@ -111,7 +114,7 @@ generic_card:
       - font-size: >
           [[[
             if (variables.mj_hide_state) {
-              return "17px";
+              return "16px";
             }
             return variables.mj_swap_name_state ? "14px" : "15px";
           ]]]

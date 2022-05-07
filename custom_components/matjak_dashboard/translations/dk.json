@@ -13,7 +13,8 @@
                     "sidepanel_title": "Sidepanel Titel",
                     "sidepanel_icon": "Sidepanel Ikon",
                     "language": "Sprog",
-                    "config_path": "Sti til Konfigurationsmappe"
+                    "themes_path": "Sti til Temamappe",
+                    "user_config_path": "Sti til Konfigurationsmappe"
                 }
             }
         }
@@ -27,7 +28,8 @@
                     "sidepanel_title": "Sidepanel Titel",
                     "sidepanel_icon": "Sidepanel Ikon",
                     "language": "Sprog",
-                    "config_path": "Sti til Konfigurationsmappe"
+                    "themes_path": "Sti til Temamappe",
+                    "user_config_path": "Sti til Konfigurationsmappe"
                 }
             }
         }

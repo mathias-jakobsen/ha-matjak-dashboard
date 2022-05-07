@@ -54,8 +54,8 @@ entities_list:
             for (let i = 0; i < variables.mj_entities.length; i++) {
               const entity = typeof variables.mj_entities[i] == "string" ? { entity: variables.mj_entities[i] } : variables.mj_entities[i];
               const entity_id = entity["entity"];
-              const domain = entity_id.split(".")[0];
-              const device_class = domain == "sensor" ? states[entity_id].attributes.device_class : null;
+              const domain = entity_id?.split(".")[0];
+              const device_class = domain == "sensor" ? states[entity_id]?.attributes.device_class : null;
               const item = {
                 type: "custom:button-card",
                 template: device_classes.includes(device_class) ? device_class : domains.includes(domain) ? domain : "generic_card",
@@ -73,6 +73,10 @@ entities_list:
 
               if ("templates" in entity) {
                 item["template"] = entity["templates"];
+              }
+
+              if ("icon" in entity) {
+                item["icon"] = entity["icon"];
               }
 
               if ("name" in entity) {

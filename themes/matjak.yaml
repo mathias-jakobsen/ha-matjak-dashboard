@@ -1,1 +1,1 @@
-matjak: !include ../custom_components/matjak_dashboard/themefiles/matjak.yaml
+matjak: !include ../custom_components/matjak_dashboard/themefiles/theme.yaml

@@ -14,7 +14,8 @@ title:
     card:
       - background: none
       - box-shadow: none
-      - padding: 5px
+      - margin: 5px 5px -5px 5px
+      - padding: 0
     grid:
       - grid-template: >
           "l"

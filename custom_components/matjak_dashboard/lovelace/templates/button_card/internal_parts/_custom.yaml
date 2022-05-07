@@ -1,3 +1,0 @@
-# matjak_dashboard
-
-!include_dir_merge_named {{ _.custom_templates_path }}

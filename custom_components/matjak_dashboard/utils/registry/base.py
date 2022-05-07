@@ -26,7 +26,7 @@ class BaseRegistry(Generic[T]):
     def __init__(self, hass: HomeAssistant, config: MatjakUserConfig):
         self.config: MatjakUserConfig = config
         self.hass: HomeAssistant = hass
-        self.registry: dict = {}
+        self.registry: dict[str, T] = {}
 
 
     #--------------------------------------------#
@@ -53,6 +53,8 @@ class BaseRegistry(Generic[T]):
                 if getattr(entry, key) in exclude_values:
                     exclude = True
                 elif getattr(entry, "disabled_by", None) is not None:
+                    exclude = True
+                elif getattr(entry, "hidden_by", None) is not None:
                     exclude = True
 
             if not exclude:

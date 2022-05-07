@@ -10,8 +10,8 @@
     }
 
     hui-view {
-      overflow: auto;
-      padding: 10px;
+      /*overflow: auto;*/
+      /*padding: 10px;*/
     }
 
     ha-tabs {
@@ -91,10 +91,6 @@
       }
 
       {% for domain in states|map(attribute="domain")|unique %}
-
-      paper-tab[aria-label^="{{ domain.replace("_", " ")|title }}"].hide-tab ha-icon {
-        display: none;
-      }
 
       paper-tab[aria-label="{{ domain.replace("_", " ")|title }}"].iron-selected ~ paper-tab[aria-label="Entities"] {
         background: rgba(var(--main-color), 0.2);

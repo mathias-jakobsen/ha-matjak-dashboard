@@ -2,6 +2,7 @@
 #       Imports
 #-----------------------------------------------------------#
 
+from ..logger import LOGGER
 from ..user_config import MatjakUserConfig
 from .areas import Areas
 from .base import BaseRegistry
@@ -30,6 +31,8 @@ class Entities(BaseRegistry[entity_registry.RegistryEntry]):
         self.config = config
         self.hass = hass
         self.registry = self._filter_registry(entity_registry.async_get(hass).entities, exclude_keys, exclude_values)
+
+
 
 
     #--------------------------------------------#
@@ -66,11 +69,14 @@ class Entities(BaseRegistry[entity_registry.RegistryEntry]):
 
         return entities
 
-    def get_by_device_class(self, *device_classes: str) -> list[entity_registry.RegistryEntry]:
+    def get_by_device_class(self, domain: str, *device_classes: str) -> list[entity_registry.RegistryEntry]:
         """ Gets a list of entities with a specific device class. """
         result = []
 
         for entity in self.registry.values():
+            if entity.domain != domain:
+                continue
+
             state = self.hass.states.get(entity.entity_id)
             device_class = (state and state.attributes.get(ATTR_DEVICE_CLASS, None) or None) or entity.device_class
 

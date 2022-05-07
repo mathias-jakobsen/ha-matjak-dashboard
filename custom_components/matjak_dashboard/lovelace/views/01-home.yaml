@@ -9,6 +9,7 @@
     grid-template: >
       "main sidebar" 1fr / 1fr var(--grid-layout-sidebar-width)
     margin: 0
+    padding: var(--view-padding)
     mediaquery:
       "(max-width: 959px)":
         grid-gap: var(--grid-row-gap) 0

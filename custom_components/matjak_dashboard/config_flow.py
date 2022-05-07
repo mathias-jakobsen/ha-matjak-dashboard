@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 from .const import DOMAIN
-from .utils.config import MatjakConfig
+from .matjak.config import MJ_Config
 from .utils.logger import LOGGER
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.core import callback
@@ -53,7 +53,7 @@ class MD_ConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             return self.async_create_entry(title=DOMAIN, data=user_input)
 
-        config = MatjakConfig(**(user_input or {}))
+        config = MJ_Config(**(user_input or {}))
         schema = config.get_schema()
 
         return self.async_show_form(step_id="user", data_schema=schema)
@@ -81,7 +81,7 @@ class MD_OptionsFlow(OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title=DOMAIN, data=user_input)
 
-        config = MatjakConfig(**(user_input or self.data))
+        config = MJ_Config(**(user_input or self.data))
         schema = config.get_schema()
 
         return self.async_show_form(step_id="init", data_schema=schema)

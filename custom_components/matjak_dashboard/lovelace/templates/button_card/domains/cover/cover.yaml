@@ -1,0 +1,47 @@
+cover:
+  template: generic_card
+
+  variables:
+    mj_rows:
+      - controls
+
+  styles:
+    card:
+      - --icon-color: var(--color-blue)
+
+  custom_fields:
+    controls:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: 1fr 1fr 1fr
+          margin: 0
+        cards:
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:stop
+            tap_action:
+              action: call-service
+              service: cover.stop_cover
+              service_data:
+                entity_id: "[[[ return entity.entity_id ]]]"
+
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:arrow-up-thick
+            tap_action:
+              action: call-service
+              service: cover.open_cover
+              service_data:
+                entity_id: "[[[ return entity.entity_id ]]]"
+
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:arrow-down-thick
+            tap_action:
+              action: call-service
+              service: cover.close_cover
+              service_data:
+                entity_id: "[[[ return entity.entity_id ]]]"
