@@ -32,7 +32,6 @@ async def async_update_options(hass: HomeAssistant, config_entry: ConfigEntry) -
 async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """ Called when a config entry has been unloaded. """
     LOGGER.debug("Config entry is being unloaded...")
-    await matjak.async_reload(hass, config_entry)
     return await hass.config_entries.async_unload_platforms(config_entry, PLATFORMS)
 
 async def async_remove_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> None:

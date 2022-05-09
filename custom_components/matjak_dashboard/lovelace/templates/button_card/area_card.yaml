@@ -1,0 +1,134 @@
+mj_area_card:
+  variables:
+    mj_color: var(--main-color)
+    mj_entities: []
+    mj_navigation_path: null
+
+  show_icon: true
+  show_label: true
+  show_name: true
+  show_state: false
+
+  aspect_ratio: 1/1
+
+  tap_action:
+    action: navigate
+    navigation_path: "[[[ return variables.mj_navigation_path; ]]]"
+
+  styles:
+    card:
+      - border-radius: var(--ha-card-border-radius)
+      - box-shadow: var(--ha-card-box-shadow)
+      - padding: var(--ha-card-padding)
+    grid:
+      - grid-template: >
+          "n n n entities" min-content
+          "l l l entities" min-content
+          "i i . entities" auto
+          "i i . entities" auto / 1fr 1fr 1fr 1fr
+    icon:
+      - color: "[[[ return `rgba(${variables.mj_color}, 1)`; ]]]"
+    img_cell:
+      - background: "[[[ return `rgba(${variables.mj_color}, 0.2)`; ]]]"
+      - border-radius: 50%
+      - height: 75%
+      - left: 50%
+      - margin-left: -25%
+      - margin-top: 25%
+      - position: absolute
+      - transform: translate(-50%, -50%)
+      - top: 50%
+      - width: 75%
+    label:
+      - font-size: 15px
+      - filter: opacity(40%)
+      - place-self: start
+    name:
+      - align-self: end
+      - font-size: 17px
+      - font-weight: bold
+      - place-self: start
+    custom_fields:
+      entities:
+        - margin-left: 5px
+        - pointer-events: none
+
+  custom_fields:
+    entities:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: 5px
+          grid-template-rows: repeat(4, 1fr)
+          margin: 0
+        cards: >
+          [[[
+            const result = [];
+
+            for (const entity of variables.mj_entities) {
+              const new_entry = {
+                type: "custom:button-card",
+                template: ["mj_area_card_entity", ...(entity.templates || [])],
+                variables: entity,
+              };
+
+              if (entity.entity) {
+                new_entry["entity"] = entity.entity
+              }
+
+              if (entity.icon) {
+                new_entry["icon"] = entity.icon
+              }
+
+              result.push(new_entry);
+            }
+
+            return result;
+          ]]]
+
+mj_area_card_entity:
+  variables:
+    tap_action:
+      action: toggle
+    hold_action:
+      action: none
+
+  show_icon: true
+  show_label: false
+  show_name: false
+  show_state: false
+
+  aspect_ratio: 1/1
+
+  styles:
+    card:
+      - --icon-color: var(--color-grey)
+      - background: rgba(var(--icon-color), 0.2)
+      - border-radius: 50%
+      - box-shadow: none
+      - padding: 0
+      - pointer-events: auto
+    grid:
+      - grid-template: >
+          "i" 1fr / 1fr
+    icon:
+      - color: rgba(var(--icon-color), 1)
+      - width: 50%
+
+
+  tap_action:
+    action: "[[[ if (variables?.tap_action?.action) return variables.tap_action.action; else return 'none'; ]]]"
+    entity: "[[[ return variables.tap_action.entity; ]]]"
+    navigation_path: "[[[ return variables.tap_action.navigation_path; ]]]"
+    url_path: "[[[ return variables.tap_action.url_path; ]]]"
+    service: "[[[ return variables.tap_action.service; ]]]"
+    service_data: "[[[ return variables.tap_action.service_data; ]]]"
+
+  hold_action:
+    action: "[[[ if (variables?.hold_action?.action) return variables.hold_action.action; else return 'none'; ]]]"
+    entity: "[[[ return variables.hold_action.entity; ]]]"
+    navigation_path: "[[[ return variables.hold_action.navigation_path; ]]]"
+    url_path: "[[[ return variables.hold_action.url_path; ]]]"
+    service: "[[[ return variables.hold_action.service; ]]]"
+    service_data: "[[[ return variables.hold_action.service_data; ]]]"

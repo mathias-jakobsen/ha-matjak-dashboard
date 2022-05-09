@@ -19,6 +19,9 @@ from typing import Any
 
 async def async_setup(hass: HomeAssistant, config_entry: ConfigEntry) -> None:
     """ Sets up the required components. """
+    if DOMAIN in hass.data:
+        return await async_reload(hass, config_entry)
+
     async def async_setup(*args: Any) -> None:
         config = hass.data[DOMAIN] = MJ_Config(**{**config_entry.data, **config_entry.options})
         await frontend.async_setup(hass, config)
@@ -45,5 +48,6 @@ async def async_remove(hass: HomeAssistant) -> None:
     if DOMAIN not in hass.data:
         return
 
-    frontend.async_remove(hass, hass.data[DOMAIN])
+    await frontend.async_remove(hass, hass.data[DOMAIN])
     yaml_loader.remove()
+    hass.data.pop(DOMAIN)

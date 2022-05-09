@@ -14,15 +14,17 @@ card-mod-view-yaml: !include card_mod_view.yaml
 #-----------------------------------------------------------#
 
 color-blue: 61, 150, 254
-color-blue-light: 61, 170, 254
+color-blue-dark: 13, 71, 161
 color-green: 1, 200, 82
 color-green-dark: 0, 110, 45
+color-grey: 97, 97, 97
 color-grey-dark: 33, 33, 33
-color-grey-light: 100, 100, 100
-color-orange: 255, 145, 1
+color-grey-light: 140, 140, 140
+color-orange: 228, 134, 41
 color-pink: 233, 30, 99
 color-purple: 102, 31, 255
 color-red: 245, 68, 54
+color-teal: 59, 128, 142
 color-yellow: 241, 196, 71
 
 
@@ -31,22 +33,22 @@ color-yellow: 241, 196, 71
 #-----------------------------------------------------------#
 
 color-domain-automation: var(--color-green-dark)
-color-domain-binary_sensor: var(--color-blue)
+color-domain-binary_sensor: var(--color-teal)
 color-domain-button: var(--color-yellow)
 color-domain-climate: var(--color-red)
 color-domain-device_tracker: var(--color-pink)
-color-domain-input_boolean: var(--button-card-background-color-on)
-color-domain-input_button: var(--button-card-background-color-on)
-color-domain-input_number: var(--button-card-background-color-on)
-color-domain-input_select: var(--button-card-background-color-on)
-color-domain-input_text: var(--button-card-background-color-on)
+color-domain-input_boolean: var(--main-color)
+color-domain-input_button: var(--main-color)
+color-domain-input_number: var(--main-color)
+color-domain-input_select: var(--main-color)
+color-domain-input_text: var(--main-color)
 color-domain-light: var(--color-orange)
 color-domain-media_player: var(--color-green)
 color-domain-number: var(--color-green)
 color-domain-person: var(--color-purple)
 color-domain-select: var(--color-yellow)
 color-domain-sensor: var(--color-blue)
-color-domain-switch: var(--button-card-background-color-on)
+color-domain-switch: var(--main-color)
 
 
 #-----------------------------------------------------------#
@@ -62,17 +64,19 @@ light-primary-color: rgb(var(--main-color))
 #       Lovelace
 #-----------------------------------------------------------#
 
+divider-color: transparent
+lovelace-background: var(--primary-background-color)
+#masonry-view-card-margin: 0
+
+# ---- Grid ------
 grid-column-gap: 10px
 grid-row-gap: 10px
 grid-gap: var(--grid-row-gap) var(--grid-column-gap)
-grid-layout-sidebar-width: 0.4fr
-lovelace-background: var(--primary-background-color)
-masonry-view-card-margin: 0
-scrollbar-border-radius: 0
-scrollbar-width: 5px
-view-padding-horizontal: 10px
-view-padding-vertical: 10px
-view-padding: var(--view-padding-vertical) var(--view-padding-horizontal)
+
+# ---- View ------
+view-padding-h: 10px
+view-padding-v: 10px
+view-padding: var(--view-padding-h) var(--view-padding-v)
 
 
 #-----------------------------------------------------------#
@@ -86,7 +90,6 @@ app-header-text-color: var(--primary-text-color)
 #       Sidebar
 #-----------------------------------------------------------#
 
-divider-color: var(--app-header-background-color)
 sidebar-background-color: var(--app-header-background-color)
 sidebar-icon-color: var(--primary-text-color)
 #sidebar-menu-button-background-color: var(--app-header-background-color)
@@ -100,10 +103,16 @@ sidebar-selected-text-color: var(--primary-color)
 #       Cards
 #-----------------------------------------------------------#
 
-ha-card-background: rgb(var(--button-card-background-color))
+ha-card-background: rgb(var(--card-background))
 ha-card-border-radius: 12px
 ha-card-box-shadow: 0px 2px 4px 0px var(--ha-card-box-shadow-color)
 ha-card-padding: 12px
+
+
+#-----------------------------------------------------------#
+#       Flyouts/Popups
+#-----------------------------------------------------------#
+
 mdc-shape-medium: var(--ha-card-border-radius)
 mdc-theme-surface: var(--ha-card-background)
 
@@ -155,16 +164,14 @@ modes:
     app-header-background-color: "#efefef"
 
     # ---- Card ------
+    ha-card-border-color: rgba(0, 0, 0, 0.12)
     ha-card-box-shadow-color: rgba(0, 0, 0, 0.16)
 
-    # ---- Custom ------
-    button-card-background-color: 250, 250, 250
-    button-card-background-color-off: 180, 180, 180
-    button-card-background-color-on: var(--main-color)
-    button-card-item-selected: 180, 180, 180
-
-    scrollbar-track-color: rgba(200, 200, 200, 0.5)
-    scrollbar-thumb-color: rgba(180, 180, 180, 1)
+    # ---- Custom Card ------
+    card-background: 250, 250, 250
+    card-background-off: 180, 180, 180
+    card-background-on: var(--main-color)
+    card-background-selected: 180, 180, 180
 
 
   #--------------------------------------------#
@@ -184,13 +191,11 @@ modes:
     app-header-background-color: "#171717"
 
     # ---- Card ------
+    ha-card-border-color: rgba(225, 225, 225, 0.12)
     ha-card-box-shadow-color: rgba(20, 20, 20, 0.16)
 
-    # ---- Custom ------
-    button-card-background-color: 30, 30, 30
-    button-card-background-color-off: 140, 140, 140
-    button-card-background-color-on: var(--main-color)
-    button-card-item-selected: var(--color-grey-light)
-
-    scrollbar-track-color: rgba(var(--color-grey-dark), 1)
-    scrollbar-thumb-color: rgba(var(--color-grey-light), 1)
+    # ---- Custom Card ------
+    card-background: 30, 30, 30
+    card-background-off: 140, 140, 140
+    card-background-on: var(--main-color)
+    card-background-selected: 95, 95, 95

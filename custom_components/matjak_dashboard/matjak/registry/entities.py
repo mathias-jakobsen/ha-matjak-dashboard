@@ -10,6 +10,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import async_get as async_get_devices
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_registry import async_get as async_get_entities
+from typing import Optional, Union
 
 
 #-----------------------------------------------------------#
@@ -19,15 +20,15 @@ from homeassistant.helpers.entity_registry import async_get as async_get_entitie
 @dataclass
 class EntityRegistryEntry:
     """ A class representing an entity entry. """
-    area_id: str | None
-    device_class: str | None
-    device_id: str | None
     domain: str
-    entity_category: EntityCategory | None
     entity_id: str
-    icon: str | None
-    name: str | None
-    unit_of_measurement: str | None
+    area_id: Optional[str] = None
+    device_class: Optional[str] = None
+    device_id: Optional[str] = None
+    entity_category: Optional[EntityCategory] = None
+    icon: Optional[str] = None
+    name: Optional[str] = None
+    unit_of_measurement: Optional[str] = None
 
 
 #-----------------------------------------------------------#
@@ -61,7 +62,7 @@ class EntityRegistry:
     #       Private Methods
     #--------------------------------------------#
 
-    def _get_entities(self, hass: HomeAssistant, config: MJ_UserConfig):
+    def _get_entities(self, hass: HomeAssistant, config: MJ_UserConfig) -> dict[str, EntityRegistryEntry]:
         """ Gets a dictionary containing the entity entries. """
         device_registry = async_get_devices(hass).devices
         entity_registry = async_get_entities(hass).entities
@@ -121,7 +122,7 @@ class EntityRegistry:
     #       Public Methods
     #--------------------------------------------#
 
-    def get_by_area(self, area: AreaRegistryEntry | str, domain: str | list[str] = None, device_class: str | list[str] = None) -> list[EntityRegistryEntry]:
+    def get_by_area(self, area: Union[AreaRegistryEntry, str], domain: Union[str, list[str]] = None, device_class: Union[str, list[str]] = None) -> list[EntityRegistryEntry]:
         """ Gets a list of entities by one or more areas. """
         if type(area) == str:
             area = self._areas.get_by_id(area) or self._areas.get_by_name(area)
@@ -152,8 +153,10 @@ class EntityRegistry:
         """ Gets a list of entity by one or more domains. """
         return [entity for entity in self._entities.values() if entity.domain in domains]
 
-    def get_by_id(self, id: str) -> EntityRegistryEntry | None:
+    def get_by_id(self, id: str) -> Union[EntityRegistryEntry, None]:
         """ Gets an entity by id. """
         return self._entities.get(id, None)
 
-
+    def get_domains(self) -> set[str]:
+        """ Gets a list of domains. """
+        return set([entity.domain for entity in self._entities.values()])

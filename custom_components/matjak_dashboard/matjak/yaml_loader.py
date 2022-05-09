@@ -43,7 +43,7 @@ def reload(hass: HomeAssistant, config: MJ_Config) -> None:
     if _old_loader is None:
         return setup(hass, config)
 
-    LOGGER.debug("Reloads the modified YAML loader.")
+    LOGGER.debug("Reloading the modified YAML loader.")
     loader.load_yaml = _get_load_yaml(hass, config)
 
 def remove() -> None:

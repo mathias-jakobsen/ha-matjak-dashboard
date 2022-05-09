@@ -36,7 +36,7 @@ _timer_remove_listener: Callable = None
 
 def get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
     """ Gets the registry. """
-    global _registry
+    global _registry, _timer_remove_listener
 
     if _registry is None or _timer_remove_listener is None:
         _timer_remove_listener = async_call_later(hass, UPDATE_INTERVAL, _async_on_timer_expired)
@@ -67,15 +67,29 @@ def _get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
 
     return {
         PARSER_KEY_GLOBAL: {
-            "areas": {},
-            "devices": {},
+            "areas": areas,
+            "button_card_templates": _load_button_card_templates(hass.config.path("custom_components/matjak_dashboard/lovelace/templates/button_card")),
             "entities": entities,
             "paths": {
                 "custom_button_card_templates": hass.config.path(f"{config.user_config_path}", "custom_templates/"),
                 "custom_views": hass.config.path(f"{config.user_config_path}", "custom_views/")
-            }
+            },
+            "user_config": user_config
         }
     }
+
+def _load_button_card_templates(path: str) -> list[str]:
+    """ Loads a list of available button card templates. """
+    result = []
+
+    for filename in loader._find_files(path, "*.yaml"):
+        if filename.endswith("__custom__.yaml"):
+            continue
+
+        templates = loader.load_yaml(filename).keys()
+        result.extend(templates)
+
+    return result
 
 def _load_user_config(path: str) -> MJ_UserConfig:
     """ Loads the user configuration from the configuration directory. """

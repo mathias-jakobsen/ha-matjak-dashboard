@@ -41,13 +41,13 @@
         min-height: unset !important;
       }
 
-      app-toolbar {
-        display: grid;
-        grid-template-columns: 1fr auto auto;
-      }
-
       ha-menu-button {
         z-index: 1;
+      }
+
+      ha-tabs + ha-icon-button {
+        direction: rtl;
+        flex: 1;
       }
 
       ha-tabs {

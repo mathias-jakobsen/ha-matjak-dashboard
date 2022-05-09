@@ -16,15 +16,24 @@ from homeassistant.components.frontend import (
     add_extra_js_url,
     async_remove_panel,
     DOMAIN as DOMAIN_FRONTEND,
+    EVENT_PANELS_UPDATED,
     SERVICE_RELOAD_THEMES
 )
 from homeassistant.components.lovelace import _register_panel
 from homeassistant.components.lovelace.dashboard import LovelaceYAML
 from homeassistant.components.lovelace.resources import ResourceStorageCollection
-from homeassistant.core import HomeAssistant
+from homeassistant.core import Event, HomeAssistant
 from homeassistant.util.yaml import loader
+from typing import Callable
 import os
 import shutil
+
+
+#-----------------------------------------------------------#
+#       Variables
+#-----------------------------------------------------------#
+
+_reload_remove_listener: Callable = None
 
 
 #-----------------------------------------------------------#
@@ -39,12 +48,27 @@ async def async_setup(hass: HomeAssistant, config: MJ_Config) -> None:
 
 async def async_reload(hass: HomeAssistant, old_config: MJ_Config, new_config: MJ_Config) -> None:
     """ Reloads the frontend component. """
+    global _reload_remove_listener
+
+    async def async_reload(event: Event) -> None:
+        global _reload_remove_listener
+
+        if event.data.get("url_path", None) == DASHBOARD_URL:
+            _reload_remove_listener = None
+            await async_setup(hass, new_config)
+
+    _reload_remove_listener = hass.bus.async_listen(EVENT_PANELS_UPDATED, async_reload)
     remove_dashboard(hass)
     await async_remove_theme_file(hass, old_config)
-    await async_setup(hass, new_config)
 
 async def async_remove(hass: HomeAssistant, config: MJ_Config) -> None:
     """ Removes the frontend component. """
+    global _reload_remove_listener
+
+    if _reload_remove_listener:
+        _reload_remove_listener()
+        _reload_remove_listener = None
+
     remove_dashboard(hass)
     await async_remove_theme_file(hass, config)
     await async_remove_resources(hass)
@@ -85,6 +109,9 @@ async def async_setup_resources(hass: HomeAssistant) -> None:
     """ Sets up the frontend resources. """
     resources: ResourceStorageCollection = hass.data["lovelace"]["resources"]
     resources_path = hass.config.path(RESOURCES_PATH)
+
+    LOGGER.debug(f"Setting up static path {RESOURCES_STATIC_PATH}.")
+    hass.http.register_static_path(RESOURCES_STATIC_PATH, resources_path, True)
 
     for filename in loader._find_files(resources_path, "*.js"):
         resource_url = filename.replace(resources_path, RESOURCES_STATIC_PATH)
@@ -150,5 +177,5 @@ async def async_remove_theme_file(hass: HomeAssistant, config: MJ_Config) -> Non
         return
 
     LOGGER.debug(f"Removing theme file at {destination_path}.")
-    os.remove(destination_path)
+    shutil.rmtree(destination_path)
     await hass.services.async_call(DOMAIN_FRONTEND, SERVICE_RELOAD_THEMES)

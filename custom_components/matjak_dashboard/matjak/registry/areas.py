@@ -2,10 +2,12 @@
 #       Imports
 #-----------------------------------------------------------#
 
+from config.custom_components.matjak_dashboard.matjak.user_config.area_config import AreaLocationsConfig
 from ..user_config import AreaConfig, MJ_UserConfig
 from dataclasses import dataclass
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.area_registry import async_get as async_get_areas
+from typing import Optional, Union
 
 
 #-----------------------------------------------------------#
@@ -15,16 +17,17 @@ from homeassistant.helpers.area_registry import async_get as async_get_areas
 DEFAULT_AREA_ICON = "mdi:texture-box"
 DEFAULT_AREA_ICONS = {
     "mdi:baby": ["Child's Room", "Børneværelse"],
+    "mdi:bed": ["Guest Room", "Gæsteværelse"],
     "mdi:bed-king": ["Bedroom", "Soveværelse"],
     "mdi:bike": ["Bike Room", "Cykelrum"],
-    "mdi:toilet": ["Bathroom", "Badeværelse"],
-    "mdi:garage": ["Garage"],
-    "mdi:coat-rack": ["Entrance", "Hallway", "Gang", "Entré", "Entre"],
-    "mdi:silverware-fork-knife": ["Dining Room", "Spisestue"],
-    "mdi:pot-steam": ["Kitchen", "Køkken"],
-    "mdi:sofa": ["Living Room", "Stue"],
     "mdi:chair-rolling": ["Office", "Kontor"],
-    "mdi:bed": ["Guest Room", "Gæsteværelse"],
+    "mdi:coat-rack": ["Entrance", "Hallway", "Gang", "Entré", "Entre"],
+    "mdi:garage": ["Garage"],
+    "mdi:hammer-wrench": ["Tool Shed", "Værksted"],
+    "mdi:pot-steam": ["Kitchen", "Køkken"],
+    "mdi:silverware-fork-knife": ["Dining Room", "Kitchen-Dining Room", "Spisestue", "Køkkenalrum"],
+    "mdi:sofa": ["Living Room", "Stue"],
+    "mdi:toilet": ["Bathroom", "Badeværelse"],
     "mdi:washing-machine": ["Utility Room", "Bryggers"],
     "mdi:wardrobe": ["Walk In", "Wardrobe", "Garderobe"]
 }
@@ -37,10 +40,10 @@ DEFAULT_AREA_ICONS = {
 @dataclass
 class AreaRegistryEntry:
     """ A class representing an area entry. """
-    icon: str | None
     id: str
-    location: str | None
-    name: str | None
+    icon: Optional[str] = None
+    location: Optional[str] = None
+    name: Optional[str] = None
 
 
 #-----------------------------------------------------------#
@@ -73,7 +76,7 @@ class AreaRegistry:
     #       Private Methods
     #--------------------------------------------#
 
-    def _get_areas(self, hass: HomeAssistant, config: MJ_UserConfig):
+    def _get_areas(self, hass: HomeAssistant, config: MJ_UserConfig) -> dict[str, AreaRegistryEntry]:
         """ Gets a dictionary containing the area entries. """
         area_registry = async_get_areas(hass).areas
         result = {}
@@ -97,7 +100,6 @@ class AreaRegistry:
 
         return result
 
-
     def _get_area_icon(self, area: AreaRegistryEntry) -> str:
         """ Gets the icon for an area. """
         icon_match = next(filter(lambda x: area.id in x[1] or area.name in x[1], DEFAULT_AREA_ICONS.items()), None)
@@ -112,11 +114,30 @@ class AreaRegistry:
     #       Public Methods
     #--------------------------------------------#
 
-    def get_by_id(self, id: str) -> AreaRegistryEntry | None:
+    def get_by_id(self, id: str) -> Union[AreaRegistryEntry, None]:
         """ Gets an area by id. """
         return self._areas.get(id, None)
 
-    def get_by_name(self, name: str) -> AreaRegistryEntry | None:
+    def get_by_name(self, name: str) -> Union[AreaRegistryEntry, None]:
         """ Gets an area by name. """
         return next((area for area in self._areas.values() if area.name == name), None)
 
+    def group_by_location(self) -> list[tuple[str, list[AreaRegistryEntry]]]:
+        """ Gets a list of areas grouped by location. """
+        result: dict[str, list[AreaRegistryEntry]] = {}
+
+        area_config = self._config.areas
+        location_config = self._config.domains
+
+        for area in self._areas.values():
+            location = area_config.get(area.id, area_config.get(area.name, AreaConfig())).location
+
+            if location is None:
+                location = "__others__"
+
+            if location not in result:
+                result[location] = []
+
+            result[location].append(area)
+
+        return sorted(result.items(), key=lambda x: (-location_config.get(x[0], AreaLocationsConfig()).priority, x[0]), reverse=False)

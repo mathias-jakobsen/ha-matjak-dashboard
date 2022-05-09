@@ -3,6 +3,7 @@
 #-----------------------------------------------------------#
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 #-----------------------------------------------------------#
@@ -17,9 +18,8 @@ class AreaLocationsConfig:
     #       Fields
     #--------------------------------------------#
 
-    icon: str | None = None
+    icon: Optional[str] = None
     priority: int = 1
-
 
 
 #-----------------------------------------------------------#
@@ -34,6 +34,6 @@ class AreaConfig:
     #       Fields
     #--------------------------------------------#
 
-    icon: str | None = None
-    location: str | None = None
+    icon: Optional[str] = None
+    location: Optional[str] = None
     priority: int = 1
