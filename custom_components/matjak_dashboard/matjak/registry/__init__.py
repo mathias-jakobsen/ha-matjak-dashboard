@@ -2,7 +2,7 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from ...const import PARSER_KEY_GLOBAL
+from ...const import PARSER_KEY_GLOBAL, TRANSLATIONS_PATH
 from ...utils.logger import LOGGER
 from ..config import MJ_Config
 from ..user_config import MJ_UserConfig
@@ -64,6 +64,7 @@ def _get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
     user_config = _load_user_config(hass.config.path(f"{config.user_config_path}config/"))
     areas = AreaRegistry(hass, user_config)
     entities = EntityRegistry(hass, areas, user_config)
+    translations = _load_translations(hass.config.path(TRANSLATIONS_PATH, f"{config.language}.yaml"))
 
     return {
         PARSER_KEY_GLOBAL: {
@@ -74,6 +75,7 @@ def _get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
                 "custom_button_card_templates": hass.config.path(f"{config.user_config_path}", "custom_templates/"),
                 "custom_views": hass.config.path(f"{config.user_config_path}", "custom_views/")
             },
+            "translations": translations,
             "user_config": user_config
         }
     }
@@ -90,6 +92,14 @@ def _load_button_card_templates(path: str) -> list[str]:
         result.extend(templates)
 
     return result
+
+def _load_translations(path: str) -> dict[str, str]:
+    """ Loads the translation strings. """
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as file:
+            return loader.yaml.load(file, Loader=lambda stream: loader.SafeLineLoader(stream, None)) or {}
+
+    return {}
 
 def _load_user_config(path: str) -> MJ_UserConfig:
     """ Loads the user configuration from the configuration directory. """

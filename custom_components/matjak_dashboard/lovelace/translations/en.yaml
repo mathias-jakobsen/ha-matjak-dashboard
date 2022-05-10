@@ -1,40 +1,43 @@
+#-----------------------------------------------------------#
+#       Views
+#-----------------------------------------------------------#
+
 view_title_home: My Home
-view_title_areas: Areas
 view_title_entities: Entities
-view_title_security: Security
-view_title_more: More
 
-favorite_entities: Favorite Entities
-favorite_scenes: Favorite Scenes
 
-areas_other: Others
+#-----------------------------------------------------------#
+#       Areas
+#-----------------------------------------------------------#
 
-domain_title_binary_sensor: Binary Sensors
-domain_title_cover: Covers
-domain_title_light: Lights
-domain_title_media_player: Media Players
-domain_title_other: Others
+area: Area
+areas: Areas
+area_location___others__: Others
+
+
+#-----------------------------------------------------------#
+#       Domains
+#-----------------------------------------------------------#
+
+domain_binary_sensor: Binary Sensors
+domain_cover: Covers
+domain_light: Lights
+domain_media_player: Media Players
+domain_sensor: Sensors
+domain_other: Others
+
+
+#-----------------------------------------------------------#
+#       Entities
+#-----------------------------------------------------------#
 
 entity: entity
 entities: entities
 
+
+#-----------------------------------------------------------#
+#       Lights
+#-----------------------------------------------------------#
+
 light_on: Light on
 lights_on: Lights on
-
-home: Home
-away: Away
-
-sidebar_navigation_home: Home
-sidebar_navigation_areas: Areas
-sidebar_navigation_entities: Entities
-sidebar_navigation_media: Media
-sidebar_navigation_security: Security
-sidebar_navigation_more: More
-
-more_navigation_developer: Developer
-more_navigation_external: External Links
-
-reload_lovelace: Reload lovelace
-reload_themes: Reload themes
-
-profile: Profile

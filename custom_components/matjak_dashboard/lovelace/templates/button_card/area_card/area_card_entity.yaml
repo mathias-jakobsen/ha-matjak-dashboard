@@ -1,0 +1,44 @@
+mj_area_card_entity:
+  variables:
+    tap_action:
+      action: toggle
+    hold_action:
+      action: none
+
+  show_icon: true
+  show_label: false
+  show_name: false
+  show_state: false
+
+  aspect_ratio: 1/1
+
+  styles:
+    card:
+      - --icon-color: var(--color-grey)
+      - background: rgba(var(--icon-color), 0.2)
+      - border-radius: 50%
+      - box-shadow: none
+      - padding: 0
+      - pointer-events: auto
+    grid:
+      - grid-template: >
+          "i" 1fr / 1fr
+    icon:
+      - color: rgba(var(--icon-color), 1)
+      - width: 50%
+
+  tap_action:
+    action: "[[[ if (variables?.tap_action?.action) return variables.tap_action.action; else return 'none'; ]]]"
+    entity: "[[[ return variables.tap_action.entity; ]]]"
+    navigation_path: "[[[ return variables.tap_action.navigation_path; ]]]"
+    url_path: "[[[ return variables.tap_action.url_path; ]]]"
+    service: "[[[ return variables.tap_action.service; ]]]"
+    service_data: "[[[ return variables.tap_action.service_data; ]]]"
+
+  hold_action:
+    action: "[[[ if (variables?.hold_action?.action) return variables.hold_action.action; else return 'none'; ]]]"
+    entity: "[[[ return variables.hold_action.entity; ]]]"
+    navigation_path: "[[[ return variables.hold_action.navigation_path; ]]]"
+    url_path: "[[[ return variables.hold_action.url_path; ]]]"
+    service: "[[[ return variables.hold_action.service; ]]]"
+    service_data: "[[[ return variables.hold_action.service_data; ]]]"

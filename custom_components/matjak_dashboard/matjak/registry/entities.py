@@ -99,7 +99,7 @@ class EntityRegistry:
                     new_entry.area_id = entity.area_id
 
                 if new_entry.device_class is None:
-                    new_entry.device_class = entity.device_class or entity.original_device_class
+                    new_entry.device_class = entity.device_class or entity.original_device_class or ""
 
                 if new_entry.entity_category is None:
                     new_entry.entity_category = entity.entity_category

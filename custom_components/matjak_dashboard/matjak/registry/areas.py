@@ -2,9 +2,8 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from config.custom_components.matjak_dashboard.matjak.user_config.area_config import AreaLocationsConfig
-from ..user_config import AreaConfig, MJ_UserConfig
-from dataclasses import dataclass
+from ..user_config import AreaConfig, AreaLocationsConfig, MJ_UserConfig
+from dataclasses import dataclass, field
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.area_registry import async_get as async_get_areas
 from typing import Optional, Union
@@ -28,6 +27,7 @@ DEFAULT_AREA_ICONS = {
     "mdi:silverware-fork-knife": ["Dining Room", "Kitchen-Dining Room", "Spisestue", "Køkkenalrum"],
     "mdi:sofa": ["Living Room", "Stue"],
     "mdi:toilet": ["Bathroom", "Badeværelse"],
+    "mdi:treasure-chest": ["Storage Room"],
     "mdi:washing-machine": ["Utility Room", "Bryggers"],
     "mdi:wardrobe": ["Walk In", "Wardrobe", "Garderobe"]
 }
@@ -41,6 +41,8 @@ DEFAULT_AREA_ICONS = {
 class AreaRegistryEntry:
     """ A class representing an area entry. """
     id: str
+    color: Optional[tuple[int, int, int]] = None
+    entities: dict[str, str] = field(default_factory=dict)
     icon: Optional[str] = None
     location: Optional[str] = None
     name: Optional[str] = None
@@ -87,6 +89,8 @@ class AreaRegistry:
 
             area_config = config.areas.get(area.id, config.areas.get(area.name, AreaConfig()))
             new_entry = AreaRegistryEntry(
+                color=area_config.color,
+                entities=area_config.entities,
                 icon=area_config.icon,
                 id=area.id,
                 name=area.name,
@@ -98,7 +102,7 @@ class AreaRegistry:
 
             result[new_entry.id] = new_entry
 
-        return result
+        return dict(sorted(result.items(), key=lambda x: (config.areas.get(x[0], config.areas.get(x[1].name, AreaConfig())).priority, x[0])))
 
     def _get_area_icon(self, area: AreaRegistryEntry) -> str:
         """ Gets the icon for an area. """
@@ -127,7 +131,7 @@ class AreaRegistry:
         result: dict[str, list[AreaRegistryEntry]] = {}
 
         area_config = self._config.areas
-        location_config = self._config.domains
+        location_config = self._config.area_locations
 
         for area in self._areas.values():
             location = area_config.get(area.id, area_config.get(area.name, AreaConfig())).location

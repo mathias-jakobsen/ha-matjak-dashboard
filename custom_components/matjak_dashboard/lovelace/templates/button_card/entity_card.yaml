@@ -1,0 +1,178 @@
+mj_entity_card:
+  variables:
+    mj_hide_state: false
+    mj_is_nested: false
+    mj_layout: horizontal
+    mj_replace_name_with_label: false
+    mj_swap_name_state: false
+
+  show_icon: true
+  show_label: true
+  show_name: true
+  show_state: true
+
+  hold_action:
+    action: more-info
+
+  styles:
+    card:
+      - --icon-color: var(--card-background-off)
+      - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
+      - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
+      - padding: var(--ha-card-padding)
+      - position: relative
+    grid:
+      - grid-gap: 0 var(--grid-column-gap)
+      - grid-template: >
+          [[[
+            let result = variables.mj_swap_name_state ? ["s", "n"] : ["n", "s"];
+
+            if (variables.mj_layout == "vertical") {
+              result = `'i' ${result.map(item => "'" + item + "'").join(" ")}`;
+            }
+            else {
+              result = `'i ${result[0]}' 'i ${result[1]}' / auto 1fr`;
+            }
+
+            if (variables.mj_hide_state) {
+              result = result.replace("s", "n");
+            }
+
+            if (variables.mj_replace_name_with_label) {
+              result = result.replace("n", "l");
+            }
+
+            return result;
+          ]]]
+    icon:
+      - color: rgba(var(--icon-color), 1)
+      - width: 50%
+    img_cell:
+      - background: rgba(var(--icon-color), 0.2)
+      - border-radius: 50%
+      - height: 2.8em
+      - margin-bottom: "[[[ return variables.mj_layout == 'vertical' ? 'var(--grid-row-gap)' : '0'; ]]]"
+      - place-self: center
+      - width: 2.8em
+    label:
+      - display: "[[[ return variables.mj_replace_name_with_label ? 'block' : 'none'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
+      - font-size: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "16px";
+            }
+            return variables.mj_swap_name_state ? "var(--card-font-size-subtitle)" : "var(--card-font-size-title)";
+          ]]]
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
+      - place-self: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "start center";
+            }
+
+            if (variables.mj_hide_state) {
+              return "center start";
+            }
+
+            return variables.mj_swap_name_state ? "start" : "end start";
+          ]]]
+    name:
+      - display: "[[[ return variables.mj_replace_name_with_label ? 'none' : 'block'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
+      - font-size: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "16px";
+            }
+            return variables.mj_swap_name_state ? "var(--card-font-size-subtitle)" : "var(--card-font-size-title)";
+          ]]]
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
+      - place-self: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "start center";
+            }
+
+            if (variables.mj_hide_state) {
+              return "center start";
+            }
+
+            return variables.mj_swap_name_state ? "start" : "end start";
+          ]]]
+      - text-transform: capitalize
+    state:
+      - display: "[[[ return variables.mj_hide_state ? 'none' : 'block'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(100%)' : 'opacity(60%)'; ]]]"
+      - font-size: "[[[ return variables.mj_swap_name_state ? 'var(--card-font-size-title)' : 'var(--card-font-size-subtitle)'; ]]]"
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'bold' : 'normal'; ]]]"
+      - place-self: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "start center";
+            }
+
+            return variables.mj_swap_name_state ? "end start" : "start";
+          ]]]
+      - text-transform: capitalize
+    custom_fields:
+      notification:
+        - background: rgba(var(--main-color), 1)
+        - border: 2px solid rgba(var(--icon-color), 0.2)
+        - border-radius: 50%
+        - color: white
+        - height: 16px
+        - line-height: 14px
+        - left: >
+            [[[
+              if (variables.mj_layout == "vertical") {
+                return "calc(50% + 8px)";
+              }
+              return "41px";
+            ]]]
+        - position: absolute
+        - top: 8px
+        - width: 16px
+        - z-index: 1
+      notification_unavailable:
+        - background: rgba(var(--color-red), 1)
+        - border: 2px solid rgba(var(--icon-color), 0.2)
+        - border-radius: 50%
+        - color: white
+        - height: 16px
+        - line-height: 14px
+        - left: >
+            [[[
+              if (variables.mj_layout == "vertical") {
+                return "calc(50% + 8px)";
+              }
+              return "41px";
+            ]]]
+        - opacity: 0
+        - position: absolute
+        - top: 8px
+        - width: 16px
+        - z-index: 2
+
+
+  custom_fields:
+    notification_unavailable: "[[[ return `<ha-icon icon='mdi:exclamation-thick' style='height: 12px; width: 12px;'></ha-icon>` ]]]"
+
+  state:
+    - id: state_unavailable
+      value: "unavailable"
+      styles:
+        custom_fields:
+          notification_unavailable:
+            - opacity: 1
+
+    - id: state_on
+      operator: template
+      value: >
+        [[[
+          const on_states = ["on", "heat", "auto", "home", "unlocked"];
+          return on_states.includes(entity?.state);
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--card-background-on)

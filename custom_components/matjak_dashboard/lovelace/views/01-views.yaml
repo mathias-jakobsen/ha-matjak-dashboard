@@ -5,6 +5,7 @@
 - title: {{ area.name | title }}
   icon: {{ area.icon }}
   path: area_{{ area.id }}
+  visible: false
   type: custom:grid-layout
   layout:
     grid-gap: 0 var(--grid-column-gap)
@@ -40,12 +41,13 @@
               view_layout:
                 grid-column: 1/-1
               template: mj_title
-              label: {{ domain | title }}
-              state_display: Hello world
+              label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
 
-            {% for entity in entities %}
+            {% for entity in entities | sort(attribute="device_class, name") %}
             - type: custom:button-card
+              template: mj_entity_card
               entity: {{ entity.entity_id }}
+              name: {{ entity.name | replace(area.name, "") }}
             {% endfor %}
         {% endfor %}
 

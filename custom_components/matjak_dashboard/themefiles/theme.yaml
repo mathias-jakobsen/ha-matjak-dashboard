@@ -68,6 +68,10 @@ divider-color: transparent
 lovelace-background: var(--primary-background-color)
 #masonry-view-card-margin: 0
 
+# ---- Font Sizes ------
+card-font-size-subtitle: 14px
+card-font-size-title: 15px
+
 # ---- Grid ------
 grid-column-gap: 10px
 grid-row-gap: 10px

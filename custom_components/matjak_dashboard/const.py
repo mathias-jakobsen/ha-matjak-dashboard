@@ -30,6 +30,12 @@ RESOURCES_STATIC_PATH = "/matjak_dashboard/resources"
 THEMES_FILE_PATH_SOURCE = "custom_components/matjak_dashboard/themefiles/matjak.yaml"
 THEMES_FILE_PATH_DESTINATION = "matjak/"
 
+#-----------------------------------------------------------#
+#       Translations
+#-----------------------------------------------------------#
+
+TRANSLATIONS_PATH = "custom_components/matjak_dashboard/lovelace/translations"
+
 
 #-----------------------------------------------------------#
 #       YAML Parser

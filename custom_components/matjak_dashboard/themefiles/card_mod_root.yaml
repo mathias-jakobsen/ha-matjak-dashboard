@@ -10,7 +10,7 @@
     }
 
     hui-view {
-      /*overflow: auto;*/
+      overflow: auto;
       /*padding: 10px;*/
     }
 
@@ -42,12 +42,8 @@
       }
 
       ha-menu-button {
-        z-index: 1;
-      }
-
-      ha-tabs + ha-icon-button {
-        direction: rtl;
         flex: 1;
+        z-index: 1;
       }
 
       ha-tabs {

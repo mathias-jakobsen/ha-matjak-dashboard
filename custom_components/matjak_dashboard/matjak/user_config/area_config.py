@@ -2,7 +2,7 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -34,6 +34,8 @@ class AreaConfig:
     #       Fields
     #--------------------------------------------#
 
+    color: Optional[tuple[int, int, int]] = None
+    entities: dict[str, str] = field(default_factory=dict)
     icon: Optional[str] = None
     location: Optional[str] = None
     priority: int = 1

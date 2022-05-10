@@ -50,6 +50,7 @@ class MJ_UserConfig:
         """ Gets the voluptuous schema. """
         return vol.Schema({
             vol.Required("areas", default={}): {str: {
+                vol.Optional("entities"): { str: str },
                 vol.Optional("icon"): str,
                 vol.Optional("location"): str,
                 vol.Optional("priority"): int
@@ -58,23 +59,21 @@ class MJ_UserConfig:
                 vol.Optional("icon"): str,
                 vol.Optional("priority"): int
             },
-            vol.Required("exclude", default={}): {
-                vol.Required("areas", default=[]): [str],
-                vol.Required("devices", default=[]): [str],
-                vol.Required("entities", default=[]): [str],
-            },
-            vol.Required("favorite_entities", default=[]): [str],
-            vol.Required("favorite_scenes", default=[]): [str],
-            vol.Required("weather", default={}): {
-                vol.Required("entities", default={}): {str: str},
-                vol.Required("icons", default=DEFAULT_WEATHER_ICONS): validate_weather_icons
-            },
             vol.Required("domains", default={}): {
                 str: {
                     vol.Optional("icon"): str,
                     vol.Required("priority", default=1): int
                 }
+            },
+            vol.Required("exclude", default={}): {
+                vol.Required("areas", default=[]): [str],
+                vol.Required("entities", default=[]): [str]
+            },
+            vol.Required("weather", default={}): {
+                vol.Required("entities", default={}): {str: str},
+                vol.Required("icons", default=DEFAULT_WEATHER_ICONS): validate_weather_icons
             }
+
         }, extra=True)
 
 
