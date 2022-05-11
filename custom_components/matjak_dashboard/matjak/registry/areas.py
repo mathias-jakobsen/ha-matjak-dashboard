@@ -41,6 +41,7 @@ DEFAULT_AREA_ICONS = {
 class AreaRegistryEntry:
     """ A class representing an area entry. """
     id: str
+    priority: int
     color: Optional[tuple[int, int, int]] = None
     entities: dict[str, str] = field(default_factory=dict)
     icon: Optional[str] = None
@@ -81,7 +82,7 @@ class AreaRegistry:
     def _get_areas(self, hass: HomeAssistant, config: MJ_UserConfig) -> dict[str, AreaRegistryEntry]:
         """ Gets a dictionary containing the area entries. """
         area_registry = async_get_areas(hass).areas
-        result = {}
+        result: dict[str, AreaRegistryEntry] = {}
 
         for area in area_registry.values():
             if area.id in config.exclude.areas or area.name in config.exclude.areas:
@@ -94,7 +95,8 @@ class AreaRegistry:
                 icon=area_config.icon,
                 id=area.id,
                 name=area.name,
-                location=area_config.location
+                location=area_config.location,
+                priority=area_config.priority
             )
 
             if new_entry.icon is None:
@@ -102,7 +104,7 @@ class AreaRegistry:
 
             result[new_entry.id] = new_entry
 
-        return dict(sorted(result.items(), key=lambda x: (config.areas.get(x[0], config.areas.get(x[1].name, AreaConfig())).priority, x[0])))
+        return dict(sorted(result.items(), key=lambda x: (-x[1].priority, x[1].name)))
 
     def _get_area_icon(self, area: AreaRegistryEntry) -> str:
         """ Gets the icon for an area. """

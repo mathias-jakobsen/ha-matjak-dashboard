@@ -2,7 +2,7 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from ..user_config import MJ_UserConfig
+from ..user_config import MJ_UserConfig, DomainConfig
 from .areas import AreaRegistry, AreaRegistryEntry
 from dataclasses import dataclass
 from homeassistant.const import ATTR_DEVICE_CLASS, ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
@@ -11,6 +11,40 @@ from homeassistant.helpers.device_registry import async_get as async_get_devices
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_registry import async_get as async_get_entities
 from typing import Optional, Union
+
+
+#-----------------------------------------------------------#
+#       Constants
+#-----------------------------------------------------------#
+
+DEFAULT_DOMAIN_ICON = "mdi:eye"
+DEFAULT_DOMAIN_ICONS = {
+    "button": "mdi:gesture-tap-button",
+    "climate": "mdi:thermostat",
+    "cover": "mdi:window-shutter",
+    "device_tracker": "mdi:radar",
+    "light": "mdi:lightbulb",
+    "number": "mdi:ray-vertex",
+    "person": "mdi:account",
+    "remote": "mdi:remote",
+    "scene": "mdi:palette",
+    "select": "mdi:format-list-bulleted",
+    "sensor": "mdi:eye",
+    "switch": "mdi:plug",
+    "zone": "mdi:map-marker-radius"
+}
+
+
+#-----------------------------------------------------------#
+#       DomainRegistryEntry
+#-----------------------------------------------------------#
+
+@dataclass
+class DomainRegistryEntry:
+    """ A class representing a domain entry. """
+    icon: str
+    id: str
+    priority: int
 
 
 #-----------------------------------------------------------#
@@ -159,4 +193,16 @@ class EntityRegistry:
 
     def get_domains(self) -> set[str]:
         """ Gets a list of domains. """
-        return set([entity.domain for entity in self._entities.values()])
+        result: list[DomainRegistryEntry] = []
+
+        for domain in set([entity.domain for entity in self._entities.values()]):
+            domain_config = self._config.domains.get(domain, DomainConfig())
+            new_entry = DomainRegistryEntry(
+                icon=domain_config.icon or DEFAULT_DOMAIN_ICONS.get(domain, DEFAULT_DOMAIN_ICON),
+                id=domain,
+                priority=domain_config.priority
+            )
+
+            result.append(new_entry)
+
+        return list(sorted(result, key=lambda x: (-x.priority, x.id)))

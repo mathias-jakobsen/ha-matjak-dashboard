@@ -1,0 +1,63 @@
+# matjak_dashboard
+
+{% for area in mj.areas %}
+{% set area_entities = mj.entities.get_by_area(area) %}
+- title: {{ area.name | title }}
+  icon: {{ area.icon }}
+  path: area_{{ area.id }}
+  visible: false
+  type: custom:grid-layout
+  layout:
+    grid-gap: 0 var(--grid-column-gap)
+    grid-template: >
+      "main sidebar" 1fr / 1fr 0.35fr
+    margin: 0
+    padding: var(--view-padding)
+    mediaquery:
+      "(max-width: 959px)":
+        grid-gap: var(--grid-row-gap) 0
+        grid-template: >
+          "sidebar" auto
+          "main" 1fr / 1fr
+  cards:
+    - type: custom:layout-card
+      view_layout:
+        grid-area: main
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+      cards:
+        {% for domain, entities in area_entities | groupby("domain") %}
+        - type: custom:layout-card
+          layout_type: grid
+          layout:
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
+            margin: 0
+          cards:
+            - type: custom:button-card
+              view_layout:
+                grid-column: 1/-1
+              template: mj_title
+              label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
+
+            {% for entity in entities | sort(attribute="device_class, name") %}
+            - type: custom:button-card
+              template: mj_entity_card
+              entity: {{ entity.entity_id }}
+              name: {{ entity.name | replace(area.name, "") }}
+            {% endfor %}
+        {% endfor %}
+
+    - type: custom:layout-card
+      view_layout:
+        grid-area: sidebar
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+      cards: []
+{% endfor %}

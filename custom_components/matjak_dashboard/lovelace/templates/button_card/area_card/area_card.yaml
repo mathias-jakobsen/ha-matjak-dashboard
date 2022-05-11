@@ -68,10 +68,24 @@ mj_area_card:
       - padding: var(--ha-card-padding)
     grid:
       - grid-template: >
-          "n n n entities" min-content
-          "l l l entities" min-content
-          "i i . entities" auto
-          "i i . entities" auto / 1fr 1fr 1fr 1fr
+          [[[
+            if (variables.mj_entities.length > 0) {
+              return `
+                "n n n entities" min-content
+                "l l l entities" min-content
+                "i i . entities" auto
+                "i i . entities" auto / 1fr 1fr 1fr 1fr
+              `;
+            }
+
+            return `
+              "n n n n" min-content
+              "l l l l" min-content
+              "i i . ." auto
+              "i i . ." auto / 1fr 1fr 1fr 1fr
+            `;
+          ]]]
+
     icon:
       - color: rgba(var(--icon-color), 1)
     img_cell:

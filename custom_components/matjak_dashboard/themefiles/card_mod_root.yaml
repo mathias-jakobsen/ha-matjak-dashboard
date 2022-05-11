@@ -86,14 +86,18 @@
         background: rgba(var(--main-color), 0.1);
       }
 
-      {% for domain in states|map(attribute="domain")|unique %}
+      {% set domains = states|map(attribute="domain")|unique|list %}
 
-      paper-tab[aria-label="{{ domain.replace("_", " ")|title }}"].iron-selected ~ paper-tab[aria-label="Entities"] {
+      paper-tab.hide-tab.iron-selected:nth-child(-n+{{ domains|length }}) ~ paper-tab.hide-tab + paper-tab:not(.hide-tab) + paper-tab:not(.hide-tab) {
         background: rgba(var(--main-color), 0.2);
         color: rgba(var(--main-color), 1);
       }
 
-      {% endfor %}
+      paper-tab.hide-tab.iron-selected:nth-child(n+{{ domains|length + 1 }}) ~ paper-tab.hide-tab + paper-tab:not(.hide-tab),
+      paper-tab.hide-tab.iron-selected:nth-child(n+{{ domains|length + 1 }}) + paper-tab:not(.hide-tab) {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
 
       paper-tab.hide-tab {
         display: block;

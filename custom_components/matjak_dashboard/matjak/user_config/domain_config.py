@@ -3,6 +3,7 @@
 #-----------------------------------------------------------#
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 #-----------------------------------------------------------#
@@ -17,5 +18,5 @@ class DomainConfig:
     #       Fields
     #--------------------------------------------#
 
-    icon: str = None
+    icon: Optional[str] = None
     priority: int = 1
