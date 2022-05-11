@@ -23,10 +23,10 @@ mj_title:
           "l"
           "s"
     label:
+      - color: var(--primary-text-color)
       - font-size: "[[[ return variables.mj_title_font_size; ]]]"
       - place-self: center start
     state:
       - color: var(--secondary-text-color)
-      - filter: opacity(40%)
       - font-size: "[[[ return variables.mj_subtitle_font_size; ]]]"
       - place-self: center start

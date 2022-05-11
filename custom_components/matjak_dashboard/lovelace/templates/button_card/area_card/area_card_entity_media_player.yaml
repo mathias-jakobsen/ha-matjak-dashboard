@@ -13,7 +13,7 @@ mj_area_card_entity_media_player:
     - operator: template
       value: >
         [[[
-          const entities_on = variables.entities.filter(entity => states[entity]?.state == "on");
+          const entities_on = variables.entities.filter(entity => states[entity]?.state == "playing");
           return entities_on.length > 0;
         ]]]
       styles:

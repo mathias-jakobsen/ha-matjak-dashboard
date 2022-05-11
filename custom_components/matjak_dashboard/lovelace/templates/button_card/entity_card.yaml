@@ -55,8 +55,8 @@ mj_entity_card:
       - place-self: center
       - width: 2.8em
     label:
+      - color: "[[[ return variables.mj_swap_name_state ? 'var(--secondary-text-color)' : 'var(--primary-text-color)'; ]]]"
       - display: "[[[ return variables.mj_replace_name_with_label ? 'block' : 'none'; ]]]"
-      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
       - font-size: >
           [[[
             if (variables.mj_hide_state) {
@@ -78,8 +78,8 @@ mj_entity_card:
             return variables.mj_swap_name_state ? "start" : "end start";
           ]]]
     name:
+      - color: "[[[ return variables.mj_swap_name_state ? 'var(--secondary-text-color)' : 'var(--primary-text-color)'; ]]]"
       - display: "[[[ return variables.mj_replace_name_with_label ? 'none' : 'block'; ]]]"
-      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
       - font-size: >
           [[[
             if (variables.mj_hide_state) {
@@ -102,8 +102,8 @@ mj_entity_card:
           ]]]
       - text-transform: capitalize
     state:
+      - color: "[[[ return variables.mj_swap_name_state ? 'var(--primary-text-color)' : 'var(--secondary-text-color)'; ]]]"
       - display: "[[[ return variables.mj_hide_state ? 'none' : 'block'; ]]]"
-      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(100%)' : 'opacity(60%)'; ]]]"
       - font-size: "[[[ return variables.mj_swap_name_state ? 'var(--card-font-size-title)' : 'var(--card-font-size-subtitle)'; ]]]"
       - font-weight: "[[[ return variables.mj_swap_name_state ? 'bold' : 'normal'; ]]]"
       - place-self: >
@@ -153,7 +153,6 @@ mj_entity_card:
         - top: 8px
         - width: 16px
         - z-index: 2
-
 
   custom_fields:
     notification_unavailable: "[[[ return `<ha-icon icon='mdi:exclamation-thick' style='height: 12px; width: 12px;'></ha-icon>` ]]]"

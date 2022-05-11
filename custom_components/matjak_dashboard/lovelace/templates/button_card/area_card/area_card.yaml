@@ -86,11 +86,12 @@ mj_area_card:
       - top: 50%
       - width: 75%
     label:
+      - color: var(--secondary-text-color)
       - font-size: 14px
-      - filter: opacity(40%)
       - place-self: start
     name:
       - align-self: end
+      - color: var(--primary-text-color)
       - font-size: 16px
       - font-weight: bold
       - place-self: start

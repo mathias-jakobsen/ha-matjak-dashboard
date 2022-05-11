@@ -75,11 +75,4 @@
         grid-gap: var(--grid-row-gap) 0
         grid-template-columns: 1fr
         margin: 0
-      cards:
-        - type: custom:button-card
-          template: mj_entity_card
-          icon: mdi:account
-          label: Home
-          variables:
-            mj_layout: vertical
-            mj_replace_name_with_label: true
+      cards: []
