@@ -13,8 +13,8 @@
     grid-template: >
       "header" auto
       "main" 1fr / 1fr
+    height: 100%
     margin: 0
-    padding: var(--view-padding)
   cards:
     - type: custom:mod-card
       view_layout:
@@ -23,8 +23,7 @@
         ha-card {
           background: var(--app-header-background-color);
           border-radius: 0;
-          margin: calc(var(--view-padding-v) * -1) calc(var(--view-padding-h) * -1) 0 calc(var(--view-padding-h) * -1);
-          padding: 0 var(--view-padding-h) var(--view-padding-v) var(--view-padding-h)
+          padding: 0 var(--view-padding-h) var(--grid-row-gap) var(--view-padding-h)
         }
       card:
         type: custom:layout-card
@@ -44,33 +43,67 @@
               card:
                 - margin: 0
 
-    - type: custom:layout-card
+    - type: custom:mod-card
       view_layout:
         grid-area: main
-      layout_type: grid
-      layout:
-        grid-gap: var(--grid-row-gap) 0
-        grid-template-columns: 1fr
-        margin: 0
-      cards:
-        {% for device_class, entities in domain_entities | groupby("device_class") %}
-        - type: custom:layout-card
-          layout_type: grid
-          layout:
-            grid-gap: var(--grid-gap)
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
-            margin: 0
-          cards:
-            - type: custom:button-card
-              view_layout:
-                grid-column: 1/-1
-              template: mj_title
-              label: {{ mj.translations["device_class" ~ device_class] | default(device_class | replace("_", " ")) | title }}
+      style: |
+        :host {
+          overflow: auto;
+        }
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-row-gap) 0
+          grid-template-columns: 1fr
+          margin: 0
+          padding: var(--view-padding)
+        cards:
+          {% set grouped_entities = domain_entities | groupby("device_class") %}
+          {% set ns = namespace(entities_with_device_class=[]) %}
+          {% set no_device_classes = ["", "None", null] %}
+          {% for device_class, entities in grouped_entities if device_class not in no_device_classes %}
+          {% set ns.entities_with_device_class = ns.entities_with_device_class + entities %}
+          - type: custom:layout-card
+            layout_type: grid
+            layout:
+              grid-gap: var(--grid-gap)
+              grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+              margin: 0
+            cards:
+              - type: custom:button-card
+                view_layout:
+                  grid-column: 1/-1
+                template: mj_title
+                label: {{ mj.translations["device_class" ~ device_class] | default(device_class | replace("_", " ")) | title }}
 
-            {% for entity in entities | sort(attribute="name") %}
-            - type: custom:button-card
-              template: mj_entity_card
-              entity: {{ entity.entity_id }}
-            {% endfor %}
-        {% endfor %}
+              {% for entity in entities | sort(attribute="name") %}
+              - type: custom:button-card
+                template: mj_entity_card
+                entity: {{ entity.entity_id }}
+              {% endfor %}
+          {% endfor %}
+
+          {% for device_class, entities in grouped_entities if device_class in no_device_classes %}
+          - type: custom:layout-card
+            layout_type: grid
+            layout:
+              grid-gap: var(--grid-gap)
+              grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+              margin: 0
+            cards:
+              {% if ns.entities_with_device_class | count > 0 %}
+              - type: custom:button-card
+                view_layout:
+                  grid-column: 1/-1
+                template: mj_title
+                label: {{ mj.translations.device_class_non_existant }}
+              {% endif %}
+
+              {% for entity in entities | sort(attribute="name") %}
+              - type: custom:button-card
+                template: mj_entity_card
+                entity: {{ entity.entity_id }}
+              {% endfor %}
+          {% endfor %}
 {% endfor %}

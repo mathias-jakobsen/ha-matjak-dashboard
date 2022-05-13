@@ -19,6 +19,7 @@ mj_back_button:
     card:
       - background: transparent
       - border-radius: 50%
+      - box-shadow: none
       - padding: calc( (var(--mdc-icon-button-size, 48px) - var(--mdc-icon-size, 24px)) / 2)
     grid:
       - grid-template: >

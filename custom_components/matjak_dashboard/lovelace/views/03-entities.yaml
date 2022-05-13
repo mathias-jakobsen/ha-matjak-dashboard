@@ -5,48 +5,22 @@
   path: entities
   type: custom:grid-layout
   layout:
-    grid-gap: 0 var(--grid-column-gap)
-    grid-template: >
-      "sidebar main" 1fr / 0.35fr 1fr
+    grid-gap: var(--grid-gap)
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
     margin: 0
     padding: var(--view-padding)
-    mediaquery:
-      "(max-width: 959px)":
-        grid-gap: var(--grid-row-gap) 0
-        grid-template: >
-          "sidebar" auto
-          "main" 1fr / 1fr
   cards:
-    - type: custom:layout-card
-      view_layout:
-        grid-area: main
-      layout_type: grid
-      layout:
-        grid-gap: var(--grid-gap)
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
-        margin: 0
-      cards:
-        {% for domain in mj.entities.get_domains() %}
-        {% set domain_entities = mj.entities.get_by_domain(domain.id) %}
-        {% set domain_entities_count = domain_entities | count %}
-        {% if domain_entities_count > 0 %}
-        - type: custom:button-card
-          template: mj_area_card
-          icon: {{ domain.icon }}
-          name: {{ mj.translations["domain_" ~ domain.id] | default(domain.id.replace("_", " ")) | title }}
-          label: {{ domain_entities_count }} {{ domain_entities_count == 1 and mj.translations.entity or mj.translations.entities }}
-          variables:
-            mj_color: var(--color-domain-{{ domain.id }}, var(--main-color))
-            mj_navigation_path: /matjak-dashboard/entities_{{ domain.id }}
-        {% endif %}
-        {% endfor %}
-
-    - type: custom:layout-card
-      view_layout:
-        grid-area: sidebar
-      layout_type: grid
-      layout:
-        grid-gap: var(--grid-row-gap) 0
-        grid-template-columns: 1fr
-        margin: 0
-      cards: []
+    {% for domain in mj.entities.get_domains() %}
+    {% set domain_entities = mj.entities.get_by_domain(domain.id) %}
+    {% set domain_entities_count = domain_entities | count %}
+    {% if domain_entities_count > 0 %}
+    - type: custom:button-card
+      template: mj_area_card
+      icon: {{ domain.icon }}
+      name: {{ mj.translations["domain_" ~ domain.id] | default(domain.id.replace("_", " ")) | title }}
+      label: {{ domain_entities_count }} {{ domain_entities_count == 1 and mj.translations.entity or mj.translations.entities }}
+      variables:
+        mj_color: var(--color-domain-{{ domain.id }}, var(--main-color))
+        mj_navigation_path: /matjak-dashboard/entities_{{ domain.id }}
+    {% endif %}
+    {% endfor %}
