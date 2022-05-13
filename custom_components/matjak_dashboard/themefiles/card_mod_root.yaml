@@ -14,6 +14,10 @@
       /*padding: 10px;*/
     }
 
+    app-toolbar {
+      padding: 0 var(--view-padding-h);
+    }
+
     ha-tabs {
       margin-left: -8px !important;
       overflow: visible;
@@ -146,6 +150,13 @@
           width: 100%
         }
       }
+
+    paper-tab:
+      $: |
+        .tab-content {
+          font-weight: 500 !important;
+          opacity: 1 !important;
+        }
 
     $: |
       #tabsContent {

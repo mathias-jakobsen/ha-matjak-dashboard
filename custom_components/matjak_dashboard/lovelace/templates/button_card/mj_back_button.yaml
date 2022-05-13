@@ -1,0 +1,28 @@
+mj_back_button:
+  show_icon: true
+  show_label: false
+  show_name: false
+  show_state: false
+
+  icon: mdi:arrow-left
+  size: 24px
+
+  tap_action:
+    action: navigate
+    navigation_path: >
+      [[[
+        window.history.back();
+        return null;
+      ]]]
+
+  styles:
+    card:
+      - background: transparent
+      - border-radius: 50%
+      - padding: calc( (var(--mdc-icon-button-size, 48px) - var(--mdc-icon-size, 24px)) / 2)
+    grid:
+      - grid-template: >
+          "i" 1fr / 1fr
+
+
+

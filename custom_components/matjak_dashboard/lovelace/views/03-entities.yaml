@@ -36,7 +36,7 @@
           name: {{ mj.translations["domain_" ~ domain.id] | default(domain.id.replace("_", " ")) | title }}
           label: {{ domain_entities_count }} {{ domain_entities_count == 1 and mj.translations.entity or mj.translations.entities }}
           variables:
-            mj_color: var(--color-domain-{{ domain.id }})
+            mj_color: var(--color-domain-{{ domain.id }}, var(--main-color))
             mj_navigation_path: /matjak-dashboard/entities_{{ domain.id }}
         {% endif %}
         {% endfor %}

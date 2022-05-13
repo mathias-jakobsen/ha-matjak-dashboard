@@ -7,7 +7,7 @@
   layout:
     grid-gap: 0 var(--grid-column-gap)
     grid-template: >
-      "sidebar main" 1fr / 0.35fr 1fr
+      "main" 1fr / 1fr
     margin: 0
     padding: var(--view-padding)
     mediaquery:
@@ -32,7 +32,7 @@
           layout_type: grid
           layout:
             grid-gap: var(--grid-gap)
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
             margin: 0
           cards:
             - type: custom:button-card

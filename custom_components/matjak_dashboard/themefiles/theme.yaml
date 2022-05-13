@@ -192,7 +192,7 @@ modes:
     secondary-text-color: rgb(180, 180, 180)
 
     # ---- App Header ------
-    app-header-background-color: "#171717"
+    app-header-background-color: "#181818"
 
     # ---- Card ------
     ha-card-border-color: rgba(225, 225, 225, 0.12)
