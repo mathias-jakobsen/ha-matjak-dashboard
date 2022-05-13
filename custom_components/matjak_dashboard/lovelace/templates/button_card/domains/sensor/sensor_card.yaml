@@ -1,5 +1,5 @@
-sensor:
-  template: generic_card
+mj_sensor_card:
+  template: mj_entity_card
 
   variables:
     mj_device_class_colors:
@@ -13,5 +13,5 @@ sensor:
       - --icon-color: >
           [[[
             const colors = variables.mj_device_class_colors || {};
-            return colors[entity?.attributes?.device_class] || "var(--button-card-background-color-off)";
+            return colors[entity?.attributes?.device_class] || "var(--card-background-off)";
           ]]]

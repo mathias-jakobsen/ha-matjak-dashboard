@@ -19,7 +19,7 @@ mj_entity_card:
       - --icon-color: var(--card-background-off)
       - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
       - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
-      - padding: var(--ha-card-padding)
+      - padding: "[[[ return variables.mj_is_nested ? '0' : 'var(--ha-card-padding)'; ]]]"
       - position: relative
     grid:
       - grid-gap: 0 var(--grid-column-gap)

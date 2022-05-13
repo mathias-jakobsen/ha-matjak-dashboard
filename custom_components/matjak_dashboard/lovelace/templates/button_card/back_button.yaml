@@ -15,6 +15,12 @@ mj_back_button:
         return null;
       ]]]
 
+  card_mod:
+    style: |
+      ha-card:hover {
+        background: rgba(var(--main-color), 0.1) !important;
+      }
+
   styles:
     card:
       - background: transparent

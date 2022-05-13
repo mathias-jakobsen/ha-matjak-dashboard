@@ -7,6 +7,7 @@ from ...utils.logger import LOGGER
 from ..config import MJ_Config
 from ..user_config import MJ_UserConfig
 from .areas import AreaRegistry
+from .domains import DOMAIN_CARD_SIZES, DomainRegistry
 from .entities import EntityRegistry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.event import async_call_later
@@ -63,6 +64,7 @@ def _get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
     """ Gets the registry. """
     user_config = _load_user_config(hass.config.path(f"{config.user_config_path}config/"))
     areas = AreaRegistry(hass, user_config)
+    domains = DomainRegistry(hass, user_config)
     entities = EntityRegistry(hass, areas, user_config)
     translations = _load_translations(hass.config.path(TRANSLATIONS_PATH, f"{config.language}.yaml"))
 
@@ -70,6 +72,8 @@ def _get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
         PARSER_KEY_GLOBAL: {
             "areas": areas,
             "button_card_templates": _load_button_card_templates(hass.config.path("custom_components/matjak_dashboard/lovelace/templates/button_card")),
+            "domain_card_sizes": DOMAIN_CARD_SIZES,
+            "domains": domains,
             "entities": entities,
             "paths": {
                 "custom_button_card_templates": hass.config.path(f"{config.user_config_path}", "custom_templates/"),

@@ -1,10 +1,10 @@
-lock:
-  template: generic_card
-
-  styles:
-    card:
-      - --button-card-background-color-off: var(--color-red)
-      - --button-card-background-color-on: var(--color-green)
+mj_lock_card:
+  template: mj_entity_card
 
   tap_action:
     action: toggle
+
+  styles:
+    card:
+      - --card-background-off: var(--color-red)
+      - --card-background-on: var(--color-green)

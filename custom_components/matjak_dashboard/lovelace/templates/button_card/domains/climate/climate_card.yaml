@@ -1,0 +1,132 @@
+mj_climate_card:
+  show_icon: false
+  show_label: false
+  show_name: false
+  show_state: false
+
+  styles:
+    card:
+      - padding: var(--ha-card-padding)
+    grid:
+      - grid-gap: var(--grid-gap)
+      - grid-template: >
+          "header header header" auto
+          "temp_down target_temp temp_up" 1fr
+          "hvac_modes hvac_modes hvac_modes" / 1fr 1fr 1fr
+    custom_fields:
+      header:
+        - pointer-events: none
+
+  custom_fields:
+    header:
+      card:
+        type: custom:button-card
+        template: mj_entity_card
+        entity: "[[[ return entity.entity_id; ]]]"
+        state_display: >
+            [[[
+              const temperature = `${entity.attributes.current_temperature} ${hass.config.unit_system.temperature}`;
+              const hvac_action = `${entity.attributes.hvac_action}`;
+              return hvac_action != "undefined" ? `${temperature} • ${hvac_action}` : `${temperature}`;
+            ]]]
+        state:
+          - id: state_off
+            operator: template
+            value: "[[[ return ['idle', 'off'].includes(entity.attributes.hvac_action); ]]]"
+            styles:
+              card:
+                - --icon-color: var(--card-background-off)
+
+          - id: state_on
+            operator: template
+            value: "[[[ return ['heating'].includes(entity.attributes.hvac_action); ]]]"
+            styles:
+              card:
+                - --icon-color: var(--color-red)
+        variables:
+          mj_is_nested: true
+
+    temp_down:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:minus
+        tap_action:
+          action: call-service
+          service: climate.set_temperature
+          service_data:
+            entity_id: "[[[ return entity.entity_id; ]]]"
+            temperature: "[[[ return parseFloat(entity.attributes.temperature) - (entity.attributes.target_temp_step || 0.5); ]]]"
+
+    target_temp: "[[[ return `${entity.attributes.temperature} ${hass.config.unit_system.temperature}`; ]]]"
+
+    temp_up:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:plus
+        tap_action:
+          action: call-service
+          service: climate.set_temperature
+          service_data:
+            entity_id: "[[[ return entity.entity_id; ]]]"
+            temperature: "[[[ return parseFloat(entity.attributes.temperature) + (entity.attributes.target_temp_step || 0.5); ]]]"
+
+    hvac_modes:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: "[[[ return `repeat(${entity.attributes.hvac_modes.length}, 1fr)`; ]]]"
+          margin: 0
+        cards: >
+          [[[
+            const result = [];
+            const hvac_modes = {
+              auto: {
+                color: "var(--color-green)",
+                icon: "mdi:calendar-sync"
+              },
+              heat: {
+                color: "var(--color-red)",
+                icon: "mdi:fire"
+              },
+              cool: {
+                color: "var(--color-blue)",
+                icon: "mdi:snowflake"
+              },
+              heat_cool: {
+                color: "var(--color-purple)",
+                icon: "mdi:sun-snowflake"
+              },
+              off: {
+                color: "var(--secondary-text-color)",
+                icon: "mdi:power"
+              }
+            }
+
+            for (const hvac_mode of entity.attributes.hvac_modes) {
+              result.push({
+                type: "custom:button-card",
+                template: "mj_icon_button",
+                icon: hvac_modes[hvac_mode].icon,
+                styles: {
+                  icon: [
+                    {color: `rgba(${entity.state == hvac_mode ? hvac_modes[hvac_mode].color : "var(--primary-text-color)"}, 1)`}
+                  ]
+                },
+                tap_action: {
+                  action: "call-service",
+                  service: "climate.set_hvac_mode",
+                  service_data: {
+                    entity_id: entity.entity_id,
+                    hvac_mode: hvac_mode
+                  }
+                }
+              });
+            }
+
+            return result;
+          ]]]
+
