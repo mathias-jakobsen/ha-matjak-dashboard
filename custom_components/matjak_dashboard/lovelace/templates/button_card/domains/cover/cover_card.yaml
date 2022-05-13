@@ -1,24 +1,23 @@
 mj_cover_card:
   show_icon: false
   show_label: false
-  show_name: false
+  show_name: true
   show_state: false
 
   styles:
     card:
+      - --icon-color: var(--color-blue)
       - padding: var(--ha-card-padding)
     grid:
       - grid-gap: var(--grid-gap)
       - grid-template: >
           "header header header" auto
           "cover_close cover_stop cover_open" 1fr / 1fr 1fr 1fr
+    name:
+      - display: none
     custom_fields:
       header:
         - pointer-events: none
-
-  styles:
-    card:
-      - --icon-color: var(--color-blue)
 
   custom_fields:
     header:
@@ -26,16 +25,20 @@ mj_cover_card:
         type: custom:button-card
         template: mj_entity_card
         entity: "[[[ return entity.entity_id; ]]]"
+        name: "[[[ return this._buildName(this._stateObj); ]]]"
+        variables:
+          mj_is_nested: true
 
     cover_close:
-      type: custom:button-card
-      template: mj_icon_button
-      icon: mdi:arrow-down-thick
-      tap_action:
-        action: call-service
-        service: cover.close_cover
-        service_data:
-          entity_id: "[[[ return entity.entity_id ]]]"
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:arrow-down-thick
+        tap_action:
+          action: call-service
+          service: cover.close_cover
+          service_data:
+            entity_id: "[[[ return entity.entity_id ]]]"
 
     cover_stop:
       card:

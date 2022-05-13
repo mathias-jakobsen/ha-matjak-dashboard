@@ -88,7 +88,8 @@
                   mj_entity_card
                   {% endif %}
                 entity: {{ entity.entity_id }}
-                name: {{ entity.name | replace(area.name, "") }}
+                variables:
+                  mj_name: {{ entity.name | replace(area.name, "") }}
               {% endfor %}
           {% endif %}
           {% endfor %}
@@ -120,7 +121,8 @@
                   mj_entity_card
                   {% endif %}
                 entity: {{ entity.entity_id }}
-                name: {{ entity.name | replace(area.name, "") }}
+                variables:
+                  mj_name: {{ entity.name | replace(area.name, "") }}
               {% endfor %}
           {% endfor %}
 {% endfor %}
