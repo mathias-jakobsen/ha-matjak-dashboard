@@ -2,8 +2,9 @@
 #       Imports
 #-----------------------------------------------------------#
 
-from ..user_config import MJ_UserConfig, DomainConfig
+from ..user_config import MJ_UserConfig
 from .areas import AreaRegistry, AreaRegistryEntry
+from .domains import DomainRegistryEntry
 from dataclasses import dataclass
 from homeassistant.const import ATTR_DEVICE_CLASS, ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
 from homeassistant.core import HomeAssistant
@@ -11,56 +12,6 @@ from homeassistant.helpers.device_registry import async_get as async_get_devices
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_registry import async_get as async_get_entities
 from typing import Optional, Union
-
-
-#-----------------------------------------------------------#
-#       Constants
-#-----------------------------------------------------------#
-
-DEFAULT_DOMAIN_ICON = "mdi:eye"
-DEFAULT_DOMAIN_ICONS = {
-    "automation": "mdi:robot",
-    "binary_sensor": "mdi:checkbox-blank-circle-outline",
-    "button": "mdi:gesture-tap-button",
-    "camera": "mdi:cctv",
-    "climate": "mdi:thermostat",
-    "counter": "mdi:counter",
-    "cover": "mdi:window-shutter",
-    "device_tracker": "mdi:radar",
-    "input_boolean": "mdi:toggle-switch-outline",
-    "input_button": "mdi:gesture-tap-button",
-    "input_number": "mdi:ray-vertex",
-    "input_select": "mdi:format-list-bulleted",
-    "input_text": "mdi:form-textbox",
-    "light": "mdi:lightbulb",
-    "lock": "mdi:lock",
-    "media_player": "mdi:cast-connected",
-    "number": "mdi:ray-vertex",
-    "person": "mdi:account",
-    "remote": "mdi:remote",
-    "scene": "mdi:palette",
-    "script": "mdi:script-text",
-    "select": "mdi:format-list-bulleted",
-    "sensor": "mdi:eye",
-    "sun": "mdi:weather-sunny",
-    "switch": "mdi:power-plug",
-    "timer": "mdi:timer",
-    "update": "mdi:update",
-    "weather": "mdi:cloud",
-    "zone": "mdi:map-marker-radius"
-}
-
-
-#-----------------------------------------------------------#
-#       DomainRegistryEntry
-#-----------------------------------------------------------#
-
-@dataclass
-class DomainRegistryEntry:
-    """ A class representing a domain entry. """
-    icon: str
-    id: str
-    priority: int
 
 
 #-----------------------------------------------------------#
@@ -199,26 +150,11 @@ class EntityRegistry:
         """ Gets a list of entities by one or more device classes. """
         return [entity for entity in self._entities.values() if entity.domain == domain and entity.device_class in device_classes]
 
-    def get_by_domain(self, *domains: str) -> list[EntityRegistryEntry]:
+    def get_by_domain(self, *domains: Union[str, DomainRegistryEntry]) -> list[EntityRegistryEntry]:
         """ Gets a list of entity by one or more domains. """
+        domains = [type(domain) == str and domain or domain.id for domain in domains]
         return [entity for entity in self._entities.values() if entity.domain in domains]
 
     def get_by_id(self, id: str) -> Union[EntityRegistryEntry, None]:
         """ Gets an entity by id. """
         return self._entities.get(id, None)
-
-    def get_domains(self) -> set[str]:
-        """ Gets a list of domains. """
-        result: list[DomainRegistryEntry] = []
-
-        for domain in set([entity.domain for entity in self._entities.values()]):
-            domain_config = self._config.domains.get(domain, DomainConfig())
-            new_entry = DomainRegistryEntry(
-                icon=domain_config.icon or DEFAULT_DOMAIN_ICONS.get(domain, DEFAULT_DOMAIN_ICON),
-                id=domain,
-                priority=domain_config.priority
-            )
-
-            result.append(new_entry)
-
-        return list(sorted(result, key=lambda x: (-x.priority, x.id)))

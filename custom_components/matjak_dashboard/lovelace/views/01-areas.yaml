@@ -60,13 +60,14 @@
         cards:
           {% set grouped_entities = dict(area_entities | groupby("domain")) %}
           {% for domain in mj.user_config.area_highlighted_domains %}
+          {% set domain_card_template = "mj_" ~ domain ~ "_card" %}
           {% set entities = grouped_entities[domain] %}
           {% if entities | count > 0 %}
           - type: custom:layout-card
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ mj.domain_card_sizes[domain] | default("160px") }}, 1fr))
               margin: 0
             cards:
               - type: custom:button-card
@@ -76,8 +77,16 @@
                 label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
 
               {% for entity in entities | sort(attribute="device_class, name") %}
+              {% set device_class_card_template = "mj_" ~ domain ~ "_" ~ entity.device_class ~ "_card" %}
               - type: custom:button-card
-                template: mj_entity_card
+                template:
+                  {% if device_class_card_template in mj.button_card_templates %}
+                  {{ device_class_card_template }}
+                  {% elif domain_card_template in mj.button_card_templates %}
+                  {{ domain_card_template }}
+                  {% else %}
+                  mj_entity_card
+                  {% endif %}
                 entity: {{ entity.entity_id }}
                 name: {{ entity.name | replace(area.name, "") }}
               {% endfor %}
@@ -85,11 +94,12 @@
           {% endfor %}
 
           {% for domain, entities in grouped_entities.items() if domain not in mj.user_config.area_highlighted_domains %}
+          {% set domain_card_template = "mj_" ~ domain ~ "_card" %}
           - type: custom:layout-card
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ mj.domain_card_sizes[domain] | default("160px") }}, 1fr))
               margin: 0
             cards:
               - type: custom:button-card
@@ -99,8 +109,16 @@
                 label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
 
               {% for entity in entities | sort(attribute="device_class, name") %}
+              {% set device_class_card_template = "mj_" ~ domain ~ "_" ~ entity.device_class ~ "_card" %}
               - type: custom:button-card
-                template: mj_entity_card
+                template:
+                  {% if device_class_card_template in mj.button_card_templates %}
+                  {{ device_class_card_template }}
+                  {% elif domain_card_template in mj.button_card_templates %}
+                  {{ domain_card_template }}
+                  {% else %}
+                  mj_entity_card
+                  {% endif %}
                 entity: {{ entity.entity_id }}
                 name: {{ entity.name | replace(area.name, "") }}
               {% endfor %}

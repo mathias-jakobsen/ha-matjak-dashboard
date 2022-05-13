@@ -1,0 +1,60 @@
+mj_cover_card:
+  show_icon: false
+  show_label: false
+  show_name: false
+  show_state: false
+
+  styles:
+    card:
+      - padding: var(--ha-card-padding)
+    grid:
+      - grid-gap: var(--grid-gap)
+      - grid-template: >
+          "header header header" auto
+          "cover_close cover_stop cover_open" 1fr / 1fr 1fr 1fr
+    custom_fields:
+      header:
+        - pointer-events: none
+
+  styles:
+    card:
+      - --icon-color: var(--color-blue)
+
+  custom_fields:
+    header:
+      card:
+        type: custom:button-card
+        template: mj_entity_card
+        entity: "[[[ return entity.entity_id; ]]]"
+
+    cover_close:
+      type: custom:button-card
+      template: mj_icon_button
+      icon: mdi:arrow-down-thick
+      tap_action:
+        action: call-service
+        service: cover.close_cover
+        service_data:
+          entity_id: "[[[ return entity.entity_id ]]]"
+
+    cover_stop:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:stop
+        tap_action:
+          action: call-service
+          service: cover.stop_cover
+          service_data:
+            entity_id: "[[[ return entity.entity_id ]]]"
+
+    cover_open:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:arrow-up-thick
+        tap_action:
+          action: call-service
+          service: cover.open_cover
+          service_data:
+            entity_id: "[[[ return entity.entity_id ]]]"

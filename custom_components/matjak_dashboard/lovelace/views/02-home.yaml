@@ -54,15 +54,34 @@
                 {% if area.color is not none %}
                 mj_color: {{ area.color }}
                 {% endif %}
+
+                {% set light_entities = area.entities.light and [area.entities.light] or area_entities | selectattr("domain", "==", "light") | map(attribute="entity_id") | list %}
+                {% set media_player_entities = area.entities.media_player and [area.entities.media_player] or area_entities | selectattr("domain", "==", "media_player") | map(attribute="entity_id") | list %}
+                {% set climate_entities = area.entities.climate and [area.entities.climate] or area_entities | selectattr("domain", "==", "climate") | map(attribute="entity_id") | list %}
+                {% set presence_entities = area.entities.presence and [area.entities.presence] or area_entities | selectattr("domain", "in", ["motion", "occupancy", "presence"]) | map(attribute="entity_id") | list %}
+
+                {% if (light_entities + media_player_entities + climate_entities + presence_entities) | count > 0 %}
                 mj_entities:
+                  {% if light_entities | count > 0 %}
                   - templates: [mj_area_card_entity_lights]
-                    entities: {{ area.entities.light and [area.entities.light] or area_entities | selectattr("domain", "==", "light") | map(attribute="entity_id") | list }}
+                    entities: {{ light_entities }}
+                  {% endif %}
+
+                  {% if media_player_entities | count > 0 %}
                   - templates: [mj_area_card_entity_media_player]
-                    entities: {{ area.entities.media_player and [area.entities.media_player] or area_entities | selectattr("domain", "==", "media_player") | map(attribute="entity_id") | list }}
+                    entities: {{ media_player_entities }}
+                  {% endif %}
+
+                  {% if climate_entities | count > 0 %}
                   - templates: [mj_area_card_entity_climate]
-                    entities: {{ area.entities.climate and [area.entities.climate] or area_entities | selectattr("domain", "==", "climate") | map(attribute="entity_id") | list }}
+                    entities: {{ climate_entities }}
+                  {% endif %}
+
+                  {% if presence_entities | count > 0 %}
                   - templates: [mj_area_card_entity_presence]
-                    entities: {{ area.entities.presence and [area.entities.presence] or area_entities | selectattr("device_class", "in", ["motion", "occupancy", "presence"]) | map(attribute="entity_id") | list }}
+                    entities: {{ presence_entities }}
+                  {% endif %}
+                {% endif %}
                 mj_navigation_path: area_{{ area.id }}
             {% endfor %}
         {% endfor %}
