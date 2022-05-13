@@ -1,0 +1,153 @@
+mj_area_card:
+  variables:
+    mj_color: >
+      [[[
+        function getHashCode(str) {
+          let hash = 0;
+          for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+          }
+          return hash;
+        }
+
+        function hslToRGB(h, s, l) {
+          s /= 100;
+          l /= 100;
+
+          let c = (1 - Math.abs(2 * l - 1)) * s,
+              x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+              m = l - c/2,
+              r = 0,
+              g = 0,
+              b = 0;
+
+          if (0 <= h && h < 60) {
+            r = c; g = x; b = 0;
+          } else if (60 <= h && h < 120) {
+            r = x; g = c; b = 0;
+          } else if (120 <= h && h < 180) {
+            r = 0; g = c; b = x;
+          } else if (180 <= h && h < 240) {
+            r = 0; g = x; b = c;
+          } else if (240 <= h && h < 300) {
+            r = x; g = 0; b = c;
+          } else if (300 <= h && h < 360) {
+            r = c; g = 0; b = x;
+          }
+          r = Math.round((r + m) * 255);
+          g = Math.round((g + m) * 255);
+          b = Math.round((b + m) * 255);
+
+          return [r, g, b];
+        }
+
+        const name = this._buildName(this._stateObj);
+        const hashCode = getHashCode(name);
+
+        return hslToRGB(Math.abs(hashCode % 360), 100, 60).join(",");
+      ]]]
+    mj_entities: []
+    mj_navigation_path: null
+
+  show_icon: true
+  show_label: true
+  show_name: true
+  show_state: false
+
+  aspect_ratio: 1/1
+
+  tap_action:
+    action: navigate
+    navigation_path: "[[[ return variables.mj_navigation_path; ]]]"
+
+  styles:
+    card:
+      - --icon-color: "[[[ return variables.mj_color; ]]]"
+      - border-radius: var(--ha-card-border-radius)
+      - box-shadow: var(--ha-card-box-shadow)
+      - padding: var(--ha-card-padding)
+    grid:
+      - grid-template: >
+          [[[
+            if (variables.mj_entities.length > 0) {
+              return `
+                "n n n entities" min-content
+                "l l l entities" min-content
+                "i i . entities" auto
+                "i i . entities" auto / 1fr 1fr 1fr 1fr
+              `;
+            }
+
+            return `
+              "n n n n" min-content
+              "l l l l" min-content
+              "i i . ." auto
+              "i i . ." auto / 1fr 1fr 1fr 1fr
+            `;
+          ]]]
+
+    icon:
+      - color: rgba(var(--icon-color), 1)
+    img_cell:
+      - background: rgba(var(--icon-color), 0.2)
+      - border-radius: 50%
+      - height: 75%
+      - left: 50%
+      - margin-left: -25%
+      - margin-top: 25%
+      - position: absolute
+      - transform: translate(-50%, -50%)
+      - top: 50%
+      - width: 75%
+    label:
+      - color: var(--secondary-text-color)
+      - font-size: 14px
+      - place-self: start
+    name:
+      - align-self: end
+      - color: var(--primary-text-color)
+      - font-size: 16px
+      - font-weight: bold
+      - place-self: start
+    custom_fields:
+      entities:
+        - margin-left: 5px
+        - pointer-events: none
+
+  custom_fields:
+    entities:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: 5px
+          grid-template-rows: repeat(4, 1fr)
+          margin: 0
+        cards: >
+          [[[
+            const result = [];
+
+            for (const entity of variables.mj_entities) {
+              const new_entry = {
+                type: "custom:button-card",
+                template: ["mj_area_card_entity", ...(entity.templates || [])],
+                variables: entity
+              };
+
+              if (entity.entities) {
+                new_entry["triggers_update"] = entity.entities;
+              }
+
+              if (entity.entity) {
+                new_entry["entity"] = entity.entity
+              }
+
+              if (entity.icon) {
+                new_entry["icon"] = entity.icon
+              }
+
+              result.push(new_entry);
+            }
+
+            return result;
+          ]]]

@@ -1,0 +1,78 @@
+# matjak_dashboard
+
+- title: Home
+  icon: mdi:home
+  path: home
+  type: custom:grid-layout
+  layout:
+    grid-gap: 0 var(--grid-column-gap)
+    grid-template: >
+      "main" 1fr / 1fr
+    margin: 0
+    padding: var(--view-padding)
+    mediaquery:
+      "(max-width: 959px)":
+        grid-gap: var(--grid-row-gap) 0
+        grid-template: >
+          "sidebar" auto
+          "main" 1fr / 1fr
+  cards:
+    - type: custom:layout-card
+      view_layout:
+        grid-area: main
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+      cards:
+        {% for location, areas in mj.areas.group_by_location() %}
+        {% set areas_count = areas | count %}
+        - type: custom:layout-card
+          layout_type: grid
+          layout:
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+            margin: 0
+          cards:
+            - type: custom:button-card
+              view_layout:
+                grid-column: 1/-1
+              template: mj_title
+              label: {{ mj.translations["area_location_" ~ location] | default(location.replace("_", " ")) | title }}
+              state_display: {{ areas_count }} {{ areas_count == 1 and mj.translations.area or mj.translations.areas }}
+
+            {% for area in areas %}
+            {% set area_entities = mj.entities.get_by_area(area) %}
+            {% set area_entities_count = area_entities | count %}
+            - type: custom:button-card
+              template: mj_area_card
+              icon: {{ area.icon }}
+              name: {{ area.name }}
+              label: {{ area_entities_count }} {{ area_entities_count == 1 and mj.translations.entity or mj.translations.entities }}
+              variables:
+                {% if area.color is not none %}
+                mj_color: {{ area.color }}
+                {% endif %}
+                mj_entities:
+                  - templates: [mj_area_card_entity_lights]
+                    entities: {{ area.entities.light and [area.entities.light] or area_entities | selectattr("domain", "==", "light") | map(attribute="entity_id") | list }}
+                  - templates: [mj_area_card_entity_media_player]
+                    entities: {{ area.entities.media_player and [area.entities.media_player] or area_entities | selectattr("domain", "==", "media_player") | map(attribute="entity_id") | list }}
+                  - templates: [mj_area_card_entity_climate]
+                    entities: {{ area.entities.climate and [area.entities.climate] or area_entities | selectattr("domain", "==", "climate") | map(attribute="entity_id") | list }}
+                  - templates: [mj_area_card_entity_presence]
+                    entities: {{ area.entities.presence and [area.entities.presence] or area_entities | selectattr("device_class", "in", ["motion", "occupancy", "presence"]) | map(attribute="entity_id") | list }}
+                mj_navigation_path: area_{{ area.id }}
+            {% endfor %}
+        {% endfor %}
+
+    - type: custom:layout-card
+      view_layout:
+        grid-area: sidebar
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+      cards: []

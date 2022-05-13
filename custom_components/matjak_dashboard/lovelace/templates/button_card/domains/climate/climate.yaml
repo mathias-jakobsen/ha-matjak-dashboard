@@ -1,0 +1,130 @@
+climate:
+  template: generic_card
+
+  state_display: >
+    [[[
+      const temperature = `${entity.attributes.current_temperature} ${hass.config.unit_system.temperature}`;
+      const hvac_action = `${entity.attributes.hvac_action}`;
+      return hvac_action != "undefined" ? `${temperature} • ${hvac_action}` : `${temperature}`;
+    ]]]
+
+  variables:
+    mj_rows:
+      - temperature
+      - hvac_modes
+
+  custom_fields:
+    temperature:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: 1fr 1fr 1fr
+          margin: 0
+          padding: 0
+        cards:
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:minus
+            tap_action:
+              action: call-service
+              service: climate.set_temperature
+              service_data:
+                entity_id: "[[[ return entity.entity_id; ]]]"
+                temperature: "[[[ return parseFloat(entity.attributes.temperature) - (entity.attributes.target_temp_step || 0.5); ]]]"
+
+          - type: custom:button-card
+            template: generic_card_text
+            entity: "[[[ return entity.entity_id; ]]]"
+            label: "[[[ return `${entity.attributes.temperature} ${hass.config.unit_system.temperature}`; ]]]"
+
+          - type: custom:button-card
+            template: generic_card_button
+            icon: mdi:plus
+            tap_action:
+              action: call-service
+              service: climate.set_temperature
+              service_data:
+                entity_id: "[[[ return entity.entity_id; ]]]"
+                temperature: "[[[ return parseFloat(entity.attributes.temperature) + (entity.attributes.target_temp_step || 0.5); ]]]"
+
+    hvac_modes:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-gap: var(--grid-gap)
+          grid-template-columns: "[[[ return `repeat(${entity.attributes.hvac_modes.length}, 1fr)`; ]]]"
+          margin: 0
+          padding: 0
+        cards: >
+          [[[
+            const result = [];
+            const hvac_modes = {
+              auto: {
+                color: "var(--color-green)",
+                icon: "mdi:calendar-sync"
+              },
+              heat: {
+                color: "var(--color-red)",
+                icon: "mdi:fire"
+              },
+              cool: {
+                color: "var(--color-blue)",
+                icon: "mdi:snowflake"
+              },
+              heat_cool: {
+                color: "var(--color-purple)",
+                icon: "mdi:sun-snowflake"
+              },
+              off: {
+                color: "var(--secondary-text-color)",
+                icon: "mdi:power"
+              }
+            }
+
+            for (const hvac_mode of entity.attributes.hvac_modes) {
+              result.push({
+                type: "custom:button-card",
+                template: "generic_card_button",
+                icon: hvac_modes[hvac_mode].icon,
+                styles: {
+                  icon: [
+                    {color: `rgba(${entity.state == hvac_mode ? hvac_modes[hvac_mode].color : "var(--primary-text-color)"}, 1)`}
+                  ]
+                },
+                tap_action: {
+                  action: "call-service",
+                  service: "climate.set_hvac_mode",
+                  service_data: {
+                    entity_id: entity.entity_id,
+                    hvac_mode: hvac_mode
+                  }
+                }
+              });
+            }
+
+            return result;
+          ]]]
+
+  state:
+    - id: state_off
+      operator: template
+      value: >
+        [[[
+          return ["idle", "off"].includes(entity.attributes.hvac_action);
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--button-card-background-color-off)
+
+    - id: state_on
+      operator: template
+      value: >
+        [[[
+          return ["heating"].includes(entity.attributes.hvac_action);
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--color-red)

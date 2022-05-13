@@ -1,0 +1,28 @@
+mj_area_card_entity_lights:
+  template: mj_area_card_entity
+
+  variables:
+    entities: []
+
+  icon: mdi:lightbulb
+
+  tap_action:
+    action: call-service
+    service: >
+        [[[
+          const entities_on = variables.entities.filter(entity => states[entity]?.state == "on");
+          return entities_on.length > 0 ? "light.turn_off" : "light.turn_on";
+        ]]]
+    service_data:
+      entity_id: "[[[ return variables.entities; ]]]"
+
+  state:
+    - operator: template
+      value: >
+        [[[
+          const entities_on = variables.entities.filter(entity => states[entity]?.state == "on");
+          return entities_on.length > 0;
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--color-orange)

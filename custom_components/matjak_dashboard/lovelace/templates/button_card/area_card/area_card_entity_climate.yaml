@@ -1,0 +1,21 @@
+mj_area_card_entity_climate:
+  template: mj_area_card_entity
+
+  variables:
+    entities: []
+
+  icon: mdi:thermostat
+
+  tap_action:
+    action: more-info
+
+  state:
+    - operator: template
+      value: >
+        [[[
+          const entities_on = variables.entities.filter(entity => ["heat", "heating"].includes(states[entity]?.attributes?.hvac_action));
+          return entities_on.length > 0;
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--color-red)

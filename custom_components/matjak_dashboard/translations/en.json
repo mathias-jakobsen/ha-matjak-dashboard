@@ -13,7 +13,8 @@
                     "sidepanel_title": "Sidepanel Title",
                     "sidepanel_icon": "Sidepanel Icon",
                     "language": "Language",
-                    "config_path": "Path to Configuration Directory"
+                    "themes_path": "Path to Themes Directory",
+                    "user_config_path": "Path to Configuration Directory"
                 }
             }
         }
@@ -27,7 +28,8 @@
                     "sidepanel_title": "Sidepanel Title",
                     "sidepanel_icon": "Sidepanel Icon",
                     "language": "Language",
-                    "config_path": "Path to Configuration Directory"
+                    "themes_path": "Path to Themes Directory",
+                    "user_config_path": "Path to Configuration Directory"
                 }
             }
         }

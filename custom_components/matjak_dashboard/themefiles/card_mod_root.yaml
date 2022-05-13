@@ -1,17 +1,195 @@
 |
   .: |
-    ha-app-layout {
-      --header-height: 0px;
-    }
-
-    app-header {
-      display: none;
+    #view, app-toolbar {
+      --header-height: 70px;
     }
 
     #view {
-      height: 100vh !important;
+      box-sizing: border-box;
+      height: calc(100vh - var(--header-height));
     }
 
-    app-drawer {
-      box-shadow: var(--sidebar-box-shadow-right);
+    hui-view {
+      overflow: auto;
+      /*padding: 10px;*/
     }
+
+    app-toolbar {
+      padding: 0 var(--view-padding-h);
+    }
+
+    ha-tabs {
+      margin-left: -8px !important;
+      overflow: visible;
+      position: relative;
+    }
+
+    ha-tabs::before {
+      box-shadow: inset 0px -3px 6px -3px rgba(0,0,0,0.8);
+      content: "";
+      height: 3px;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: -3px;
+    }
+
+    @media (max-width: 600px) {
+      #view, app-toolbar {
+        --header-height: 56px;
+      }
+
+      #view {
+        height: calc(100vh - var(--header-height) * 2);
+        min-height: unset !important;
+      }
+
+      ha-menu-button {
+        flex: 1;
+        z-index: 1;
+      }
+
+      ha-tabs {
+        background: var(--app-header-background-color);
+        left: 0;
+        margin-left: 0 !important;
+        position: fixed;
+        top: calc(100vh - var(--header-height));
+      }
+
+      ha-tabs::before {
+        opacity: 1;
+      }
+    }
+
+  ha-menu-button:
+    $: |
+      @media (max-width: 600px) {
+        .dot {
+          left: 25px;
+          right: unset;
+        }
+      }
+
+  ha-tabs:
+    .: |
+      paper-tab {
+        border-radius: 12px;
+        flex: 0 0 auto;
+        height: 40px;
+        margin-left: 8px;
+      }
+
+      paper-tab.iron-selected {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
+
+      paper-tab:not(.iron-selected):hover {
+        background: rgba(var(--main-color), 0.1);
+      }
+
+      {% set domains = states|map(attribute="domain")|unique|list %}
+
+      paper-tab.hide-tab.iron-selected:nth-child(-n+{{ domains|length }}) ~ paper-tab.hide-tab + paper-tab:not(.hide-tab) + paper-tab:not(.hide-tab) {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
+
+      paper-tab.hide-tab.iron-selected:nth-child(n+{{ domains|length + 1 }}) ~ paper-tab.hide-tab + paper-tab:not(.hide-tab),
+      paper-tab.hide-tab.iron-selected:nth-child(n+{{ domains|length + 1 }}) + paper-tab:not(.hide-tab) {
+        background: rgba(var(--main-color), 0.2);
+        color: rgba(var(--main-color), 1);
+      }
+
+      paper-tab.hide-tab {
+        display: block;
+        flex: 0;
+        margin: 0;
+        padding: 0
+      }
+
+      ha-icon {
+        align-items: center;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      ha-icon::after {
+        content: attr(title);
+        padding-right: 2px;
+      }
+
+      @media (max-width: 600px) {
+        paper-tab {
+          border-radius: 0;
+          flex: 1;
+          height: unset;
+          margin: 0;
+        }
+
+        ha-icon::after {
+          display: none;
+        }
+
+        paper-tab.iron-selected::after {
+          align-items: center;
+          color: var(--primary-text-color);
+          content: attr(aria-label);
+          display: flex;
+          font-size: 16px;
+          height: 100%;
+          justify-content: left;
+          left: 0;
+          padding-left: calc(16px + 48px + 20px);
+          pointer-events: none;
+          position: fixed;
+          top: 0;
+          width: 100%
+        }
+      }
+
+    paper-tab:
+      $: |
+        .tab-content {
+          font-weight: 500 !important;
+          opacity: 1 !important;
+        }
+
+    $: |
+      #tabsContent {
+        align-items: center;
+        display: flex;
+      }
+
+      #selectionBar {
+        display: none;
+      }
+
+      paper-icon-button {
+        display: none;
+      }
+
+      @media (max-width: 600px) {
+        #tabsContent {
+          align-items: stretch;
+          gap: 0;
+        }
+
+        #tabsContent.scrollable {
+          position: relative;
+        }
+      }
+
+      @media (hover: none) and (pointer: coarse) {
+        #tabsContent {
+          overflow-x: scroll;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        #tabsContent::-webkit-scrollbar {
+          display: none;
+        }
+      }

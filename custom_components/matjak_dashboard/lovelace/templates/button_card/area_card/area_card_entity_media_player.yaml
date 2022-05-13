@@ -1,0 +1,21 @@
+mj_area_card_entity_media_player:
+  template: mj_area_card_entity
+
+  variables:
+    entities: []
+
+  icon: mdi:speaker
+
+  tap_action:
+    action: more-info
+
+  state:
+    - operator: template
+      value: >
+        [[[
+          const entities_on = variables.entities.filter(entity => states[entity]?.state == "playing");
+          return entities_on.length > 0;
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--color-green)

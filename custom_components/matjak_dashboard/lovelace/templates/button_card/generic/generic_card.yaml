@@ -1,0 +1,225 @@
+generic_card:
+  variables:
+    mj_hide_state: false
+    mj_is_nested: false
+    mj_layout: horizontal
+    mj_replace_name_with_label: false
+    mj_rows: []
+    mj_swap_name_state: false
+
+  show_icon: true
+  show_label: true
+  show_name: true
+  show_state: true
+
+  hold_action:
+    action: more-info
+
+  styles:
+    card:
+      - --icon-color: var(--button-card-background-color-off)
+      - --margin-row: calc((var(--grid-row-gap) - 2px) / 2 * -1)
+      - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
+      - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
+      - padding: var(--ha-card-padding)
+      - position: relative
+    grid:
+      - grid-gap: var(--grid-gap)
+      - grid-template: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              let result = variables.mj_swap_name_state ? "'i' 's' 'n'" : "'i' 'n' 's'";
+              result = variables.mj_hide_state ? result.replace("s", "n") : result;
+              result = variables.mj_replace_name_with_label ? [result.replace("n", "l")] : [result];
+
+              if (variables.mj_rows.length > 0) {
+                for (const row of variables.mj_rows) {
+                  result.push(`'${row}'`);
+                }
+              }
+
+              return result.join(" ");
+            }
+
+            let result = variables.mj_swap_name_state ? "'i s' 'i n'" : "'i n' 'i s'";
+            result = variables.mj_hide_state ? result.replace("s", "n") : result;
+            result = variables.mj_replace_name_with_label ? [result.replace("n", "l")] : [result];
+
+            if (variables.mj_rows.length > 0) {
+              for (const row of variables.mj_rows) {
+                result.push(`'${row} ${row}'`);
+              }
+            }
+
+            return result.join(" ");
+          ]]]
+      - grid-template-columns: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "1fr";
+            }
+
+            return "min-content auto";
+          ]]]
+      - grid-template-rows: >
+          [[[
+            if (variables.mj_layout == "vertical" && variables.hide_state) {
+              return "min-content min-content min-content";
+            }
+
+            return "min-content min-content";
+          ]]]
+    icon:
+      - color: rgba(var(--icon-color), 1)
+      - width: 50%
+    img_cell:
+      - background: rgba(var(--icon-color), 0.2)
+      - border-radius: 50%
+      - height: 2.8em
+      - place-self: center
+      - width: 2.8em
+    label:
+      - display: "[[[ return variables.mj_replace_name_with_label ? 'block' : 'none'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
+      - font-size: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "16px";
+            }
+            return variables.mj_swap_name_state ? "14px" : "15px";
+          ]]]
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
+      - margin: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "0";
+            }
+            return variables.mj_swap_name_state ? "var(--margin-row) 0 0 0" : "0 0 var(--margin-row) 0";
+          ]]]
+      - place-self: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "start center";
+            }
+
+            if (variables.mj_hide_state) {
+              return "center start";
+            }
+
+            return variables.mj_swap_name_state ? "start" : "end start";
+          ]]]
+    name:
+      - display: "[[[ return variables.mj_replace_name_with_label ? 'none' : 'block'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(60%)' : 'opacity(100%)'; ]]]"
+      - font-size: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "16px";
+            }
+            return variables.mj_swap_name_state ? "14px" : "15px";
+          ]]]
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'normal' : 'bold'; ]]]"
+      - margin: >
+          [[[
+            if (variables.mj_hide_state) {
+              return "0";
+            }
+            return variables.mj_swap_name_state ? "var(--margin-row) 0 0 0" : "0 0 var(--margin-row) 0";
+          ]]]
+      - place-self: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "start center";
+            }
+
+            if (variables.mj_hide_state) {
+              return "center start";
+            }
+
+            return variables.mj_swap_name_state ? "start" : "end start";
+          ]]]
+      - text-transform: capitalize
+    state:
+      - display: "[[[ return variables.mj_hide_state ? 'none' : 'block'; ]]]"
+      - filter: "[[[ return variables.mj_swap_name_state ? 'opacity(100%)' : 'opacity(60%)'; ]]]"
+      - font-size: "[[[ return variables.mj_swap_name_state ? '15px' : '14px'; ]]]"
+      - font-weight: "[[[ return variables.mj_swap_name_state ? 'bold' : 'normal'; ]]]"
+      - margin: "[[[ return variables.mj_swap_name_state ? '0 0 var(--margin-row) 0' :'var(--margin-row) 0 0 0'; ]]]"
+      - place-self: >
+          [[[
+            if (variables.mj_layout == "vertical") {
+              return "start center";
+            }
+
+            return variables.mj_swap_name_state ? "end start" : "start";
+          ]]]
+      - text-transform: capitalize
+    custom_fields:
+      notification:
+        - background: rgba(var(--main-color), 1)
+        - border: 2px solid rgba(var(--icon-color), 0.2)
+        - border-radius: 50%
+        - color: white
+        - height: 16px
+        - line-height: 14px
+        - left: >
+            [[[
+              if (variables.mj_layout == "vertical") {
+                return "calc(50% + 8px)";
+              }
+              return "41px";
+            ]]]
+        - position: absolute
+        - top: 8px
+        - width: 16px
+        - z-index: 1
+      notification_unavailable:
+        - background: rgba(var(--color-red), 1)
+        - border: 2px solid rgba(var(--icon-color), 0.2)
+        - border-radius: 50%
+        - color: white
+        - height: 16px
+        - line-height: 14px
+        - left: >
+            [[[
+              if (variables.mj_layout == "vertical") {
+                return "calc(50% + 8px)";
+              }
+              return "41px";
+            ]]]
+        - opacity: 0
+        - position: absolute
+        - top: 8px
+        - width: 16px
+        - z-index: 2
+      overlay:
+        - background: transparent
+        - bottom: 0
+        - left: 0
+        - position: absolute
+        - right: 0
+        - top: 0
+        - z-index: 1
+
+  custom_fields:
+    overlay: ""
+    notification_unavailable: "[[[ return `<ha-icon icon='mdi:exclamation-thick' style='height: 12px; width: 12px;'></ha-icon>` ]]]"
+
+  state:
+    - id: state_unavailable
+      value: "unavailable"
+      styles:
+        custom_fields:
+          notification_unavailable:
+            - opacity: 1
+
+    - id: state_on
+      operator: template
+      value: >
+        [[[
+          const on_states = ["on", "heat", "auto", "home", "unlocked"];
+          return on_states.includes(entity?.state);
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--button-card-background-color-on)

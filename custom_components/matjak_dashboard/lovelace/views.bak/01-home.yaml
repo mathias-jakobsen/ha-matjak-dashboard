@@ -1,0 +1,88 @@
+# matjak_dashboard
+
+- title: Home
+  icon: mdi:home
+  path: home
+  type: custom:grid-layout
+  layout:
+    grid-gap: 0 var(--grid-column-gap)
+    grid-template: >
+      "main sidebar" 1fr / 1fr var(--grid-layout-sidebar-width)
+    margin: 0
+    padding: var(--view-padding)
+    mediaquery:
+      "(max-width: 959px)":
+        grid-gap: var(--grid-row-gap) 0
+        grid-template: >
+          "sidebar" auto
+          "main" 1fr / 1fr
+  cards:
+    - type: custom:layout-card
+      view_layout:
+        grid-area: main
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+      cards:
+        - type: custom:layout-card
+          layout_type: grid
+          layout:
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
+            margin: 0
+          cards: []
+
+    - type: custom:layout-card
+      view_layout:
+        grid-area: sidebar
+      layout_type: grid
+      layout:
+        grid-gap: var(--grid-row-gap) 0
+        grid-template-columns: 1fr
+        margin: 0
+      cards:
+        - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
+          template: global_lights
+        - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
+          template: global_covers
+        - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
+          template: global_media
+
+        - type: custom:layout-card
+          view_layout:
+            show:
+              mediaquery: "(max-width: 959px)"
+          layout_type: grid
+          layout:
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+            margin: 0
+          cards:
+            - type: custom:button-card
+              template: global_lights
+              variables:
+                mj_is_nested: false
+                mj_layout: horizontal
+            - type: custom:button-card
+              template: global_covers
+              variables:
+                mj_is_nested: false
+                mj_layout: horizontal
+            - type: custom:button-card
+              view_layout:
+                grid-column: 1/-1
+              template: global_media
+              variables:
+                mj_is_nested: false
+                mj_layout: horizontal

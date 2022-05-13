@@ -1,0 +1,90 @@
+entities_list:
+  variables:
+    mj_entities: []
+    mj_layout: vertical
+    mj_min_width: null
+
+  show_icon: false
+  show_name: false
+  show_state: false
+
+  tap_action:
+    action: none
+
+  styles:
+    card:
+      - padding: 0
+    grid:
+      - grid-template: >
+          "entities" 1fr / 1fr
+    custom_fields:
+      entities:
+        - pointer-events: auto
+
+  custom_fields:
+    entities:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: >
+            [[[
+              if (variables.mj_layout == "vertical") {
+                return "1fr";
+              }
+
+              if (variables.mj_layout == "horizontal") {
+                if (variables.mj_min_width == null) {
+                  return `repeat(${variables.mj_entities.length}, 1fr)`;
+                }
+
+                return `repeat(auto-fit, minmax(${variables.mj_min_width}, 1fr))`;
+              }
+
+              return "none";
+            ]]]
+          margin: 0
+          padding: 0
+        cards: >
+          [[[
+            const device_classes = ["battery"];
+            const domains = ["lock", "sensor"];
+            const result = [];
+
+            for (let i = 0; i < variables.mj_entities.length; i++) {
+              const entity = typeof variables.mj_entities[i] == "string" ? { entity: variables.mj_entities[i] } : variables.mj_entities[i];
+              const entity_id = entity["entity"];
+              const domain = entity_id?.split(".")[0];
+              const device_class = domain == "sensor" ? states[entity_id]?.attributes.device_class : null;
+              const item = {
+                type: "custom:button-card",
+                template: device_classes.includes(device_class) ? device_class : domains.includes(domain) ? domain : "generic_card",
+                entity: entity_id,
+                styles: {
+                  card: [
+                    {"border-radius": 0}
+                  ]
+                },
+                variables: {
+                  mj_is_nested: true,
+                  mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal"
+                }
+              };
+
+              if ("templates" in entity) {
+                item["template"] = entity["templates"];
+              }
+
+              if ("icon" in entity) {
+                item["icon"] = entity["icon"];
+              }
+
+              if ("name" in entity) {
+                item["name"] = entity["name"];
+              }
+
+              result.push(item);
+            }
+
+            return result;
+          ]]]

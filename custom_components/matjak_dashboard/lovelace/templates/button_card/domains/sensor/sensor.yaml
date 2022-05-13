@@ -1,0 +1,17 @@
+sensor:
+  template: generic_card
+
+  variables:
+    mj_device_class_colors:
+      humidity: var(--color-blue)
+      illuminance: var(--color-purple)
+      temperature: var(--color-red)
+    mj_swap_name_state: true
+
+  styles:
+    card:
+      - --icon-color: >
+          [[[
+            const colors = variables.mj_device_class_colors || {};
+            return colors[entity?.attributes?.device_class] || "var(--button-card-background-color-off)";
+          ]]]
