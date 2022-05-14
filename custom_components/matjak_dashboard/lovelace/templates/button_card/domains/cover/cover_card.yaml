@@ -26,6 +26,9 @@ mj_cover_card:
         template: mj_entity_card
         entity: "[[[ return entity.entity_id; ]]]"
         name: "[[[ return this._buildName(this._stateObj); ]]]"
+        styles:
+          card:
+            - --icon-color: var(--color-blue)
         variables:
           mj_is_nested: true
 

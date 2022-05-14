@@ -2,5 +2,6 @@
   .: |
     ha-card {
       transition: none !important;
+      -webkit-tap-highlight-color: transparent;
     }
 

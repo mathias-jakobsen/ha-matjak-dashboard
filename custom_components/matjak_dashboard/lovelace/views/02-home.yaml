@@ -7,7 +7,7 @@
   layout:
     grid-gap: 0 var(--grid-column-gap)
     grid-template: >
-      "main" 1fr / 1fr
+      "main sidebar" 1fr / 1fr 0.4fr
     margin: 0
     padding: var(--view-padding)
     mediaquery:
@@ -58,7 +58,7 @@
                 {% set light_entities = area.entities.light and [area.entities.light] or area_entities | selectattr("domain", "==", "light") | map(attribute="entity_id") | list %}
                 {% set media_player_entities = area.entities.media_player and [area.entities.media_player] or area_entities | selectattr("domain", "==", "media_player") | map(attribute="entity_id") | list %}
                 {% set climate_entities = area.entities.climate and [area.entities.climate] or area_entities | selectattr("domain", "==", "climate") | map(attribute="entity_id") | list %}
-                {% set presence_entities = area.entities.presence and [area.entities.presence] or area_entities | selectattr("domain", "in", ["motion", "occupancy", "presence"]) | map(attribute="entity_id") | list %}
+                {% set presence_entities = area.entities.presence and [area.entities.presence] or area_entities | selectattr("domain", "==", "binary_sensor") | selectattr("device_class", "in", ["motion", "occupancy", "presence"]) | map(attribute="entity_id") | list %}
 
                 {% if (light_entities + media_player_entities + climate_entities + presence_entities) | count > 0 %}
                 mj_entities:
@@ -94,4 +94,25 @@
         grid-gap: var(--grid-row-gap) 0
         grid-template-columns: 1fr
         margin: 0
-      cards: []
+      cards:
+        - type: custom:layout-card
+          layout_type: grid
+          layout:
+            grid-gap: var(--grid-gap)
+            grid-template-columns: repeat(3, 1fr)
+            margin: 0
+          cards:
+            - type: custom:button-card
+              template: mj_entity_card
+              icon: mdi:account-multiple
+              label: "[[[ return 'Home' ]]]"
+              variables:
+                mj_layout: vertical
+                mj_replace_name_with_label: true
+            - type: custom:button-card
+              template: mj_entity_card
+              icon: mdi:lightbulb-multiple
+              label: "[[[ return '3 lights on' ]]]"
+              variables:
+                mj_layout: vertical
+                mj_replace_name_with_label: true

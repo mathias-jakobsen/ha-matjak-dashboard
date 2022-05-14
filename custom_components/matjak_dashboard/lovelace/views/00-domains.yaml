@@ -62,14 +62,14 @@
         cards:
           {% set grouped_entities = domain_entities | groupby("device_class") %}
           {% set ns = namespace(entities_with_device_class=[]) %}
-          {% set no_device_classes = ["", "None", null] %}
+          {% set no_device_classes = ["", none] %}
           {% for device_class, entities in grouped_entities if device_class not in no_device_classes %}
           {% set ns.entities_with_device_class = ns.entities_with_device_class + entities %}
           - type: custom:layout-card
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ mj.domain_card_sizes[domain.id] | default("160px") }}, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
               margin: 0
             cards:
               - type: custom:button-card
@@ -98,7 +98,7 @@
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ mj.domain_card_sizes[domain.id] | default("160px") }}, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
               margin: 0
             cards:
               {% if ns.entities_with_device_class | count > 0 %}

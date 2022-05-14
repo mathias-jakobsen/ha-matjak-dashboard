@@ -100,7 +100,7 @@
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ mj.domain_card_sizes[domain] | default("160px") }}, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
               margin: 0
             cards:
               - type: custom:button-card
