@@ -1,0 +1,15 @@
+mj_button_card:
+  template: mj_entity_card
+
+  variables:
+    mj_hide_state: true
+
+  tap_action:
+    action: call-service
+    service: button.press
+    service_data:
+      entity_id: "[[[ return entity.entity_id; ]]]"
+
+  styles:
+    card:
+      - --icon-color: var(--main-color)

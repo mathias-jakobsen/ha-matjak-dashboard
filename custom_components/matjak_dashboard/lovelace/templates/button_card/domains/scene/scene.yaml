@@ -1,0 +1,15 @@
+mj_scene_card:
+  template: mj_entity_card
+
+  variables:
+    mj_hide_state: true
+
+  tap_action:
+    action: call-service
+    service: scene.turn_on
+    service_data:
+      entity_id: "[[[ return entity.entity_id; ]]]"
+
+  styles:
+    card:
+      - --icon-color: var(--main-color)

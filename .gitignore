@@ -9,6 +9,9 @@
 /configuration.yaml
 /customize.yaml
 /home-assistant*
+/automations.yaml
+/scripts.yaml
+/scenes.yaml
 
 /custom_components/**
 !/custom_components/**/
