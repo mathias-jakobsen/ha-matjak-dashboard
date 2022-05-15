@@ -1,0 +1,3 @@
+# matjak_dashboard
+
+!include_dir_merge_list {{ mj.paths.custom_views }}

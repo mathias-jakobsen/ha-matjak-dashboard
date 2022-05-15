@@ -1,7 +1,7 @@
 mj_climate_card:
   show_icon: false
   show_label: false
-  show_name: false
+  show_name: true
   show_state: false
 
   styles:
@@ -13,6 +13,8 @@ mj_climate_card:
           "header header header" auto
           "temp_down target_temp temp_up" 1fr
           "hvac_modes hvac_modes hvac_modes" / 1fr 1fr 1fr
+    name:
+      - display: none
     custom_fields:
       header:
         - pointer-events: none
@@ -23,6 +25,7 @@ mj_climate_card:
         type: custom:button-card
         template: mj_entity_card
         entity: "[[[ return entity.entity_id; ]]]"
+        name: "[[[ return this._buildName(this._stateObj); ]]]"
         state_display: >
             [[[
               const temperature = `${entity.attributes.current_temperature} ${hass.config.unit_system.temperature}`;
