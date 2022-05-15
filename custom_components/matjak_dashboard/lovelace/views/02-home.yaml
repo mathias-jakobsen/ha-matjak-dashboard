@@ -38,7 +38,7 @@
             - type: custom:button-card
               view_layout:
                 grid-column: 1/-1
-              template: mj_title
+              template: mj_title_card
               label: {{ mj.translations["area_location_" ~ location] | default(location.replace("_", " ")) | title }}
               state_display: {{ areas_count }} {{ areas_count == 1 and mj.translations.area or mj.translations.areas }}
 

@@ -3,6 +3,7 @@ mj_scene_card:
 
   variables:
     mj_hide_state: true
+    mj_layout: vertical
 
   tap_action:
     action: call-service

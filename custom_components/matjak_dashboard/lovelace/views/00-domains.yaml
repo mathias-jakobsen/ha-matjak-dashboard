@@ -38,7 +38,7 @@
           - type: custom:button-card
             template: mj_back_button
           - type: custom:button-card
-            template: mj_title
+            template: mj_title_card
             label: {{ domain_title }}
             styles:
               card:
@@ -75,7 +75,7 @@
               - type: custom:button-card
                 view_layout:
                   grid-column: 1/-1
-                template: mj_title
+                template: mj_title_card
                 label: {{ mj.translations["device_class" ~ device_class] | default(device_class | replace("_", " ")) | title }}
 
               {% for entity in entities | sort(attribute="name") %}
@@ -105,7 +105,7 @@
               - type: custom:button-card
                 view_layout:
                   grid-column: 1/-1
-                template: mj_title
+                template: mj_title_card
                 label: {{ mj.translations.device_class_non_existant }}
               {% endif %}
 

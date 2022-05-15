@@ -36,7 +36,7 @@
           - type: custom:button-card
             template: mj_back_button
           - type: custom:button-card
-            template: mj_title
+            template: mj_title_card
             label: {{ area.name }}
             styles:
               card:
@@ -67,13 +67,13 @@
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ mj.domain_card_sizes[domain] | default("160px") }}, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ domain in mj.domain_card_sizes and mj.domain_card_sizes[domain] or "160px" }}, 1fr))
               margin: 0
             cards:
               - type: custom:button-card
                 view_layout:
                   grid-column: 1/-1
-                template: mj_title
+                template: mj_title_card
                 label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
 
               {% for entity in entities | sort(attribute="device_class, name") %}
@@ -100,13 +100,13 @@
             layout_type: grid
             layout:
               grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
+              grid-template-columns: repeat(auto-fill, minmax({{ domain in mj.domain_card_sizes and mj.domain_card_sizes[domain] or "160px" }}, 1fr))
               margin: 0
             cards:
               - type: custom:button-card
                 view_layout:
                   grid-column: 1/-1
-                template: mj_title
+                template: mj_title_card
                 label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
 
               {% for entity in entities | sort(attribute="device_class, name") %}
