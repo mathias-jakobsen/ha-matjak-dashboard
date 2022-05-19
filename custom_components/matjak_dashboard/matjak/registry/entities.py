@@ -100,7 +100,7 @@ class EntityRegistry:
                     new_entry.area_id = entity.area_id
 
                 if new_entry.device_class is None:
-                    new_entry.device_class = entity.device_class or entity.original_device_class or ""
+                    new_entry.device_class = (entity.device_class or entity.original_device_class) or ""
 
                 if new_entry.entity_category is None:
                     new_entry.entity_category = entity.entity_category
@@ -146,9 +146,23 @@ class EntityRegistry:
 
         return result
 
-    def get_by_device_class(self, domain: str, *device_classes: str) -> list[EntityRegistryEntry]:
+    def get_by_device_class(self, domain: Union[str, DomainRegistryEntry], *device_classes: str) -> Union[list[EntityRegistryEntry], tuple[str, list[EntityRegistryEntry]]]:
         """ Gets a list of entities by one or more device classes. """
-        return [entity for entity in self._entities.values() if entity.domain == domain and entity.device_class in device_classes]
+        result = {}
+
+        for entity in self.get_by_domain(domain):
+            if len(device_classes) > 0 and entity.device_class not in device_classes:
+                continue
+
+            if entity.device_class not in result:
+                result[entity.device_class] = []
+
+            result[entity.device_class].append(entity)
+
+        if len(device_classes) == 1:
+            return result[device_classes[0]]
+
+        return sorted(result.items(), key=lambda x: (x[0] == "", x[0]))
 
     def get_by_domain(self, *domains: Union[str, DomainRegistryEntry]) -> list[EntityRegistryEntry]:
         """ Gets a list of entity by one or more domains. """
