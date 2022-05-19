@@ -1,3 +1,12 @@
-light:
-  template: generic_card
+mj_light_card:
+  template: mj_entity_card
 
+  state:
+    - id: state_on
+      styles:
+        card:
+          - --icon-color: >
+              [[[
+                const current_color = this._getColorForLightEntity(this._stateObj);
+                return current_color.slice(4, -1);
+              ]]]

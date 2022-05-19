@@ -99,20 +99,15 @@
           layout_type: grid
           layout:
             grid-gap: var(--grid-gap)
-            grid-template-columns: repeat(3, 1fr)
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr))
             margin: 0
           cards:
             - type: custom:button-card
-              template: mj_entity_card
-              icon: mdi:account-multiple
-              label: "[[[ return 'Home' ]]]"
-              variables:
-                mj_layout: vertical
-                mj_replace_name_with_label: true
+              template: mj_glance_persons_card
             - type: custom:button-card
-              template: mj_entity_card
-              icon: mdi:lightbulb-multiple
-              label: "[[[ return '3 lights on' ]]]"
-              variables:
-                mj_layout: vertical
-                mj_replace_name_with_label: true
+              template: mj_glance_lights_card
+            {% if mj.user_config.weather.entities.weather %}
+            - type: custom:button-card
+              template: mj_glance_weather_card
+              entity: {{ mj.user_config.weather.entities.weather }}
+            {% endif %}

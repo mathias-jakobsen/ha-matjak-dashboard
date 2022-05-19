@@ -68,6 +68,7 @@
               grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
               margin: 0
             cards:
+              {% if device_class or loop.index > 1 %}
               - type: custom:button-card
                 view_layout:
                   grid-column: 1/-1
@@ -78,6 +79,8 @@
                   {% else %}
                   {{ mj.translations.device_class_non_existant }}
                   {% endif %}
+              {% endif %}
+
               {% for entity in entities | sort(attribute="name") %}
               {% set device_class_card_template = "mj_" ~ domain.id ~ "_" ~ device_class ~ "_card" %}
               - type: custom:button-card

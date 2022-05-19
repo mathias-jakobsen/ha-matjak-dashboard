@@ -1,0 +1,20 @@
+# matjak_dashboard
+
+mj_glance_weather_card:
+  template: mj_entity_card
+
+  variables:
+    mj_layout: vertical
+    mj_replace_name_with_label: true
+    mj_swap_name_state: true
+
+  icon: >
+    [[[
+      return {{ mj.user_config.weather.icons }}[entity.state];
+    ]]]
+  label: Weather
+
+  styles:
+    card:
+      - --icon-color: "[[[ return `var(--color-weather-${entity.state})`; ]]]"
+
