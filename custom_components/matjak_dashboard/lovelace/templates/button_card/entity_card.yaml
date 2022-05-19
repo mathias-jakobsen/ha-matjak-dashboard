@@ -60,7 +60,7 @@ mj_entity_card:
       - font-size: >
           [[[
             if (variables.mj_hide_state) {
-              return "16px";
+              return "var(--card-font-size-title)";
             }
             return variables.mj_swap_name_state ? "var(--card-font-size-subtitle)" : "var(--card-font-size-title)";
           ]]]
@@ -83,7 +83,7 @@ mj_entity_card:
       - font-size: >
           [[[
             if (variables.mj_hide_state) {
-              return "16px";
+              return "var(--card-font-size-title)";
             }
             return variables.mj_swap_name_state ? "var(--card-font-size-subtitle)" : "var(--card-font-size-title)";
           ]]]

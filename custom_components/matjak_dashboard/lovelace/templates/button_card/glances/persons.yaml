@@ -1,0 +1,38 @@
+# matjak_dashboard
+
+{% set entities = mj.entities.get_by_domain("person") | map(attribute="entity_id") | list %}
+mj_glance_persons_card:
+  template: mj_entity_card
+  triggers_update: {{ entities }}
+
+  variables:
+    mj_layout: vertical
+    mj_replace_name_with_label: true
+    mj_swap_name_state: true
+
+  icon: >
+    [[[
+      const num_persons_home = {{ entities }}.filter(entity_id => states[entity_id].state == "home").length;
+      return `${num_persons_home > 0 ? "mdi:home" : "mdi:home-outline"}`;
+    ]]]
+  label: Persons
+  state_display: >
+    [[[
+      const num_persons_home = {{ entities }}.filter(entity_id => states[entity_id].state == "home").length;
+      return `${num_persons_home > 0 ? "Home" : "Away"}`;
+    ]]]
+
+  state:
+    - operator: template
+      value: >
+        [[[
+          const num_persons_home = {{ entities }}.filter(entity_id => states[entity_id].state == "home").length;
+          return num_persons_home > 0;
+        ]]]
+      styles:
+        card:
+          - --icon-color: var(--color-domain-person)
+
+  styles:
+    label:
+      - word-wrap: normal

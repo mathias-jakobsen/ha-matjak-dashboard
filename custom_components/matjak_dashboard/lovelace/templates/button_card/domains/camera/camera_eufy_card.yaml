@@ -1,0 +1,93 @@
+mj_camera_eufy_card:
+  variables:
+    mj_media_browsing_path: null
+    mj_streaming_entity: null
+
+  triggers_update: all
+
+  show_icon: false
+  show_label: false
+  show_name: false
+  show_state: false
+
+  tap_action:
+    action: navigate
+    navigation_path: "[[[ return variables.mj_media_browsing_path; ]]]"
+
+  styles:
+    card:
+      - padding: var(--ha-card-padding)
+    grid:
+      - grid-gap: var(--grid-row-gap) 0
+      - grid-template: >
+          "header start_stop_button" auto
+          "camera camera" 1fr / 1fr auto
+    custom_fields:
+      header:
+        - pointer-events: none
+      camera:
+        - pointer-events: none
+
+  custom_fields:
+    header:
+      card:
+        type: custom:button-card
+        template: mj_entity_card
+        entity: "[[[ return entity.entity_id; ]]]"
+        state:
+          - operator: template
+            value: "[[[ return entity.state.toLowerCase().startsWith('streaming'); ]]]"
+            styles:
+              card:
+                - --icon-color: var(--main-color)
+        variables:
+          mj_is_nested: true
+
+    start_stop_button:
+      card:
+        type: custom:button-card
+        name: "[[[ return entity.state.toLowerCase().startsWith('streaming') ? 'Stop Stream' : 'Start Stream'; ]]]"
+        tap_action:
+          action: call-service
+          service: "[[[ return entity.state.toLowerCase().startsWith('streaming') ? 'camera.turn_off' : 'camera.turn_on'; ]]]"
+          service_data:
+            entity_id: "[[[ return entity.entity_id; ]]]"
+        card_mod:
+          style: |
+            ha-card:hover {
+              background: rgba(var(--main-color), 0.1) !important;
+            }
+        styles:
+          card:
+            - box-shadow: none
+            - padding: var(--ha-card-padding)
+          grid:
+            - grid-template: >
+                "n" 1fr / 1fr
+          name:
+            - color: rgba(var(--main-color), 1)
+
+    camera:
+      card:
+        type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: 1fr
+          margin: 0 calc(-1 * var(--ha-card-padding)) calc(-1 * var(--ha-card-padding)) calc(-1 * var(--ha-card-padding))
+        cards:
+          - type: picture-entity
+            view_layout:
+              show: "[[[ return entity.state.toLowerCase().startsWith('streaming') ? 'never' : 'always'; ]]]"
+            entity: "[[[ return entity.entity_id; ]]]"
+            show_name: false
+            show_state: false
+
+          - type: custom:webrtc-camera
+            view_layout:
+              show: "[[[ return entity.state.toLowerCase().startsWith('streaming') ? 'always' : 'never'; ]]]"
+            card_mod:
+              style: |
+                ha-card {
+                  pointer-events: auto;
+                }
+            entity: "[[[ return entity.entity_id; ]]]"

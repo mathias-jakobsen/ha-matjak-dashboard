@@ -2,7 +2,7 @@
 
 {% for domain in mj.domains %}
 {% set domain_card_template = "mj_" ~ domain.id ~ "_card" %}
-{% set domain_entities = mj.entities.get_by_domain(domain) %}
+{% set domain_entities = mj.entities.get_by_device_class(domain) %}
 {% set domain_title = mj.translations["domain_" ~ domain.id] | default(domain.id.replace("_", " ")) | title %}
 - title: Entities
   icon: {{ domain.icon }}
@@ -60,11 +60,7 @@
           margin: 0
           padding: var(--view-padding)
         cards:
-          {% set grouped_entities = domain_entities | groupby("device_class") %}
-          {% set ns = namespace(entities_with_device_class=[]) %}
-          {% set no_device_classes = ["", none] %}
-          {% for device_class, entities in grouped_entities if device_class not in no_device_classes %}
-          {% set ns.entities_with_device_class = ns.entities_with_device_class + entities %}
+          {% for device_class, entities in domain_entities %}
           - type: custom:layout-card
             layout_type: grid
             layout:
@@ -72,11 +68,18 @@
               grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
               margin: 0
             cards:
+              {% if device_class or loop.index > 1 %}
               - type: custom:button-card
                 view_layout:
                   grid-column: 1/-1
                 template: mj_title_card
-                label: {{ mj.translations["device_class" ~ device_class] | default(device_class | replace("_", " ")) | title }}
+                label:
+                  {% if device_class %}
+                  {{ mj.translations["device_class" ~ device_class] | default(device_class | replace("_", " ")) | title }}
+                  {% else %}
+                  {{ mj.translations.device_class_non_existant }}
+                  {% endif %}
+              {% endif %}
 
               {% for entity in entities | sort(attribute="name") %}
               {% set device_class_card_template = "mj_" ~ domain.id ~ "_" ~ device_class ~ "_card" %}
@@ -85,34 +88,6 @@
                   {% if device_class_card_template in mj.button_card_templates %}
                   {{ device_class_card_template }}
                   {% elif domain_card_template in mj.button_card_templates %}
-                  {{ domain_card_template }}
-                  {% else %}
-                  mj_entity_card
-                  {% endif %}
-                entity: {{ entity.entity_id }}
-              {% endfor %}
-          {% endfor %}
-
-          {% for device_class, entities in grouped_entities if device_class in no_device_classes %}
-          - type: custom:layout-card
-            layout_type: grid
-            layout:
-              grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ domain.id in mj.domain_card_sizes and mj.domain_card_sizes[domain.id] or "160px" }}, 1fr))
-              margin: 0
-            cards:
-              {% if ns.entities_with_device_class | count > 0 %}
-              - type: custom:button-card
-                view_layout:
-                  grid-column: 1/-1
-                template: mj_title_card
-                label: {{ mj.translations.device_class_non_existant }}
-              {% endif %}
-
-              {% for entity in entities | sort(attribute="name") %}
-              - type: custom:button-card
-                template:
-                  {% if domain_card_template in mj.button_card_templates %}
                   {{ domain_card_template }}
                   {% else %}
                   mj_entity_card

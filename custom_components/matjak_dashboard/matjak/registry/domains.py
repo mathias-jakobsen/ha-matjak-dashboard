@@ -46,9 +46,10 @@ DEFAULT_DOMAIN_ICONS = {
 }
 
 DOMAIN_CARD_SIZES = {
+    "camera": "400px",
     "climate": "250px",
     "cover": "200px",
-    "scene": "120px"
+    "scene": "100px"
 }
 
 
