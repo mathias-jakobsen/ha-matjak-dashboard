@@ -1,0 +1,37 @@
+# matjak_dashboard
+
+{% set entities = mj.entities.get_by_domain("light") | map(attribute="entity_id") | list %}
+type: custom:button-card
+template: mj_entity_card
+triggers_update: {{ entities }}
+
+variables:
+  mj_is_nested: {{ is_nested | default(False) }}
+  mj_layout: vertical
+  mj_replace_name_with_label: true
+  mj_swap_name_state: true
+
+icon: mdi:lightbulb-multiple
+label: Lights
+state_display: >
+  [[[
+    const num_lights_on = {{ entities }}.filter(entity_id => states[entity_id].state == "on").length;
+    return `${num_lights_on}  on`;
+  ]]]
+
+hold_action:
+  action: call-service
+  service: light.turn_off
+  service_data:
+    entity_id: {{ entities }}
+
+state:
+  - operator: template
+    value: >
+      [[[
+        const num_lights_on = {{ entities }}.filter(entity_id => states[entity_id].state == "on").length;
+        return num_lights_on > 0;
+      ]]]
+    styles:
+      card:
+        - --icon-color: var(--color-domain-light)

@@ -57,6 +57,7 @@ color-domain-switch: var(--main-color)
 
 color-weather-cloudy: var(--color-grey)
 color-weather-fog: var(--color-grey)
+color-weather-partlycloudy: var(--color-grey-light)
 color-weather-pouring: var(--color-blue-dark)
 color-weather-rainy: var(--color-blue)
 color-weather-sunny: var(--color-yellow)

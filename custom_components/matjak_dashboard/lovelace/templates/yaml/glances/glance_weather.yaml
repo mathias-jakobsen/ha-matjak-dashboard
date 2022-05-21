@@ -1,0 +1,24 @@
+# matjak_dashboard
+
+{% if mj.user_config.weather.entities.weather %}
+type: custom:button-card
+template: mj_entity_card
+
+variables:
+  mj_is_nested: {{ is_nested | default(False) }}
+  mj_layout: vertical
+  mj_replace_name_with_label: true
+  mj_swap_name_state: true
+
+entity: {{ mj.user_config.weather.entities.weather }}
+icon: >
+  [[[
+    return {{ mj.user_config.weather.icons }}[entity.state];
+  ]]]
+label: {{ mj.translations.weather }}
+
+styles:
+  card:
+    - --icon-color: "[[[ return `var(--color-weather-${entity.state})`; ]]]"
+
+{% endif %}

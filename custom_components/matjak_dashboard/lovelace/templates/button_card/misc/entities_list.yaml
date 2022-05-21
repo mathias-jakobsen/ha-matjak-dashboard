@@ -1,6 +1,7 @@
 entities_list:
   variables:
     mj_entities: []
+    mj_is_nested: true
     mj_layout: vertical
     mj_min_width: null
 
@@ -13,12 +14,16 @@ entities_list:
 
   styles:
     card:
+      - background: "[[[ return variables.mj_is_nested ? 'var(--ha-card-background)' : 'none'; ]]]"
+      - border-radius: "[[[ return variables.mj_is_nested ? 'var(--ha-card-border-radius)' : '0'; ]]]"
+      - box-shadow: "[[[ return variables.mj_is_nested ? 'var(--ha-card-box-shadow)' : 'none'; ]]]"
       - padding: 0
     grid:
       - grid-template: >
           "entities" 1fr / 1fr
     custom_fields:
       entities:
+        - overflow: auto
         - pointer-events: auto
 
   custom_fields:
@@ -27,6 +32,16 @@ entities_list:
         type: custom:layout-card
         layout_type: grid
         layout:
+          grid-auto-columns: >
+            [[[
+              if (variables.mj_min_width == null) {
+                return "1fr";
+              }
+
+              return variables.mj_min_width;
+            ]]]
+          grid-auto-flow: "[[[ return variables.mj_layout == 'vertical' ? 'row' : 'column'; ]]]"
+          grid-gap: "[[[ return variables.mj_is_nested ? '0' : 'var(--grid-gap)'; ]]]"
           grid-template-columns: >
             [[[
               if (variables.mj_layout == "vertical") {
@@ -38,7 +53,7 @@ entities_list:
                   return `repeat(${variables.mj_entities.length}, 1fr)`;
                 }
 
-                return `repeat(auto-fit, minmax(${variables.mj_min_width}, 1fr))`;
+                return `repeat(auto-fill, minmax(${variables.mj_min_width}, 1fr))`;
               }
 
               return "none";
@@ -47,8 +62,8 @@ entities_list:
           padding: 0
         cards: >
           [[[
-            const device_classes = ["battery"];
-            const domains = ["lock", "sensor"];
+            const device_classes = [];
+            const domains = [];
             const result = [];
 
             for (let i = 0; i < variables.mj_entities.length; i++) {
@@ -58,18 +73,20 @@ entities_list:
               const device_class = domain == "sensor" ? states[entity_id]?.attributes.device_class : null;
               const item = {
                 type: "custom:button-card",
-                template: device_classes.includes(device_class) ? device_class : domains.includes(domain) ? domain : "generic_card",
+                template: device_classes.includes(device_class) ? device_class : domains.includes(domain) ? domain : "mj_entity_card",
                 entity: entity_id,
-                styles: {
-                  card: [
-                    {"border-radius": 0}
-                  ]
-                },
                 variables: {
-                  mj_is_nested: true,
                   mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal"
                 }
               };
+
+              if (variables.mj_is_nested) {
+                item["styles"] = {
+                  card: [
+                    {"background": "none", "border-radius": 0, "box-shadow": "none"}
+                  ]
+                }
+              }
 
               if ("templates" in entity) {
                 item["template"] = entity["templates"];
