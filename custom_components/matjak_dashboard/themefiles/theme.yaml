@@ -122,7 +122,9 @@ sidebar-selected-text-color: var(--primary-color)
 ha-card-background: rgb(var(--card-background))
 ha-card-border-radius: 12px
 ha-card-box-shadow: 0px 2px 4px 0px var(--ha-card-box-shadow-color)
-ha-card-padding: 12px
+ha-card-padding-h: 12px
+ha-card-padding-v: 12px
+ha-card-padding: var(--ha-card-padding-v) var(--ha-card-padding-h)
 
 
 #-----------------------------------------------------------#

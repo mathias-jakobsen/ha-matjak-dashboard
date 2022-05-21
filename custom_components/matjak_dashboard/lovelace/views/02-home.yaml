@@ -115,18 +115,40 @@
           view_layout:
             show:
               mediaquery: "(min-width: 960px)"
-          template: entities_list
+          template: mj_entities_list_card
           variables:
-            mj_entities: {{ mj.user_config.favorite_entities }}
+            mj_entities:
+              {% for entity_id in mj.user_config.favorite_entities %}
+              {% set entity = mj.entities.get_by_id(entity_id) %}
+              {% set domain_card_template = "mj_" ~ entity.domain ~ "_card" %}
+              {% set device_class_card_template = "mj_" ~ entity.domain ~ "_" ~ entity.device_class ~ "_card" %}
+              - entity: {{ entity_id }}
+              {% if device_class_card_template in mj.button_card_templates %}
+                templates: {{ device_class_card_template }}
+              {% elif domain_card_template in mj.button_card_templates %}
+                templates: {{ domain_card_template }}
+              {% endif %}
+              {% endfor %}
 
         - type: custom:button-card
           view_layout:
             show:
               mediaquery: "(max-width: 959px)"
-          template: entities_list
+          template: mj_entities_list_card
           variables:
             mj_is_nested: false
             mj_layout: horizontal
-            mj_entities: {{ mj.user_config.favorite_entities }}
+            mj_entities:
+              {% for entity_id in mj.user_config.favorite_entities %}
+              {% set entity = mj.entities.get_by_id(entity_id) %}
+              {% set domain_card_template = "mj_" ~ entity.domain ~ "_card" %}
+              {% set device_class_card_template = "mj_" ~ entity.domain ~ "_" ~ entity.device_class ~ "_card" %}
+              - entity: {{ entity_id }}
+              {% if device_class_card_template in mj.button_card_templates %}
+                templates: {{ device_class_card_template }}
+              {% elif domain_card_template in mj.button_card_templates %}
+                templates: {{ domain_card_template }}
+              {% endif %}
+              {% endfor %}
             mj_min_width: 120px
         {% endif %}
