@@ -150,5 +150,5 @@
                 templates: {{ domain_card_template }}
               {% endif %}
               {% endfor %}
-            mj_min_width: 100px
+            mj_min_width: minmax(max(100px, calc(100% / {{ mj.user_config.favorite_entities | count }} - var(--grid-column-gap) * ({{ mj.user_config.favorite_entities | count }} - 1))), 1fr)
         {% endif %}
