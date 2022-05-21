@@ -48,3 +48,10 @@ entities: entities
 
 light_on: Light on
 lights_on: Lights on
+
+
+#-----------------------------------------------------------#
+#       Weather
+#-----------------------------------------------------------#
+
+weather: Weather

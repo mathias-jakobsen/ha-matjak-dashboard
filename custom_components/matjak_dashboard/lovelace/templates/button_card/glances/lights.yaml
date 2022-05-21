@@ -1,11 +1,9 @@
-# matjak_dashboard
-
-{% set entities = mj.entities.get_by_domain("light") | map(attribute="entity_id") | list %}
 mj_glance_lights_card:
   template: mj_entity_card
-  triggers_update: {{ entities }}
+  triggers_update: all
 
   variables:
+    mj_entities: []
     mj_layout: vertical
     mj_replace_name_with_label: true
     mj_swap_name_state: true
@@ -14,7 +12,7 @@ mj_glance_lights_card:
   label: Lights
   state_display: >
     [[[
-      const num_lights_on = {{ entities }}.filter(entity_id => states[entity_id].state == "on").length;
+      const num_lights_on = variables.mj_entities.filter(entity_id => states[entity_id].state == "on").length;
       return `${num_lights_on}  on`;
     ]]]
 
@@ -22,13 +20,13 @@ mj_glance_lights_card:
     action: call-service
     service: light.turn_off
     service_data:
-      entity_id: {{ entities }}
+      entity_id: "[[[ return variables.mj_entities; ]]]"
 
   state:
     - operator: template
       value: >
         [[[
-          const num_lights_on = {{ entities }}.filter(entity_id => states[entity_id].state == "on").length;
+          const num_lights_on = variables.mj_entities.filter(entity_id => states[entity_id].state == "on").length;
           return num_lights_on > 0;
         ]]]
       styles:
