@@ -102,25 +102,31 @@
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr))
             margin: 0
           cards:
-            {% set person_entities = mj.entities.get_by_domain("person") | map(attribute="entity_id") | list %}
-            {% set light_entities = mj.entities.get_by_domain("light") | map(attribute="entity_id") | list %}
-            - type: custom:button-card
-              template: mj_glance_persons_card
-              triggers_update: {{ person_entities }}
-              variables:
-                mj_entities: {{ person_entities }}
-            - type: custom:button-card
-              template: mj_glance_lights_card
-              triggers_update: {{ light_entities }}
-              variables:
-                mj_entities: {{ light_entities }}
-            {% if mj.user_config.weather.entities.weather %}
-            - type: custom:button-card
-              template: mj_glance_weather_card
-              entity: {{ mj.user_config.weather.entities.weather }}
-              icon: >
-                [[[
-                  return {{ mj.user_config.weather.icons }}[entity.state];
-                ]]]
-              label: {{ mj.translations.weather }}
-            {% endif %}
+            - !include ../templates/yaml/glances/glance_persons.yaml
+            - !include ../templates/yaml/glances/glance_lights.yaml
+            - !include ../templates/yaml/glances/glance_weather.yaml
+
+        {% if mj.user_config.favorite_entities %}
+        - type: custom:button-card
+          template: mj_title_card
+          label: Favorite Entities
+
+        - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(min-width: 960px)"
+          template: entities_list
+          variables:
+            mj_entities: {{ mj.user_config.favorite_entities }}
+
+        - type: custom:button-card
+          view_layout:
+            show:
+              mediaquery: "(max-width: 959px)"
+          template: entities_list
+          variables:
+            mj_is_nested: false
+            mj_layout: horizontal
+            mj_entities: {{ mj.user_config.favorite_entities }}
+            mj_min_width: 120px
+        {% endif %}
