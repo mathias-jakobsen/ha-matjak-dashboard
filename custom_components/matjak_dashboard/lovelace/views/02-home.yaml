@@ -150,5 +150,5 @@
                 templates: {{ domain_card_template }}
               {% endif %}
               {% endfor %}
-            mj_min_width: 120px
+            mj_min_width: 100px
         {% endif %}
