@@ -1,4 +1,4 @@
-entities_list:
+mj_entities_list_card:
   variables:
     mj_entities: []
     mj_is_nested: true
@@ -17,13 +17,17 @@ entities_list:
       - background: "[[[ return variables.mj_is_nested ? 'var(--ha-card-background)' : 'none'; ]]]"
       - border-radius: "[[[ return variables.mj_is_nested ? 'var(--ha-card-border-radius)' : '0'; ]]]"
       - box-shadow: "[[[ return variables.mj_is_nested ? 'var(--ha-card-box-shadow)' : 'none'; ]]]"
+      - overflow: visible
       - padding: 0
+
     grid:
       - grid-template: >
           "entities" 1fr / 1fr
     custom_fields:
       entities:
+        - margin: -10px
         - overflow: auto
+        - padding: 10px
         - pointer-events: auto
 
   custom_fields:
@@ -62,19 +66,15 @@ entities_list:
           padding: 0
         cards: >
           [[[
-            const device_classes = [];
-            const domains = [];
             const result = [];
 
             for (let i = 0; i < variables.mj_entities.length; i++) {
               const entity = typeof variables.mj_entities[i] == "string" ? { entity: variables.mj_entities[i] } : variables.mj_entities[i];
-              const entity_id = entity["entity"];
-              const domain = entity_id?.split(".")[0];
-              const device_class = domain == "sensor" ? states[entity_id]?.attributes.device_class : null;
+
               const item = {
                 type: "custom:button-card",
-                template: device_classes.includes(device_class) ? device_class : domains.includes(domain) ? domain : "mj_entity_card",
-                entity: entity_id,
+                template: "mj_entity_card",
+                entity: entity["entity"],
                 variables: {
                   mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal"
                 }
@@ -89,6 +89,7 @@ entities_list:
               }
 
               if ("templates" in entity) {
+                entity["templates"] = typeof entity["templates"] == "string" ? [entity["templates"]] : entity["templates"];
                 item["template"] = entity["templates"];
               }
 
