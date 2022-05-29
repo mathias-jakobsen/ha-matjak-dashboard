@@ -74,7 +74,8 @@ mj_entities_list_card:
                 template: "mj_entity_card",
                 entity: entity["entity"],
                 variables: {
-                  mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal"
+                  mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal",
+                  ...(entity.variables || {})
                 }
               };
 
