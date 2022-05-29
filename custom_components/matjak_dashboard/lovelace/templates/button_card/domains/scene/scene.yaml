@@ -2,6 +2,7 @@ mj_scene_card:
   template: mj_entity_card
 
   variables:
+    mj_color: var(--main-color)
     mj_hide_state: true
     mj_layout: vertical
 
@@ -13,4 +14,4 @@ mj_scene_card:
 
   styles:
     card:
-      - --icon-color: var(--main-color)
+      - --icon-color: "[[[ return variables.mj_color; ]]]"

@@ -90,6 +90,10 @@
                   {% endif %}
                 entity: {{ entity.entity_id }}
                 name: {{ entity.name | replace(area.name, "") }}
+                {% if domain.id == "scene" and entity.entity_id in mj.user_config.scene_colors %}
+                variables:
+                  mj_color: {{ mj.user_config.scene_colors[entity.entity_id] }}
+                {% endif %}
               {% endfor %}
           {% endif %}
           {% endfor %}
