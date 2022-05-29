@@ -128,6 +128,10 @@
               {% elif domain_card_template in mj.button_card_templates %}
                 templates: {{ domain_card_template }}
               {% endif %}
+              {% if entity.domain == "scene" and entity.entity_id in mj.user_config.scene_colors %}
+                variables:
+                  mj_color: {{ mj.user_config.scene_colors[entity.entity_id] }}
+              {% endif %}
               {% endfor %}
 
         - type: custom:button-card
@@ -148,6 +152,10 @@
                 templates: {{ device_class_card_template }}
               {% elif domain_card_template in mj.button_card_templates %}
                 templates: {{ domain_card_template }}
+              {% endif %}
+              {% if entity.domain == "scene" and entity.entity_id in mj.user_config.scene_colors %}
+                variables:
+                  mj_color: {{ mj.user_config.scene_colors[entity.entity_id] }}
               {% endif %}
               {% endfor %}
             mj_min_width: minmax(125px, 23%)
