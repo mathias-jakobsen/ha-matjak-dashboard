@@ -8,5 +8,10 @@ mj_light_card:
           - --icon-color: >
               [[[
                 const current_color = this._getColorForLightEntity(this._stateObj);
-                return current_color.slice(4, -1);
+
+                if (current_color.startsWith("rgb")) {
+                  return current_color.slice(4, -1);
+                }
+
+                return "var(--color-orange)";
               ]]]
