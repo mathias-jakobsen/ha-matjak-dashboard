@@ -59,7 +59,8 @@
           padding: var(--view-padding)
         cards:
           {% set grouped_entities = dict(area_entities | groupby("domain")) %}
-          {% for domain in mj.user_config.area_highlighted_domains %}
+          {% set not_highlighted_domains = grouped_entities.keys() | reject("in", mj.user_config.area_highlighted_domains) | list %}
+          {% for domain in mj.user_config.area_highlighted_domains + not_highlighted_domains %}
           {% set domain_card_template = "mj_" ~ domain ~ "_card" %}
           {% set entities = grouped_entities[domain] %}
           {% if entities | count > 0 %}
@@ -88,41 +89,9 @@
                   mj_entity_card
                   {% endif %}
                 entity: {{ entity.entity_id }}
-                variables:
-                  mj_name: {{ entity.name | replace(area.name, "") }}
+                name: {{ entity.name | replace(area.name, "") }}
               {% endfor %}
           {% endif %}
           {% endfor %}
 
-          {% for domain, entities in grouped_entities.items() if domain not in mj.user_config.area_highlighted_domains %}
-          {% set domain_card_template = "mj_" ~ domain ~ "_card" %}
-          - type: custom:layout-card
-            layout_type: grid
-            layout:
-              grid-gap: var(--grid-gap)
-              grid-template-columns: repeat(auto-fill, minmax({{ domain in mj.domain_card_sizes and mj.domain_card_sizes[domain] or "160px" }}, 1fr))
-              margin: 0
-            cards:
-              - type: custom:button-card
-                view_layout:
-                  grid-column: 1/-1
-                template: mj_title_card
-                label: {{ mj.translations["domain_" ~ domain] | default(domain.replace("_", " ")) | title }}
-
-              {% for entity in entities | sort(attribute="device_class, name") %}
-              {% set device_class_card_template = "mj_" ~ domain ~ "_" ~ entity.device_class ~ "_card" %}
-              - type: custom:button-card
-                template:
-                  {% if device_class_card_template in mj.button_card_templates %}
-                  {{ device_class_card_template }}
-                  {% elif domain_card_template in mj.button_card_templates %}
-                  {{ domain_card_template }}
-                  {% else %}
-                  mj_entity_card
-                  {% endif %}
-                entity: {{ entity.entity_id }}
-                variables:
-                  mj_name: {{ entity.name | replace(area.name, "") }}
-              {% endfor %}
-          {% endfor %}
 {% endfor %}

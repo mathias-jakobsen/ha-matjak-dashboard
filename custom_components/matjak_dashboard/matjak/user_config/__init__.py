@@ -67,6 +67,7 @@ class MJ_UserConfig:
             },
             vol.Required("exclude", default={}): {
                 vol.Required("areas", default=[]): [str],
+                vol.Required("domains", default=[]): [str],
                 vol.Required("entities", default=[]): [str]
             },
             vol.Required("weather", default={}): {

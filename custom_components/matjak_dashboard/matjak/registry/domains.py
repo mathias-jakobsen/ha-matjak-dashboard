@@ -46,7 +46,6 @@ DEFAULT_DOMAIN_ICONS = {
 }
 
 DOMAIN_CARD_SIZES = {
-    "camera": "400px",
     "climate": "250px",
     "cover": "200px",
     "scene": "100px"
@@ -100,6 +99,9 @@ class DomainRegistry:
         result: dict[str, DomainRegistryEntry] = {}
 
         for domain in set([state.entity_id.split(".")[0] for state in hass.states.async_all()]):
+            if domain in config.exclude.domains:
+                continue
+
             domain_config = config.domains.get(domain, DomainConfig())
             new_entry = DomainRegistryEntry(
                 icon=domain_config.icon or DEFAULT_DOMAIN_ICONS.get(domain, DEFAULT_DOMAIN_ICON),

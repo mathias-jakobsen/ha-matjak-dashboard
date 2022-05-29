@@ -1,0 +1,5 @@
+mj_binary_sensor_card:
+  template: mj_entity_card
+
+  tap_action:
+    action: more-info
