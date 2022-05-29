@@ -29,6 +29,15 @@ mj_entities_list_card:
         - padding: 5px
         - pointer-events: auto
 
+  card_mod:
+    style:
+      "layout-card$grid-layout$": |
+        #root > *:last-child {
+          padding-right: calc(var(--view-padding-h) - 5px);
+          width: 100%;
+        }
+
+
   custom_fields:
     entities:
       card:

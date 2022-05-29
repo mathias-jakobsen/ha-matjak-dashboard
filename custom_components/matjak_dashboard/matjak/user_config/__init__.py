@@ -70,6 +70,7 @@ class MJ_UserConfig:
                 vol.Required("domains", default=[]): [str],
                 vol.Required("entities", default=[]): [str]
             },
+            vol.Required("scene_colors", default={}): {str: str},
             vol.Required("weather", default={}): {
                 vol.Required("entities", default={}): {str: str},
                 vol.Required("icons", default=DEFAULT_WEATHER_ICONS): validate_weather_icons

@@ -16,11 +16,11 @@ icon: >
     const num_persons_home = {{ entities }}.filter(entity_id => states[entity_id].state == "home").length;
     return `${num_persons_home > 0 ? "mdi:home" : "mdi:home-outline"}`;
   ]]]
-label: Persons
+label: {{ mj.translations.persons }}
 state_display: >
   [[[
     const num_persons_home = {{ entities }}.filter(entity_id => states[entity_id].state == "home").length;
-    return `${num_persons_home > 0 ? "Home" : "Away"}`;
+    return `${num_persons_home > 0 ? "{{ mj.translations.location_home }}" : "{{ mj.translations.location_away }}"}`;
   ]]]
 
 state:
