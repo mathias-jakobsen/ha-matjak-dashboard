@@ -19,6 +19,7 @@ mj_entity_card:
       - --icon-color: var(--card-background-off)
       - background: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-background)'; ]]]"
       - box-shadow: "[[[ return variables.mj_is_nested ? 'none' : 'var(--ha-card-box-shadow)'; ]]]"
+      - overflow: "[[[ return variables.mj_is_nested ? 'visible' : 'hidden'; ]]]"
       - padding: "[[[ return variables.mj_is_nested ? '0' : 'var(--ha-card-padding)'; ]]]"
       - position: relative
     grid:
@@ -126,12 +127,16 @@ mj_entity_card:
         - left: >
             [[[
               if (variables.mj_layout == "vertical") {
-                return "calc(50% + 8px)";
+                return `calc(50% + 9px)`;
               }
+
               return "41px";
             ]]]
         - position: absolute
-        - top: 8px
+        - top: >
+            [[[
+              return variables.mj_is_nested ? "calc(8px - var(--ha-card-padding-v))" : "8px"
+            ]]]
         - width: 16px
         - z-index: 1
       notification_unavailable:
@@ -144,13 +149,17 @@ mj_entity_card:
         - left: >
             [[[
               if (variables.mj_layout == "vertical") {
-                return "calc(50% + 8px)";
+                return `calc(50% + 9px)`;
               }
-              return "41px";
+
+              return variables.mj_is_nested ? "calc(41px - var(--ha-card-padding-h))" : "41px";
             ]]]
         - opacity: 0
         - position: absolute
-        - top: 8px
+        - top: >
+            [[[
+              return variables.mj_is_nested ? "calc(8px - var(--ha-card-padding-v))" : "8px"
+            ]]]
         - width: 16px
         - z-index: 2
 
