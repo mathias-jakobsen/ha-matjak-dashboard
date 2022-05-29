@@ -1,0 +1,71 @@
+mj_media_player_card:
+  show_icon: false
+  show_label: false
+  show_name: true
+  show_state: false
+
+  styles:
+    card:
+      - --icon-color: var(--color-blue)
+      - padding: var(--ha-card-padding)
+    grid:
+      - grid-gap: var(--grid-gap)
+      - grid-template: >
+          "header header header" auto
+          "previous play_pause next" 1fr / 1fr 1fr 1fr
+    name:
+      - display: none
+    custom_fields:
+      header:
+        - pointer-events: none
+
+  custom_fields:
+    header:
+      card:
+        type: custom:button-card
+        template: mj_entity_card
+        entity: "[[[ return entity.entity_id; ]]]"
+        name: "[[[ return this._buildName(this._stateObj); ]]]"
+        state:
+          - value: playing
+            styles:
+              card:
+                - --icon-color: var(--color-green)
+        variables:
+          mj_is_nested: true
+
+    previous:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:skip-previous
+        tap_action:
+          action: call-service
+          service: media_player.media_previous_track
+          service_data:
+            entity_id: "[[[ return entity.entity_id ]]]"
+
+    play_pause:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:play
+        state:
+          - value: playing
+            icon: mdi:pause
+        tap_action:
+          action: call-service
+          service: media_player.media_play_pause
+          service_data:
+            entity_id: "[[[ return entity.entity_id ]]]"
+
+    next:
+      card:
+        type: custom:button-card
+        template: mj_icon_button
+        icon: mdi:skip-next
+        tap_action:
+          action: call-service
+          service: media_player.media_next_track
+          service_data:
+            entity_id: "[[[ return entity.entity_id ]]]"

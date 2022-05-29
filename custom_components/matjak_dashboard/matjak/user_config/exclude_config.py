@@ -18,5 +18,5 @@ class ExcludeConfig:
     #--------------------------------------------#
 
     areas: list[str] = field(default_factory=list)
-    devices: list[str] = field(default_factory=list)
+    domains: list[str] = field(default_factory=list)
     entities: list[str] = field(default_factory=list)

@@ -26,7 +26,7 @@ DEFAULT_AREA_ICONS = {
     "mdi:pot-steam": ["Kitchen", "Køkken"],
     "mdi:silverware-fork-knife": ["Dining Room", "Kitchen-Dining Room", "Spisestue", "Køkkenalrum"],
     "mdi:sofa": ["Living Room", "Stue"],
-    "mdi:toilet": ["Bathroom", "Badeværelse"],
+    "mdi:toilet": ["Bathroom", "Badeværelse", "Gæstetoilet"],
     "mdi:treasure-chest": ["Storage Room"],
     "mdi:washing-machine": ["Utility Room", "Bryggers"],
     "mdi:wardrobe": ["Walk In", "Wardrobe", "Garderobe"]
