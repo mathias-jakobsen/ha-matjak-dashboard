@@ -32,7 +32,7 @@
           layout_type: grid
           layout:
             grid-gap: var(--grid-gap)
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+            grid-template-columns: repeat(auto-fit, minmax(var(--card-size-default), 1fr))
             margin: 0
           cards:
             - type: custom:button-card
@@ -63,22 +63,22 @@
                 {% if (light_entities + media_player_entities + climate_entities + presence_entities) | count > 0 %}
                 mj_entities:
                   {% if light_entities | count > 0 %}
-                  - templates: [mj_area_card_entity_lights]
+                  - templates: mj_area_card_entity_lights
                     entities: {{ light_entities }}
                   {% endif %}
 
                   {% if media_player_entities | count > 0 %}
-                  - templates: [mj_area_card_entity_media_player]
+                  - templates: mj_area_card_entity_media_player
                     entities: {{ media_player_entities }}
                   {% endif %}
 
                   {% if climate_entities | count > 0 %}
-                  - templates: [mj_area_card_entity_climate]
+                  - templates: mj_area_card_entity_climate
                     entities: {{ climate_entities }}
                   {% endif %}
 
                   {% if presence_entities | count > 0 %}
-                  - templates: [mj_area_card_entity_presence]
+                  - templates: mj_area_card_entity_presence
                     entities: {{ presence_entities }}
                   {% endif %}
                 {% endif %}

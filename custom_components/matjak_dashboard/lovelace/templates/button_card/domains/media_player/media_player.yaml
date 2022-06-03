@@ -49,10 +49,7 @@ mj_media_player_card:
       card:
         type: custom:button-card
         template: mj_icon_button
-        icon: mdi:play
-        state:
-          - value: playing
-            icon: mdi:pause
+        icon: "[[[ return ['playing', 'on'].includes(entity.state) ? 'mdi:pause' : 'mdi:play' ]]]"
         tap_action:
           action: call-service
           service: media_player.media_play_pause

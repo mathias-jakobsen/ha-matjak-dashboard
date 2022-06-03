@@ -18,7 +18,7 @@ mj_sensor_battery_card:
       const is_charging = ["charging", "on"].includes(charging_state);
       const charging_type = states[variables.mj_battery_charging_type_entity]?.state.toLowerCase();
 
-      if (battery_level == undefined) {
+      if (battery_level == undefined || battery_level == "unknown") {
         return "mdi:battery-unknown";
       }
 
