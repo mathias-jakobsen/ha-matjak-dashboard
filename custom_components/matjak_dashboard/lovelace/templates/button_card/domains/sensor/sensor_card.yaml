@@ -2,16 +2,11 @@ mj_sensor_card:
   template: mj_entity_card
 
   variables:
-    mj_device_class_colors:
-      humidity: var(--color-blue)
-      illuminance: var(--color-purple)
-      temperature: var(--color-red)
     mj_swap_name_state: true
 
   styles:
     card:
       - --icon-color: >
           [[[
-            const colors = variables.mj_device_class_colors || {};
-            return colors[entity?.attributes?.device_class] || "var(--card-background-off)";
+            return `var(--color-sensor-${entity?.attributes?.device_class}, var(--main-color))`;
           ]]]

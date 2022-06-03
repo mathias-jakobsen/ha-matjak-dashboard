@@ -53,6 +53,15 @@ color-domain-switch: var(--main-color)
 
 
 #-----------------------------------------------------------#
+#       Sensor Colors
+#-----------------------------------------------------------#
+
+color-sensor-humidity: var(--color-blue)
+color-sensor-illuminance: var(--color-purple)
+color-sensor-temperature: var(--color-red)
+
+
+#-----------------------------------------------------------#
 #       Weather Colors
 #-----------------------------------------------------------#
 
@@ -85,6 +94,7 @@ card-size-default: 150px
 card-size-climate: 250px
 card-size-cover: 200px
 card-size-light: 180px
+card-size-media_player: 250px
 card-size-scene: 100px
 
 # ---- Font Sizes ------

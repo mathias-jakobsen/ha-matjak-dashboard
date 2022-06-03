@@ -160,7 +160,7 @@ class EntityRegistry:
             result[entity.device_class].append(entity)
 
         if len(device_classes) == 1:
-            return result[device_classes[0]]
+            return result[device_classes[0]] if device_classes[0] in result else []
 
         return sorted(result.items(), key=lambda x: (x[0] == "", x[0]))
 
