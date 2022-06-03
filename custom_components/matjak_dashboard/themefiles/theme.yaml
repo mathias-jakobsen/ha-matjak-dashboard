@@ -77,10 +77,15 @@ light-primary-color: rgb(var(--main-color))
 #       Lovelace
 #-----------------------------------------------------------#
 
-shf: 4.9406564584124654e-324
 divider-color: transparent
 lovelace-background: var(--primary-background-color)
-#masonry-view-card-margin: 0
+
+# ---- Card Sizes ------
+card-size-default: 150px
+card-size-climate: 250px
+card-size-cover: 200px
+card-size-light: 180px
+card-size-scene: 100px
 
 # ---- Font Sizes ------
 card-font-size-subtitle: 14px

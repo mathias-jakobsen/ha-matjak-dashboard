@@ -1,6 +1,13 @@
 mj_light_card:
   template: mj_entity_card
 
+  state_display: >
+    [[[
+      if (entity.attributes.brightness) {
+        return `${entity.state} • ${Math.round(entity.attributes.brightness / 2.55)}%`;
+      }
+    ]]]
+
   state:
     - id: state_on
       styles:

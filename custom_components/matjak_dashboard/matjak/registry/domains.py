@@ -45,12 +45,6 @@ DEFAULT_DOMAIN_ICONS = {
     "zone": "mdi:map-marker-radius"
 }
 
-DOMAIN_CARD_SIZES = {
-    "climate": "250px",
-    "cover": "200px",
-    "scene": "100px"
-}
-
 
 #-----------------------------------------------------------#
 #       DomainRegistryEntry
