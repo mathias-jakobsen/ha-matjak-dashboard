@@ -117,6 +117,16 @@ class AreaRegistry:
 
 
     #--------------------------------------------#
+    #       Properties
+    #--------------------------------------------#
+
+    @property
+    def areas(self) -> dict[str, AreaRegistryEntry]:
+        """ Gets the areas. """
+        return self._areas
+
+
+    #--------------------------------------------#
     #       Public Methods
     #--------------------------------------------#
 
@@ -147,3 +157,10 @@ class AreaRegistry:
             result[location].append(area)
 
         return sorted(result.items(), key=lambda x: (-location_config.get(x[0], AreaLocationsConfig()).priority, x[0]), reverse=False)
+
+    def update(self, config: MJ_UserConfig = None) -> None:
+        """ Updates the registry. """
+        if config:
+            self._config = config
+
+        self._areas = self._get_areas(self._hass, self._config)

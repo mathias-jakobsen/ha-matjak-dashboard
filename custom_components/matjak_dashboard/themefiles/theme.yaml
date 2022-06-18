@@ -93,7 +93,7 @@ lovelace-background: var(--primary-background-color)
 card-size-default: 150px
 card-size-climate: 250px
 card-size-cover: 200px
-card-size-light: 180px
+card-size-light: 150px
 card-size-media_player: 250px
 card-size-scene: 100px
 

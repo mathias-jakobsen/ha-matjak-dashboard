@@ -1,7 +1,7 @@
 # matjak_dashboard
 
 {% for area in mj.areas %}
-{% set area_entities = mj.entities.get_by_area(area) %}
+{% set area_entities = mj.entities.get_by_area(area) | rejectattr("hidden", "true") | list %}
 - title: Home
   icon: {{ area.icon }}
   path: area_{{ area.id }}

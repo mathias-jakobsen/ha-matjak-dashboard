@@ -22,6 +22,7 @@ DEFAULT_DOMAIN_ICONS = {
     "counter": "mdi:counter",
     "cover": "mdi:window-shutter",
     "device_tracker": "mdi:radar",
+    "fan": "mdi:fan",
     "input_boolean": "mdi:toggle-switch-outline",
     "input_button": "mdi:gesture-tap-button",
     "input_number": "mdi:ray-vertex",
@@ -115,3 +116,10 @@ class DomainRegistry:
     def get_by_id(self, id: str) -> Union[DomainRegistryEntry, None]:
         """ Gets a domain by id. """
         return self._domains.get(id, None)
+
+    def update(self, config: MJ_UserConfig = None) -> None:
+        """ Updates the registry. """
+        if config:
+            self._config = config
+
+        self._domains = self._get_domains(self._hass, self._config)

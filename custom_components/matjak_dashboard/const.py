@@ -4,7 +4,7 @@
 
 DOMAIN = "matjak_dashboard"
 PACKAGE_NAME = f"custom_components.{DOMAIN}"
-PLATFORMS = []
+PLATFORMS = ["sensor"]
 
 
 #-----------------------------------------------------------#
@@ -29,6 +29,7 @@ RESOURCES_STATIC_PATH = "/matjak_dashboard/resources"
 
 THEMES_FILE_PATH_SOURCE = "custom_components/matjak_dashboard/themefiles/matjak.yaml"
 THEMES_FILE_PATH_DESTINATION = "matjak/"
+
 
 #-----------------------------------------------------------#
 #       Translations

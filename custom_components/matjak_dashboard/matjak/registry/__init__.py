@@ -10,10 +10,13 @@ from .areas import AreaRegistry
 from .domains import DomainRegistry
 from .entities import EntityRegistry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.area_registry import EVENT_AREA_REGISTRY_UPDATED
+from homeassistant.helpers.entity_registry import EVENT_DEVICE_REGISTRY_UPDATED, EVENT_ENTITY_REGISTRY_UPDATED
 from homeassistant.helpers.event import async_call_later
 from homeassistant.util.yaml import loader
 from typing import Any, Callable
 import os
+import stat
 
 
 #-----------------------------------------------------------#
@@ -28,12 +31,61 @@ UPDATE_INTERVAL = 3.5
 #-----------------------------------------------------------#
 
 _registry: dict = None
+_registry_remove_listeners: list[Callable] = []
+_registry_update_remove_listeners: list[Callable] = []
 _timer_remove_listener: Callable = None
+_user_config: dict = None
+_user_config_modification_times: dict[str, int] = {}
 
 
 #-----------------------------------------------------------#
-#       Getters
+#       Public Variables
 #-----------------------------------------------------------#
+
+area_registry: AreaRegistry = None
+domain_registry: DomainRegistry = None
+entity_registry: EntityRegistry = None
+
+
+#-----------------------------------------------------------#
+#       Setup
+#-----------------------------------------------------------#
+
+async def async_setup(hass: HomeAssistant, config: MJ_Config) -> None:
+    """ Sets up the registry and its listeners. """
+    global area_registry, domain_registry, entity_registry, _registry_remove_listeners, _user_config
+
+    user_config_path = hass.config.path(config.user_config_path, "config/")
+    _user_config = _load_user_config(user_config_path)
+
+    area_registry = AreaRegistry(hass, _user_config)
+    domain_registry = DomainRegistry(hass, _user_config)
+    entity_registry = EntityRegistry(hass, area_registry, _user_config)
+
+    _registry_remove_listeners.append(hass.bus.async_listen(EVENT_AREA_REGISTRY_UPDATED, lambda *args: _update(hass, _user_config)))
+    _registry_remove_listeners.append(hass.bus.async_listen(EVENT_DEVICE_REGISTRY_UPDATED, lambda *args: _update(hass, _user_config)))
+    _registry_remove_listeners.append(hass.bus.async_listen(EVENT_ENTITY_REGISTRY_UPDATED, lambda *args: _update(hass, _user_config)))
+
+async def async_reload(hass: HomeAssistant, config: MJ_Config) -> None:
+    """ Reloads the registry. """
+    await async_remove()
+    await async_setup(hass, config)
+
+async def async_remove() -> None:
+    """ Removes the registry event listeners. """
+    while _registry_remove_listeners:
+        _registry_remove_listeners.pop()()
+
+
+#-----------------------------------------------------------#
+#       Public Methods
+#-----------------------------------------------------------#
+
+def add_registry_update_listener(listener: Callable) -> None:
+    """ Adds a registry update listener. """
+    global _registry_update_remove_listeners
+    _registry_update_remove_listeners.append(listener)
+    return lambda: _registry_update_remove_listeners.remove(listener)
 
 def get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
     """ Gets the registry. """
@@ -60,26 +112,60 @@ async def _async_on_timer_expired(*args: Any) -> None:
 #       Private Functions
 #-----------------------------------------------------------#
 
+def _check_user_config_modifications(hass: HomeAssistant, path: str) -> bool:
+    """ Checks whether the user configuration has been modified. """
+    result = False
+
+    for current_directory, directories, files in os.walk(path):
+        for file in files:
+            file = hass.config.path(current_directory, file)
+            file_mtime = os.stat(file)[stat.ST_MTIME]
+
+            if file not in _user_config_modification_times:
+                result = True
+            elif _user_config_modification_times[file] != file_mtime:
+                result = True
+
+            _user_config_modification_times[file] = file_mtime
+
+        for directory in directories:
+            directory = hass.config.path(current_directory, directory)
+            directory_mtime = os.stat(directory)[stat.ST_MTIME]
+
+            if directory not in _user_config_modification_times:
+                result = True
+            elif _user_config_modification_times[directory] != directory_mtime:
+                result = True
+
+            _user_config_modification_times[directory] = directory_mtime
+
+    return result
+
 def _get_registry(hass: HomeAssistant, config: MJ_Config) -> dict:
     """ Gets the registry. """
-    user_config = _load_user_config(hass.config.path(f"{config.user_config_path}config/"))
-    areas = AreaRegistry(hass, user_config)
-    domains = DomainRegistry(hass, user_config)
-    entities = EntityRegistry(hass, areas, user_config)
+    global area_registry, domain_registry, entity_registry, _user_config
+
+    user_config_path = hass.config.path(config.user_config_path, "config/")
+    user_config_modified = _check_user_config_modifications(hass, user_config_path)
+
+    if user_config_modified:
+        _user_config = _load_user_config(user_config_path)
+        _update(hass, _user_config)
+
     translations = _load_translations(hass.config.path(TRANSLATIONS_PATH, f"{config.language}.yaml"))
 
     return {
         PARSER_KEY_GLOBAL: {
-            "areas": areas,
+            "areas": area_registry,
             "button_card_templates": _load_button_card_templates(hass.config.path("custom_components/matjak_dashboard/lovelace/templates/button_card")),
-            "domains": domains,
-            "entities": entities,
+            "domains": domain_registry,
+            "entities": entity_registry,
             "paths": {
-                "custom_button_card_templates": hass.config.path(f"{config.user_config_path}", "custom_templates/"),
-                "custom_views": hass.config.path(f"{config.user_config_path}", "custom_views/")
+                "custom_button_card_templates": hass.config.path(config.user_config_path, "custom_templates/"),
+                "custom_views": hass.config.path(config.user_config_path, "custom_views/")
             },
             "translations": translations,
-            "user_config": user_config
+            "user_config": _user_config
         }
     }
 
@@ -98,6 +184,8 @@ def _load_button_card_templates(path: str) -> list[str]:
 
 def _load_translations(path: str) -> dict[str, str]:
     """ Loads the translation strings. """
+    return loader.load_yaml(path)
+
     if os.path.exists(path):
         with open(path, encoding="utf-8") as file:
             return loader.yaml.load(file, Loader=lambda stream: loader.SafeLineLoader(stream, None)) or {}
@@ -121,3 +209,14 @@ def _load_user_config(path: str) -> MJ_UserConfig:
         LOGGER.warning(f"Unable to load user configuration: Path {path} does not exist.")
 
     return MJ_UserConfig(result)
+
+def _update(hass: HomeAssistant, config: MJ_UserConfig = None) -> None:
+    """ Updates the registry. """
+    global area_registry, domain_registry, entity_registry
+
+    area_registry.update(config)
+    domain_registry.update(config)
+    entity_registry.update(config)
+
+    for listener in _registry_update_remove_listeners:
+        hass.async_create_task(listener())
