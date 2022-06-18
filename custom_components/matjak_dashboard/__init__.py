@@ -6,7 +6,9 @@ from .const import PLATFORMS
 from .matjak import *
 from .utils.logger import LOGGER
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED
 from homeassistant.core import HomeAssistant
+from typing import Any
 
 
 #-----------------------------------------------------------#
@@ -19,9 +21,16 @@ async def async_setup(hass: HomeAssistant, config_entry: ConfigEntry):
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """ Called when a config entry is being set up. """
-    await matjak.async_setup(hass, config_entry)
-    config_entry.async_on_unload(config_entry.add_update_listener(async_update_options))
-    hass.config_entries.async_setup_platforms(config_entry, PLATFORMS)
+    async def async_setup(*args: Any) -> None:
+        await matjak.async_setup(hass, config_entry)
+        config_entry.async_on_unload(config_entry.add_update_listener(async_update_options))
+        hass.config_entries.async_setup_platforms(config_entry, PLATFORMS)
+
+    if hass.is_running:
+        await async_setup()
+    else:
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, async_setup)
+
     return True
 
 async def async_update_options(hass: HomeAssistant, config_entry: ConfigEntry) -> None:

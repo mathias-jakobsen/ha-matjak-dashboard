@@ -2,6 +2,7 @@
 #       Imports
 #-----------------------------------------------------------#
 
+from ...const import DOMAIN
 from ..user_config import MJ_UserConfig
 from .areas import AreaRegistry, AreaRegistryEntry
 from .domains import DomainRegistryEntry
@@ -23,6 +24,7 @@ class EntityRegistryEntry:
     """ A class representing an entity entry. """
     domain: str
     entity_id: str
+    hidden: bool = False
     area_id: Optional[str] = None
     device_class: Optional[str] = None
     device_id: Optional[str] = None
@@ -80,11 +82,15 @@ class EntityRegistry:
                 domain=state.domain,
                 entity_category=None,
                 entity_id=state.entity_id,
+                hidden=False,
                 name=state.attributes.get(ATTR_FRIENDLY_NAME, None),
                 unit_of_measurement=state.attributes.get(ATTR_UNIT_OF_MEASUREMENT, None))
 
             if entity := entity_registry.get(state.entity_id):
-                if entity.disabled or entity.hidden:
+                if entity.disabled:
+                    continue
+
+                if entity.platform == DOMAIN:
                     continue
 
                 if entity.device_id:
@@ -99,11 +105,13 @@ class EntityRegistry:
                 if entity.area_id:
                     new_entry.area_id = entity.area_id
 
-                if new_entry.device_class is None:
-                    new_entry.device_class = (entity.device_class or entity.original_device_class) or ""
+                if new_entry.device_class == None:
+                    new_entry.device_class = entity.device_class if entity.device_class else entity.original_device_class if entity.original_device_class else ""
 
                 if new_entry.entity_category is None:
                     new_entry.entity_category = entity.entity_category
+
+                new_entry.hidden = entity.hidden
 
                 if new_entry.icon is None:
                     new_entry.icon = entity.icon or entity.original_icon
@@ -128,8 +136,8 @@ class EntityRegistry:
         if type(area) == str:
             area = self._areas.get_by_id(area) or self._areas.get_by_name(area)
 
-        device_classes = type(device_class) == str and [device_class] or device_class
-        domains = type(domain) == str and [domain] or domain
+        device_classes = [device_class] if type(device_class) == str else device_class
+        domains = [domain] if type(domain) == str else domain
         result = []
 
         for entity in self._entities.values():
@@ -139,7 +147,7 @@ class EntityRegistry:
             if domains is not None and entity.domain not in domains:
                 continue
 
-            if device_classes is not None and entity.device_class not in device_class:
+            if device_classes is not None and (not entity.device_class or entity.device_class not in device_class):
                 continue
 
             result.append(entity)
@@ -172,3 +180,10 @@ class EntityRegistry:
     def get_by_id(self, id: str) -> Union[EntityRegistryEntry, None]:
         """ Gets an entity by id. """
         return self._entities.get(id, None)
+
+    def update(self, config: MJ_UserConfig = None) -> None:
+        """ Updates the registry. """
+        if config:
+            self._config = config
+
+        self._entities = self._get_entities(self._hass, self._config)

@@ -61,6 +61,8 @@
           padding: var(--view-padding)
         cards:
           {% for device_class, entities in domain_entities %}
+          {% set entities = entities | rejectattr("hidden", "true") | list %}
+          {% if entities | count > 0 %}
           - type: custom:layout-card
             layout_type: grid
             layout:
@@ -98,5 +100,6 @@
                   mj_color: {{ mj.user_config.scene_colors[entity.entity_id] }}
                 {% endif %}
               {% endfor %}
+          {% endif %}
           {% endfor %}
 {% endfor %}

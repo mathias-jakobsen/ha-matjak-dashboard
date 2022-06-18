@@ -11,7 +11,7 @@
     padding: var(--view-padding)
   cards:
     {% for domain in mj.domains %}
-    {% set domain_entities = mj.entities.get_by_domain(domain.id) %}
+    {% set domain_entities = mj.entities.get_by_domain(domain.id) | rejectattr("hidden", "true") | list %}
     {% set domain_entities_count = domain_entities | count %}
     {% if domain_entities_count > 0 %}
     - type: custom:button-card
