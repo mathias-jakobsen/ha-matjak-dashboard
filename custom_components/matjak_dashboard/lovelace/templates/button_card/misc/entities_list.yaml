@@ -75,21 +75,16 @@ mj_entities_list_card:
                 entity: entity["entity"],
                 variables: {
                   mj_layout: variables.mj_layout == "horizontal" ? "vertical" : "horizontal",
+                  mj_is_nested: variables.mj_is_nested,
                   ...(entity.variables || {})
-                }
-              };
-
-              if (variables.mj_is_nested) {
-                item["styles"] = {
+                },
+                styles: {
                   card: [
-                    {
-                      background: "none",
-                      "border-radius": 0,
-                      "box-shadow": "none"
-                    }
+                    { overflow: "hidden" },
+                    { padding: "var(--ha-card-padding)" }
                   ]
                 }
-              }
+              };
 
               if ("templates" in entity) {
                 entity["templates"] = typeof entity["templates"] == "string" ? [entity["templates"]] : entity["templates"];
